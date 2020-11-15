@@ -1,0 +1,70 @@
+<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-img-left d-none d-md-flex">
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-end">
+              <a [routerLink]="['/']" (click)="showNav()"><i class="fas fa-times fa-2x" style="color: #343a40"></i></a>
+            </div>
+            <h5 class="card-title text-center">Регистрация</h5>
+            <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+              <div class="form-group">
+                <input formControlName="username" type="text" id="inputUserame" class="form-control form-control-lg"
+                       placeholder="Имя пользоваетля" required autofocus>
+                <div *ngIf="_username.invalid && (_username.dirty || _username.touched)"
+                     class="alert alert-danger mt-sm-1">
+                  <div *ngIf="_username.errors.required">
+                    Заполните поле
+                  </div>
+                  <div *ngIf="_username.hasError('minlength')">
+                    Имя пользователя не менее 6 знаков
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input formControlName="email" type="email" id="inputEmail" class="form-control form-control-lg"
+                       placeholder="Email" required>
+                <div *ngIf="_email.invalid && (_email.dirty || _email.touched)"
+                     class="alert alert-danger mt-sm-1">
+                  <div *ngIf="_email.errors.required">
+                    Заполните поле
+                  </div>
+                  <div *ngIf="_email.hasError('email')">
+                    Формат почты неправильный
+                  </div>
+                </div>
+              </div>
+                <hr>
+
+                <div class="form-group">
+                  <input formControlName="password" type="password" id="inputPassword"
+                         class="form-control form-control-lg" placeholder="Пароль" required>
+                  <div *ngIf="_password.invalid && (_password.dirty || _password.touched)"
+                       class="alert alert-danger mt-sm-1">
+                    <div *ngIf="_password.errors.required">
+                      Заполните поле
+                    </div>
+                    <div *ngIf="_password.hasError('minlength')">
+                      Пароль не менее 8 знаков
+                    </div>
+                  </div>
+                </div>
+
+                <input type="button" id="btn2" class="btn btn-lg btn-block register-btn text-uppercase" type="submit"
+                       value="Регистрация" [disabled]="!registerForm.valid">
+                <a class="d-block text-center mt-2 text-" [routerLink]="['/login']"><u>Войти</u></a>
+              <div class="alert" [class.alert-success]="isRegister" [class.alert-danger]="isNotRegister" *ngIf="isRegister || isNotRegister">
+                <p *ngIf="isRegister">Успешная решистрация</p>
+                <p *ngIf="isNotRegister">Ошибка решистрации</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
