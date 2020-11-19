@@ -12,6 +12,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Astro.Controllers
 {
@@ -51,6 +52,19 @@ namespace Astro.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+
+        [Route("test")]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Test([FromForm] UploadPhoto upload)
+        {
+            return Ok(new
+            {
+                iso = upload.ISO,
+                file = upload.file.FileName,
+            });
         }
     }
 }
