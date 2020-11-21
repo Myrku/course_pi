@@ -21,18 +21,6 @@ namespace Astro.Controllers
     {
         AstroDBContext dBContext;
         private readonly IOptions<AuthOptions> authoptions;
-        List<User> users = new List<User>()
-        {
-            new User()
-            {
-                Id =1, Email="test@mail.ru", UserName = "test1", Password="qwerty"
-            },
-            new User()
-            {
-                Id =2, Email="test2@mail.ru", UserName = "test2", Password="qwerty"
-            }
-        };
-
         public AuthController(AstroDBContext context, IOptions<AuthOptions> authoptions)
         {
             dBContext = context;

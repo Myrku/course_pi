@@ -16,6 +16,8 @@ import {environment} from '../environments/environment';
 import {JwtModule} from '@auth0/angular-jwt';
 import {ACCESS_TOKEN_KEY} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
+import { CardPostComponent } from './components/card-post/card-post.component';
+
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -31,6 +33,7 @@ export function tokenGetter() {
     HomeComponent,
     AddPostComponent,
     MyPostsComponent,
+    CardPostComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

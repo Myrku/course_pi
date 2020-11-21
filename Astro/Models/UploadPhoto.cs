@@ -8,7 +8,9 @@ namespace Astro.Models
 {
     public class UploadPhoto
     {
+        public string title_post { get; set; }
+        public string description_post { get; set; }
+        public PhotoParam photoParam { get; set; }
         public IFormFile file { get; set; }
-        public string ISO { get; set; }
     }
 }

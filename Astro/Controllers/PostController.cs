@@ -13,6 +13,8 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Astro.Controllers
 {
@@ -21,50 +23,91 @@ namespace Astro.Controllers
     public class PostController : ControllerBase
     {
         private readonly IOptions<BlobConfig> config;
-        public PostController(IOptions<BlobConfig> config)
+        AstroDBContext dBContext;
+
+        public PostController(IOptions<BlobConfig> config, AstroDBContext dBContext)
         {
             this.config = config;
+            this.dBContext = dBContext;
         }
 
         [Route("addpost")]
         [HttpPost]
-        public async Task<IActionResult> AddPost(IFormFile asset)
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> AddPost([FromForm] string param_post, [FromForm] IFormFile upload_file)
         {
+            var upload = JsonConvert.DeserializeObject<UploadPhoto>(param_post);
+            upload.file = upload_file;
+            int id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            string name = User.FindFirst(ClaimTypes.Name)?.Value;
+            //User user = dBContext.Users.Find(id);
+            var time = DateTime.Now;
+            string namefile = $"{name}_{time}";
             try
             {
                 if (CloudStorageAccount.TryParse(config.Value.StorageConnection, out CloudStorageAccount storageAccount))
                 {
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                     CloudBlobContainer blobContainer = blobClient.GetContainerReference(config.Value.Container);
-                    CloudBlockBlob blockBlob = blobContainer.GetBlockBlobReference(asset.FileName);
-                    await blockBlob.UploadFromStreamAsync(asset.OpenReadStream());
-                    return Ok(new
+                    CloudBlockBlob blockBlob = blobContainer.GetBlockBlobReference(namefile);
+                    await blockBlob.UploadFromStreamAsync(upload.file.OpenReadStream());
+                    string upload_url = blockBlob.Uri.AbsoluteUri;
+                    using var transaction = dBContext.Database.BeginTransaction();
+                    try
                     {
-                        fileUrl = blockBlob.Uri.AbsoluteUri
-                    });
+                        Post post = new Post()
+                        {
+                            Id_User = id,
+                            Title_post = upload.title_post,
+                            Description_post = upload.description_post,
+                            Url_photo = upload_url
+                        };
+                        dBContext.Posts.Add(post);
+                        dBContext.SaveChanges();
+                        upload.photoParam.Id_post = post.Id;
+                        dBContext.PhotoParams.Add(upload.photoParam);
+                        dBContext.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        if (await blobContainer.ExistsAsync())
+                        {
+                            CloudBlob file = blobContainer.GetBlobReference(namefile);
+                            if (await file.ExistsAsync())
+                            {
+                                await file.DeleteAsync();
+                            }
+                        }
+                        transaction.Rollback();
+                        return Ok(new
+                        {
+                            status = "Error"
+                        });
+                    }
+
                 }
                 else
                 {
-                    return Unauthorized();
+                    return Ok(new
+                    {
+                        status = "Error"
+                    });
                 }
+
+                return Ok(new
+                {
+                    status = "Success"
+                });
             }
             catch
             {
-                return Unauthorized();
+                return Ok(new
+                {
+                    status = "Error"
+                });
             }
-        }
-
-
-        [Route("test")]
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult Test([FromForm] UploadPhoto upload)
-        {
-            return Ok(new
-            {
-                iso = upload.ISO,
-                file = upload.file.FileName,
-            });
         }
     }
 }

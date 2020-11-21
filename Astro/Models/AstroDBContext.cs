@@ -9,6 +9,8 @@ namespace Astro.Models
     public class AstroDBContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PhotoParam> PhotoParams { get; set; }
 
         public AstroDBContext(DbContextOptions<AstroDBContext> options) : base(options)
         {

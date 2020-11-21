@@ -6,5 +6,4 @@ export class AddPostInfo {
   title_post: string;
   description_post: string;
   photoParam: PhotoParam;
-  file: File;
 }

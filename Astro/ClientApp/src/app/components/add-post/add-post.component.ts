@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SERVER_API_URL} from '../../app-injection-tokens';
 import exifr from 'exifr';
 import {PhotoParam} from '../../models/PhotoParam';
@@ -17,6 +17,7 @@ export class AddPostComponent implements OnInit {
   file;
   photoParam = new PhotoParam();
   addPostInfo = new AddPostInfo();
+
   constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl) {
 
   }
@@ -37,28 +38,30 @@ export class AddPostComponent implements OnInit {
 
   async getExifData() {
     const allInfo = await exifr.parse(this.file);
-    this.photoParam.camera = `${allInfo.Make} ${allInfo.Model}`;
-    this.photoParam.camera_lens = `${allInfo.LensModel}`;
-    this.photoParam.aperture = `F${allInfo.FNumber}`;
-    this.photoParam.ISO = allInfo.ISO;
-    this.photoParam.exposition = allInfo.ExposureTime;
-    this.photoParam.processing_photo = allInfo.Software;
+    this.photoParam.camera = `${allInfo.Make} ${allInfo.Model}`.includes('undefined') ? '' : `${allInfo.Make} ${allInfo.Model}`;
+    this.photoParam.camera_lens = `${allInfo.LensModel}`.includes('undefined') ? '' : `${allInfo.LensModel}`;
+    this.photoParam.aperture = `F${allInfo.FNumber}`.includes('undefined') ? '' : `F${allInfo.FNumber}`;
+    this.photoParam.ISO = `${allInfo.ISO}`.includes('undefined') ? '' : `${allInfo.ISO}`;
+    this.photoParam.exposition = `${allInfo.ExposureTime}`.includes('undefined') ? '' : `${allInfo.ExposureTime}`;
+    this.photoParam.processing_photo = `${allInfo.Software}`.includes('undefined') ? '' : `${allInfo.Software}`;
 
     console.log(allInfo);
 
-    // const f = new FormData();
-    // f.append('file', this.file);
-    // f.append('ISO', allInfo.ISO);
-    // this.http.post(this.apiUrl + 'api/post/test', f).subscribe(res => {
-    //   console.log(res);
-    // });
+
   }
 
   test() {
     this.addPostInfo.photoParam = this.photoParam;
-    this.addPostInfo.file = this.file;
     console.log(this.addPostInfo);
-
+    const req = JSON.stringify(this.addPostInfo);
+    console.log(req);
+    const f = new FormData();
+    f.append('param_post', req);
+    f.append('upload_file', this.file);
+    console.log(f);
+    this.http.post(this.apiUrl + 'api/post/addpost', f).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
