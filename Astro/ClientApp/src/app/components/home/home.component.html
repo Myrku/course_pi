@@ -1,7 +1,23 @@
 <div class="container">
-  <div class="row pt-5">
-    <div class="col-md-4 p-2" *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]">
-      <app-card-post></app-card-post>
+  <div class="search-results"
+       infiniteScroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()">
+    <div class="row pt-5">
+      <div class="col-md-4 p-2" *ngFor="let post of allPosts">
+        <app-card-post [data]="post"></app-card-post>
+      </div>
+    </div>
+  </div>
+  <div class="row pb-5">
+    <div class="col-md-12 p-5">
+      <ngx-spinner
+        bdColor=""
+        size="default"
+        color="#581f87"
+        type="ball-pulse-sync"
+        [fullScreen]="false"></ngx-spinner>
     </div>
   </div>
 </div>

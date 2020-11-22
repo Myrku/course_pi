@@ -50,7 +50,7 @@ export class AddPostComponent implements OnInit {
 
   }
 
-  test() {
+  uploadPost() {
     this.addPostInfo.photoParam = this.photoParam;
     console.log(this.addPostInfo);
     const req = JSON.stringify(this.addPostInfo);

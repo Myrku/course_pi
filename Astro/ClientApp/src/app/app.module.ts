@@ -17,6 +17,9 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {ACCESS_TOKEN_KEY} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import { CardPostComponent } from './components/card-post/card-post.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 export function tokenGetter() {
@@ -38,7 +41,10 @@ export function tokenGetter() {
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    InfiniteScrollModule,
+    NgxSpinnerModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent},

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Astro.Models;
@@ -9,9 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System.Drawing.Imaging;
-using System.Drawing;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -24,7 +20,7 @@ namespace Astro.Controllers
     {
         private readonly IOptions<BlobConfig> config;
         AstroDBContext dBContext;
-
+        const int COUNT_GET_POSTS = 6;
         public PostController(IOptions<BlobConfig> config, AstroDBContext dBContext)
         {
             this.config = config;
@@ -108,6 +104,20 @@ namespace Astro.Controllers
                     status = "Error"
                 });
             }
+        }
+
+        [Route("getposts")]
+        [HttpGet]
+        public IEnumerable<Post> GetPosts()
+        {
+            return dBContext.Posts.ToList().Take(COUNT_GET_POSTS);
+        }
+
+        [Route("getnextpost/{id}")]
+        [HttpGet]
+        public IEnumerable<Post> GetNextPost(int id)
+        {
+            return dBContext.Posts.Where(x => x.Id > id).Take(COUNT_GET_POSTS);
         }
     }
 }

@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "8.2.12",
+    "@angular/cdk": "^11.0.0",
     "@angular/common": "8.2.12",
     "@angular/compiler": "8.2.12",
     "@angular/core": "8.2.12",
@@ -35,6 +36,8 @@
     "get-exif": "^1.0.3",
     "jpeg-exif": "^1.1.4",
     "jquery": "3.4.1",
+    "ngx-infinite-scroll": "^8.0.2",
+    "ngx-spinner": "^8.1.0",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.3",
