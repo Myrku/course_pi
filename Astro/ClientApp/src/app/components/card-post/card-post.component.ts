@@ -14,6 +14,9 @@ export class CardPostComponent implements OnInit {
 
   ngOnInit() {
     this.post = this.data;
+    if (this.post.description_post.length >= 100) {
+      this.post.description_post = this.post.description_post.slice(0, 97) + '...';
+    }
   }
 
 }

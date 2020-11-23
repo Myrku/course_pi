@@ -1,0 +1,79 @@
+<div class="container">
+  <h1 class="h1 text-center mt-sm-1">Подробная информация</h1>
+  <div class="input-group">
+  </div>
+  <div class="text-center">
+    <img src="{{postInfo.url_photo}}" class="img-fluid mt-sm-5" *ngIf="postInfo">
+  </div>
+  <div class="mt-5 mb-5" *ngIf="postInfo">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Название</span>
+      </div>
+      <input type="text" class="form-control bg-white" readonly value="{{postInfo.title_post}}">
+    </div>
+    <div class="input-group mt-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Описание</span>
+      </div>
+      <textarea class="form-control bg-white" id="descArea">{{postInfo.description_post}}</textarea>
+    </div>
+
+    <div class="row mt-3" *ngIf="paramInfo">
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Камера</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera}}">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Объектив</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera_lens}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">ISO</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.iso}}">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Выдержка</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.exposition}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Апертура камеры</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.aperture}}">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Обработка</span>
+          </div>
+          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.processing_photo}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

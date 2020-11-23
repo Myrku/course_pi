@@ -20,6 +20,7 @@ import { CardPostComponent } from './components/card-post/card-post.component';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PostInfoComponent } from './components/post-info/post-info.component';
 
 
 export function tokenGetter() {
@@ -37,6 +38,7 @@ export function tokenGetter() {
     AddPostComponent,
     MyPostsComponent,
     CardPostComponent,
+    PostInfoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,7 +53,8 @@ export function tokenGetter() {
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent},
       { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
-      { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] }
+      { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
+      { path: 'post-info/:id', component: PostInfoComponent }
     ]),
 
     JwtModule.forRoot({

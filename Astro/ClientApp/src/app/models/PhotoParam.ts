@@ -3,7 +3,7 @@ export class PhotoParam {
   }
   camera: string;
   camera_lens: string;
-  ISO: string;
+  iso: string;
   exposition: string;
   aperture: string;
   processing_photo: string;

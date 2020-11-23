@@ -110,14 +110,27 @@ namespace Astro.Controllers
         [HttpGet]
         public IEnumerable<Post> GetPosts()
         {
-            return dBContext.Posts.ToList().Take(COUNT_GET_POSTS);
+            return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
         }
 
         [Route("getnextpost/{id}")]
         [HttpGet]
         public IEnumerable<Post> GetNextPost(int id)
         {
-            return dBContext.Posts.Where(x => x.Id > id).Take(COUNT_GET_POSTS);
+            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id < id).Take(COUNT_GET_POSTS);
+        }
+
+        [Route("getpost/{id}")]
+        [HttpGet]
+        public IActionResult GetPostWithParam(int id)
+        {
+            var post = dBContext.Posts.Find(id);
+            var param = dBContext.PhotoParams.First(x => x.Id_post == id);
+            return Ok(new
+            {
+                post,
+                param
+            });
         }
     }
 }
