@@ -41,7 +41,7 @@ export class AddPostComponent implements OnInit {
     this.photoParam.camera = `${allInfo.Make} ${allInfo.Model}`.includes('undefined') ? '' : `${allInfo.Make} ${allInfo.Model}`;
     this.photoParam.camera_lens = `${allInfo.LensModel}`.includes('undefined') ? '' : `${allInfo.LensModel}`;
     this.photoParam.aperture = `F${allInfo.FNumber}`.includes('undefined') ? '' : `F${allInfo.FNumber}`;
-    this.photoParam.ISO = `${allInfo.ISO}`.includes('undefined') ? '' : `${allInfo.ISO}`;
+    this.photoParam.iso = `${allInfo.ISO}`.includes('undefined') ? '' : `${allInfo.ISO}`;
     this.photoParam.exposition = `${allInfo.ExposureTime}`.includes('undefined') ? '' : `${allInfo.ExposureTime}`;
     this.photoParam.processing_photo = `${allInfo.Software}`.includes('undefined') ? '' : `${allInfo.Software}`;
 

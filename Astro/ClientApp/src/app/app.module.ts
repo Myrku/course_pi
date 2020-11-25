@@ -21,6 +21,7 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
+import { MyPostsCardComponent } from './components/my-posts-card/my-posts-card.component';
 
 
 export function tokenGetter() {
@@ -39,6 +40,7 @@ export function tokenGetter() {
     MyPostsComponent,
     CardPostComponent,
     PostInfoComponent,
+    MyPostsCardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

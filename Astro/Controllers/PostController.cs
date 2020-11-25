@@ -68,14 +68,7 @@ namespace Astro.Controllers
                     catch (Exception ex)
                     {
 
-                        if (await blobContainer.ExistsAsync())
-                        {
-                            CloudBlob file = blobContainer.GetBlobReference(namefile);
-                            if (await file.ExistsAsync())
-                            {
-                                await file.DeleteAsync();
-                            }
-                        }
+                        await blockBlob.DeleteAsync();
                         transaction.Rollback();
                         return Ok(new
                         {
@@ -131,6 +124,76 @@ namespace Astro.Controllers
                 post,
                 param
             });
+        }
+
+
+        [Route("getpostsuser")]
+        [HttpGet]
+        public IEnumerable<Post> GetPostsUser()
+        {
+            int id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == id);
+        }
+
+        [Route("deletepost/{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            try
+            {
+                Post post = dBContext.Posts.Find(id);
+                dBContext.Posts.Remove(post);
+                if (CloudStorageAccount.TryParse(config.Value.StorageConnection, out CloudStorageAccount storageAccount))
+                {
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer blobContainer = blobClient.GetContainerReference(config.Value.Container);
+                    string urlrev = new string(post.Url_photo.Reverse().ToArray());
+                    string namefile = new string(urlrev.Substring(0, urlrev.IndexOf('/')).Reverse().ToArray());
+                    CloudBlockBlob blockBlob = blobContainer.GetBlockBlobReference(namefile.Replace("%20"," "));
+                    await blockBlob.DeleteAsync();
+                    dBContext.SaveChanges();
+                    return Ok(new
+                    {
+                        status = "Success",
+                    });
+                }
+                return Ok(new
+                {
+                    status = "Success"
+                });
+            }
+            catch
+            {
+                return Ok(new
+                {
+                    status = "Error"
+                });
+            }
+        }
+
+        [Route("editpost")]
+        [HttpPut]
+        public IActionResult EditPost([FromForm] Post post, [FromForm] PhotoParam photoParam)
+        {
+            try
+            {
+                dBContext.Posts.Update(post);
+                dBContext.SaveChanges();
+                dBContext.PhotoParams.Update(photoParam);
+                dBContext.SaveChanges();
+                return Ok(new
+                {
+                    status = "Success"
+                });
+            }
+            catch (Exception)
+            {
+
+                return Ok(new
+                {
+                    status = "Error"
+                });
+            }
         }
     }
 }
