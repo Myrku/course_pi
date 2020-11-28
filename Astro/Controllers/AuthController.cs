@@ -5,10 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Astro.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -71,8 +68,6 @@ namespace Astro.Controllers
 
         private User AuthUser(string username, string password)
         {
-
-            //return users.SingleOrDefault(u => u.UserName == username && u.Password == GetHashPassword(password));
             return dBContext.Users.SingleOrDefault(u => u.UserName == username && u.Password == GetHashPassword(password));
         }
         private string GenerateJWTToken(User user)

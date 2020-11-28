@@ -16,11 +16,11 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Описание</span>
       </div>
-      <textarea class="form-control bg-white" id="descArea">{{postInfo.description_post}}</textarea>
+      <textarea #descArea class="form-control bg-white" readonly rows="{{countnewline}}">{{postInfo.description_post}}</textarea>
     </div>
 
     <div class="row mt-3" *ngIf="paramInfo">
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Камера</span>
@@ -28,7 +28,7 @@
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera}}">
         </div>
       </div>
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Объектив</span>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="row mt-3">
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">ISO</span>
@@ -47,7 +47,7 @@
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.iso}}">
         </div>
       </div>
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Выдержка</span>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="row mt-3">
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Апертура камеры</span>
@@ -66,7 +66,7 @@
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.aperture}}">
         </div>
       </div>
-      <div class="col">
+      <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Обработка</span>
@@ -74,6 +74,16 @@
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.processing_photo}}">
         </div>
       </div>
+    </div>
+    <div class="row text-center justify-content-center align-items-center h4 mt-5">
+      Оценить
+      <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
+        <i class="far fa-heart fa-2x like"></i>
+      </div>
+      <div *ngIf="isLike" (click)="UnLike()" class="ml-3 mr-3">
+        <i class="fas fa-heart fa-2x like isLike"></i>
+      </div>
+      {{countLikes}}
     </div>
   </div>
 </div>

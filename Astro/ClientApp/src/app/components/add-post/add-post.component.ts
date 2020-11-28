@@ -4,6 +4,7 @@ import {SERVER_API_URL} from '../../app-injection-tokens';
 import exifr from 'exifr';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
+import {transcode} from 'buffer';
 
 
 @Component({
@@ -17,6 +18,8 @@ export class AddPostComponent implements OnInit {
   file;
   photoParam = new PhotoParam();
   addPostInfo = new AddPostInfo();
+  isSuccess = false;
+  isError = false;
 
   constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl) {
 
@@ -44,10 +47,6 @@ export class AddPostComponent implements OnInit {
     this.photoParam.iso = `${allInfo.ISO}`.includes('undefined') ? '' : `${allInfo.ISO}`;
     this.photoParam.exposition = `${allInfo.ExposureTime}`.includes('undefined') ? '' : `${allInfo.ExposureTime}`;
     this.photoParam.processing_photo = `${allInfo.Software}`.includes('undefined') ? '' : `${allInfo.Software}`;
-
-    console.log(allInfo);
-
-
   }
 
   uploadPost() {
@@ -61,6 +60,18 @@ export class AddPostComponent implements OnInit {
     console.log(f);
     this.http.post(this.apiUrl + 'api/post/addpost', f).subscribe(res => {
       console.log(res);
+      // @ts-ignore
+      if (res.status === 'Success') {
+        this.isSuccess = true;
+        this.isError = false;
+        this.addPostInfo = new AddPostInfo();
+        this.photoParam = new PhotoParam();
+        this.url = null;
+        this.fileName = null;
+      } else {
+        this.isError = true;
+        this.isSuccess = false;
+      }
     });
   }
 

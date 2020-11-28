@@ -1,0 +1,6 @@
+.like:hover {
+  cursor: pointer;
+}
+.isLike {
+  color: #ed1b24;
+}

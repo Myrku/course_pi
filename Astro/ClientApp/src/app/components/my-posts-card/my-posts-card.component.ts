@@ -12,6 +12,7 @@ export class MyPostsCardComponent implements OnInit {
 
   @Input() data;
   post = new Post();
+  isDelete = false;
   constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl) {
   }
 
@@ -27,7 +28,7 @@ export class MyPostsCardComponent implements OnInit {
       console.log(res);
       // @ts-ignore
       if (res.status === 'Success') {
-        alert('Успешно');
+        this.isDelete = true;
       }
     });
   }

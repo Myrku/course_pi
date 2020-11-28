@@ -22,6 +22,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
 import { MyPostsCardComponent } from './components/my-posts-card/my-posts-card.component';
+import { EditPostComponent } from './components/edit-post/edit-post.component';
 
 
 export function tokenGetter() {
@@ -41,6 +42,7 @@ export function tokenGetter() {
     CardPostComponent,
     PostInfoComponent,
     MyPostsCardComponent,
+    EditPostComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,7 +58,8 @@ export function tokenGetter() {
       { path: 'register', component: RegisterComponent},
       { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
       { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
-      { path: 'post-info/:id', component: PostInfoComponent }
+      { path: 'post-info/:id', component: PostInfoComponent },
+      { path: 'post-edit/:id', component: EditPostComponent }
     ]),
 
     JwtModule.forRoot({

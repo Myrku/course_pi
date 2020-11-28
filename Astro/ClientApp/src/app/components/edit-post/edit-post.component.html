@@ -1,30 +1,20 @@
 <div class="container">
-  <h1 class="h1 text-center mt-sm-1">Добавить публикацию</h1>
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroupFileAddon01">Фото для загрузки</span>
-    </div>
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" id="inputGroupFile01"
-             aria-describedby="inputGroupFileAddon01" (change)="onSelectFile($event)">
-      <label class="custom-file-label" for="inputGroupFile01">{{fileName}}</label>
-    </div>
-  </div>
+  <h1 class="h1 text-center mt-sm-1">Редактировать публикацию</h1>
   <div class="text-center">
-    <img [src]="url" #img class="img-fluid mt-sm-5" *ngIf="url" (load)="getExifData()">
+    <img [src]="url" #img class="img-fluid mt-sm-5" *ngIf="url">
   </div>
   <div class="mt-5 mb-5">
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">Название</span>
       </div>
-      <input type="text" class="form-control" [(ngModel)]="addPostInfo.title_post" maxlength="100">
+      <input type="text" class="form-control" [(ngModel)]="postInfo.title_post" maxlength="100">
     </div>
     <div class="input-group mt-3">
       <div class="input-group-prepend">
         <span class="input-group-text">Описание</span>
       </div>
-      <textarea class="form-control" id="exampleTextarea" rows="3" [(ngModel)]="addPostInfo.description_post" maxlength="500"></textarea>
+      <textarea class="form-control" id="exampleTextarea" rows="{{countnewline}}" [(ngModel)]="postInfo.description_post" maxlength="500"></textarea>
     </div>
 
     <div class="row mt-3">
@@ -84,11 +74,10 @@
       </div>
     </div>
     <div class="text-center mt-3">
-      <input type="button" class="btn btn-success text-uppercase form-control" value="загрузить" (click)="uploadPost()">
+      <input type="button" class="btn btn-success text-uppercase form-control" value="Сохранить изменения" (click)="UploadChanges()">
     </div>
-    <div class="alert mt-4 mb-4 h4 text-center" [class.alert-success]="isSuccess" [class.alert-danger]="isError" *ngIf="isSuccess || isError">
-      <p *ngIf="isSuccess">Успешная публикация</p>
-      <p *ngIf="isError">Ошибка при публикации</p>
+    <div class="alert mt-4 mb-4 text-center h4" [class.alert-danger]="isError" *ngIf="isError">
+      <p *ngIf="isError">Ошибка при обновлении публикации</p>
     </div>
   </div>
 </div>
