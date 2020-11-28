@@ -5,6 +5,7 @@ import exifr from 'exifr';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
 import {transcode} from 'buffer';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 
 @Component({
@@ -21,8 +22,7 @@ export class AddPostComponent implements OnInit {
   isSuccess = false;
   isError = false;
 
-  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl) {
-
+  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl, public spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
@@ -58,6 +58,7 @@ export class AddPostComponent implements OnInit {
     f.append('param_post', req);
     f.append('upload_file', this.file);
     console.log(f);
+    this.spinner.show('publishPost');
     this.http.post(this.apiUrl + 'api/post/addpost', f).subscribe(res => {
       console.log(res);
       // @ts-ignore
@@ -68,10 +69,12 @@ export class AddPostComponent implements OnInit {
         this.photoParam = new PhotoParam();
         this.url = null;
         this.fileName = null;
+
       } else {
         this.isError = true;
         this.isSuccess = false;
       }
+      this.spinner.hide('publishPost');
     });
   }
 

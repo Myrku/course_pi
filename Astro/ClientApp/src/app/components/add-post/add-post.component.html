@@ -18,7 +18,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Название</span>
       </div>
-      <input type="text" class="form-control" [(ngModel)]="addPostInfo.title_post" maxlength="100">
+      <input type="text" class="form-control" [(ngModel)]="addPostInfo.title_post" maxlength="100" required="required">
     </div>
     <div class="input-group mt-3">
       <div class="input-group-prepend">
@@ -91,4 +91,15 @@
       <p *ngIf="isError">Ошибка при публикации</p>
     </div>
   </div>
+
+    <ngx-spinner
+      bdColor = "rgba(0, 0, 0, 0.8)"
+      size = "large"
+      color = "#581f87"
+      type = "ball-pulse-sync"
+      [fullScreen] = "true"
+      name="publishPost">
+      <p style="color: white" > Публикация... </p>
+    </ngx-spinner>
+
 </div>

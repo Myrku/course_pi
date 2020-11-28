@@ -6,6 +6,8 @@ import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
 import exifr from 'exifr';
 import {Post} from '../../models/Post';
+import {AuthService} from '../../services/auth.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-post',

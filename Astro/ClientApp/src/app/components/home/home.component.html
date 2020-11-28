@@ -4,6 +4,17 @@
        [infiniteScrollDistance]="2"
        [infiniteScrollThrottle]="50"
        (scrolled)="onScroll()">
+    <div class="text-center">
+      <ngx-spinner
+        bdColor = "rgba(0, 0, 0, 0.8)"
+        size = "large"
+        color = "#581f87"
+        type = "ball-pulse-sync"
+        [fullScreen] = "true"
+        name="loadingPage">
+        <p style="color: white" > Загрузка... </p>
+      </ngx-spinner>
+    </div>
     <div class="row pt-5">
       <div class="col-md-4 p-2" *ngFor="let post of allPosts">
         <app-card-post [data]="post"></app-card-post>

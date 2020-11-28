@@ -15,7 +15,9 @@ export class HomeComponent implements OnInit {
   notEmptyPost = true;
   notScrolly = true;
   lastId;
-  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl, public spinner: NgxSpinnerService) { }
+  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl, public spinner: NgxSpinnerService) {
+    this.spinner.show('loadingPage');
+  }
 
   ngOnInit() {
     this.loadInitPost();
@@ -24,6 +26,7 @@ export class HomeComponent implements OnInit {
     this.http.get(this.apiUrl + 'api/post/getposts').subscribe((res: Post[]) => {
       this.allPosts = res;
       this.lastId = this.allPosts[this.allPosts.length - 1].id;
+      this.spinner.hide('loadingPage');
     });
   }
 
