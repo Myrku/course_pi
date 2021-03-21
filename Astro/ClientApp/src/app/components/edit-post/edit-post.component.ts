@@ -8,6 +8,9 @@ import exifr from 'exifr';
 import {Post} from '../../models/Post';
 import {AuthService} from '../../services/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {PostService} from '../../services/post.service';
+import {ReplaySubject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-post',
@@ -22,11 +25,12 @@ export class EditPostComponent implements OnInit {
   isError = false;
   countnewline: number;
   postInfo = new Post();
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
   @ViewChild('descArea', {static: false}) textarea: ElementRef;
 
 
-  constructor(private activateRoute: ActivatedRoute, private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl,
+  constructor(private activateRoute: ActivatedRoute, private postService: PostService,
               private router: Router) {
     this.id = activateRoute.snapshot.params['id'];
   }
@@ -36,11 +40,10 @@ export class EditPostComponent implements OnInit {
   }
 
   GetPost() {
-    this.http.get(this.apiUrl + 'api/post/getpost/' + this.id).subscribe(res => {
-      console.log(res);
-      // @ts-ignore
+    this.postService.getPostById(this.id).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe(res => {
       this.postInfo = res.post;
-      // @ts-ignore
       this.photoParam = res.param;
       this.countnewline = this.postInfo.description_post.match(/\n/g).length + 1;
       this.url = this.postInfo.url_photo;
@@ -48,8 +51,7 @@ export class EditPostComponent implements OnInit {
   }
 
   UploadChanges() {
-    this.http.put(this.apiUrl + 'api/post/editpost', {post: this.postInfo, photoParam: this.photoParam}).subscribe(res => {
-      // @ts-ignore
+    this.postService.editPost(this.postInfo, this.photoParam).subscribe(res => {
       if (res.status === 'Success') {
         this.router.navigate(['my-posts']);
       } else {

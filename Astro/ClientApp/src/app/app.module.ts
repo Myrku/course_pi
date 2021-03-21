@@ -45,7 +45,7 @@ export function tokenGetter() {
     EditPostComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
@@ -53,13 +53,13 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent},
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent},
-      { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
-      { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
-      { path: 'post-info/:id', component: PostInfoComponent },
-      { path: 'post-edit/:id', component: EditPostComponent }
+      {path: '', component: HomeComponent},
+      {path: 'login', component: LoginComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]},
+      {path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard]},
+      {path: 'post-info/:id', component: PostInfoComponent},
+      {path: 'post-edit/:id', component: EditPostComponent}
     ]),
 
     JwtModule.forRoot({
@@ -67,7 +67,7 @@ export function tokenGetter() {
         tokenGetter,
         allowedDomains: environment.tokenWhiteListdDomians
       }
-    })
+    }),
   ],
   providers: [{
     provide: SERVER_API_URL,

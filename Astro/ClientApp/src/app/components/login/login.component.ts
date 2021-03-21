@@ -33,14 +33,11 @@ export class LoginComponent implements OnInit {
 
   login(loginData) {
     const body = new FormData();
-    // body.append('username', loginData.username);
-    // body.append('password', loginData.password);
-    // console.log(body);
     this.authService.login(loginData.username.toString(), loginData.password.toString()).subscribe(res => {
       this.router.navigate(['']);
       this.showNav();
     }, error => {
-      console.log(error);
+      this.isError = true;
     });
   }
 

@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "Astro1",
+      "defaultValue": "Astro3",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

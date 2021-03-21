@@ -2,6 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {NavBarService} from '../../services/nav-bar.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../services/auth.service';
+import {takeUntil} from 'rxjs/operators';
+import {ReplaySubject} from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +16,10 @@ export class RegisterComponent implements OnInit {
   registerForm;
   isRegister = false;
   isNotRegister = false;
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
-  constructor(public navServ: NavBarService, private formBuilder: FormBuilder, private http: HttpClient,
-              @Inject('BASE_URL') private baseUrl: string) {
+
+  constructor(public navServ: NavBarService, private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(6),]],
       email: ['', [Validators.required, Validators.email]],
@@ -44,13 +48,14 @@ export class RegisterComponent implements OnInit {
   }
 
   register(registerData) {
-    const body = new FormData();
-    body.append('username', registerData.username);
-    body.append('email', registerData.email);
-    body.append('password', registerData.password);
-    console.log(body);
-    this.http.post(this.baseUrl + 'api/auth/register', body).subscribe(result => {
-        // @ts-ignore
+    const newUser = new FormData();
+    newUser.append('username', registerData.username);
+    newUser.append('email', registerData.email);
+    newUser.append('password', registerData.password);
+    console.log(newUser);
+    this.authService.registerUser(newUser).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe(result => {
         if (result.status === 'Success') {
           this.isRegister = true;
           this.isNotRegister = false;

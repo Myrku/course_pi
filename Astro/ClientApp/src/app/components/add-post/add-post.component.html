@@ -6,7 +6,7 @@
     </div>
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="inputGroupFile01"
-             aria-describedby="inputGroupFileAddon01" (change)="onSelectFile($event)">
+             aria-describedby="inputGroupFileAddon01" (change)="onSelectFile($event)" accept=".png, .jpeg, .jpg">
       <label class="custom-file-label" for="inputGroupFile01">{{fileName}}</label>
     </div>
   </div>
@@ -24,7 +24,8 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Описание</span>
       </div>
-      <textarea class="form-control" id="exampleTextarea" rows="3" [(ngModel)]="addPostInfo.description_post" maxlength="500"></textarea>
+      <textarea class="form-control" id="exampleTextarea" rows="3"
+                [(ngModel)]="addPostInfo.description_post" maxlength="500"></textarea>
     </div>
 
     <div class="row mt-3">
@@ -86,7 +87,10 @@
     <div class="text-center mt-3">
       <input type="button" class="btn btn-success text-uppercase form-control" value="загрузить" (click)="uploadPost()">
     </div>
-    <div class="alert mt-4 mb-4 h4 text-center" [class.alert-success]="isSuccess" [class.alert-danger]="isError" *ngIf="isSuccess || isError">
+    <div class="alert mt-4 mb-4 h4 text-center"
+         [class.alert-success]="isSuccess"
+         [class.alert-danger]="isError"
+         *ngIf="isSuccess || isError">
       <p *ngIf="isSuccess">Успешная публикация</p>
       <p *ngIf="isError">Ошибка при публикации</p>
     </div>

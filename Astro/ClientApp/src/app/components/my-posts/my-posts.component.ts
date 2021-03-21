@@ -1,7 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Post} from '../../models/Post';
-import {HttpClient} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app-injection-tokens';
+import {PostService} from '../../services/post.service';
+import {ReplaySubject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-my-posts',
@@ -11,16 +12,18 @@ import {SERVER_API_URL} from '../../app-injection-tokens';
 export class MyPostsComponent implements OnInit {
 
   myposts: Post[];
-  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl) { }
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
     this.GetMyPosts();
   }
   GetMyPosts() {
-    this.http.get(this.apiUrl + 'api/post/getpostsuser').subscribe((res: Post[]) => {
+    this.postService.getMyPosts().pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
       this.myposts = res;
-
     });
   }
-
 }

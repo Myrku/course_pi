@@ -37,7 +37,7 @@ namespace Astro.Controllers
             int id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             string name = User.FindFirst(ClaimTypes.Name)?.Value;
             //User user = dBContext.Users.Find(id);
-            var time = DateTime.Now;
+            var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
             string namefile = $"{name}_{time}";
             try
             {
@@ -99,9 +99,9 @@ namespace Astro.Controllers
             }
         }
 
-        [Route("getposts")]
+        [Route("getposts/{type}")]
         [HttpGet]
-        public IEnumerable<Post> GetPosts()
+        public IEnumerable<Post> GetPosts(PostTypes type)
         {
             return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
         }
@@ -150,6 +150,7 @@ namespace Astro.Controllers
                     string blobName = new CloudBlockBlob(new Uri(post.Url_photo)).Name;
                     var targetBlob = blobContainer.GetBlockBlobReference(blobName);
                     await targetBlob.DeleteAsync();
+
                     dBContext.SaveChanges();
                     return Ok(new
                     {

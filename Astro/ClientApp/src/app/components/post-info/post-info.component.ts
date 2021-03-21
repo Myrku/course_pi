@@ -5,6 +5,9 @@ import {SERVER_API_URL} from '../../app-injection-tokens';
 import {Post} from '../../models/Post';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AuthService} from '../../services/auth.service';
+import {PostService} from '../../services/post.service';
+import {takeUntil} from 'rxjs/operators';
+import {ReplaySubject} from 'rxjs';
 
 
 @Component({
@@ -17,12 +20,13 @@ export class PostInfoComponent implements OnInit {
   id: number;
   postInfo: Post;
   paramInfo: PhotoParam;
-  countnewline: number;
+  countNewLine: number;
   isLike = false;
   countLikes;
-  @ViewChild('descArea', {static: false}) textarea: ElementRef;
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
-  constructor(private activateRoute: ActivatedRoute, private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl,
+
+  constructor(private activateRoute: ActivatedRoute, private postService: PostService,
               private authService: AuthService) {
     this.id = activateRoute.snapshot.params['id'];
   }
@@ -33,34 +37,31 @@ export class PostInfoComponent implements OnInit {
   }
 
   GetPost() {
-    this.http.get(this.apiUrl + 'api/post/getpost/' + this.id).subscribe(res => {
-      console.log(res);
-      // @ts-ignore
+    this.postService.getPostById(this.id).subscribe(res => {
       this.postInfo = res.post;
-      // @ts-ignore
       this.paramInfo = res.param;
-      this.countnewline = this.postInfo.description_post.match(/\n/g).length + 1;
-
+      this.countNewLine = this.postInfo.description_post.match(/\n/g).length + 1;
     });
   }
 
   LikeClick() {
     if (!this.isLike && this.authService.isAuth()) {
-      this.http.get(this.apiUrl + 'api/post/setlike/' + this.id).subscribe(res => {
-        // @ts-ignore
+      this.postService.addLikeForPost(this.id).pipe(
+        takeUntil(this.destroyed$),
+      ).subscribe(res => {
         if (res.status === 'Success') {
           this.countLikes += 1;
           this.isLike = true;
         }
       });
-    } else {
     }
   }
 
   UnLike() {
     if (this.isLike && this.authService.isAuth()) {
-      this.http.get(this.apiUrl + 'api/post/unlike/' + this.id).subscribe(res => {
-        // @ts-ignore
+      this.postService.deleteLikeForPost(this.id).pipe(
+        takeUntil(this.destroyed$),
+      ).subscribe(res => {
         if (res.status === 'Success') {
           this.countLikes -= 1;
           this.isLike = false;
@@ -70,10 +71,10 @@ export class PostInfoComponent implements OnInit {
   }
 
   GetLikes() {
-    this.http.get(this.apiUrl + 'api/post/getlikes/' + this.id).subscribe(res => {
-      // @ts-ignore
+   this.postService.getLikesByPostId(this.id).pipe(
+     takeUntil(this.destroyed$),
+   ).subscribe(res => {
       this.isLike = res.isLike;
-      // @ts-ignore
       this.countLikes = res.countLikes;
     });
   }

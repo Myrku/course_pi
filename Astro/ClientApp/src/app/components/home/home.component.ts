@@ -1,8 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app-injection-tokens';
+import {Component, OnInit} from '@angular/core';
 import {Post} from '../../models/Post';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {PostService} from '../../services/post.service';
+import {ReplaySubject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import { PostTypes } from '../../models/PostTypes';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,11 @@ export class HomeComponent implements OnInit {
   notEmptyPost = true;
   notScrolly = true;
   lastId;
-  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl, public spinner: NgxSpinnerService) {
+  selectedPostType: PostTypes = PostTypes.All;
+  postType = PostTypes;
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+
+  constructor(public spinner: NgxSpinnerService, private postService: PostService) {
     this.spinner.show('loadingPage');
   }
 
@@ -23,29 +29,51 @@ export class HomeComponent implements OnInit {
     this.loadInitPost();
   }
   loadInitPost() {
-    this.http.get(this.apiUrl + 'api/post/getposts').subscribe((res: Post[]) => {
-      this.allPosts = res;
-      this.lastId = this.allPosts[this.allPosts.length - 1].id;
+   this.postService.getPostsByType(this.selectedPostType).pipe(
+     takeUntil(this.destroyed$),
+   ).subscribe((res) => {
+      if (res.length > 0) {
+        this.allPosts = res;
+        this.lastId = this.allPosts[this.allPosts.length - 1].id;
+      }
       this.spinner.hide('loadingPage');
-    });
+    }, error => {
+     this.spinner.hide('loadingPage');
+   });
   }
 
   onScroll() {
-    if(this.notScrolly && this.notEmptyPost) {
+    if (this.notScrolly && this.notEmptyPost) {
       this.spinner.show();
       this.notScrolly = false;
-      this.loadNextPost();
+      this.loadNextPost(this.selectedPostType);
     }
   }
-  loadNextPost() {
-    console.log(this.lastId);
-    this.http.get(this.apiUrl + 'api/post/getnextpost/' + this.lastId).subscribe((res: Post[]) => {
+  loadNextPost(type: PostTypes) {
+    this.postService.getNextPosts(this.lastId).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
       this.spinner.hide();
       if (res.length > 0) {
         this.notEmptyPost = false;
       }
-      this.allPosts = this.allPosts.concat(res);
+      this.allPosts.push(...res);
       this.notScrolly = true;
+    });
+  }
+  gePostByType(type: PostTypes) {
+    this.spinner.show('loadingPage');
+    this.selectedPostType = type;
+    this.postService.getPostsByType(type).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if (res.length > 0) {
+        this.allPosts = res;
+        this.lastId = this.allPosts[this.allPosts.length - 1].id;
+      }
+      this.spinner.hide('loadingPage');
+    }, error => {
+      this.spinner.hide('loadingPage');
     });
   }
 }

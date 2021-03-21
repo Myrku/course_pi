@@ -36,6 +36,7 @@
     "get-exif": "^1.0.3",
     "jpeg-exif": "^1.1.4",
     "jquery": "3.4.1",
+    "mapbox-gl": "^2.0.1",
     "ngx-infinite-scroll": "^8.0.2",
     "ngx-spinner": "^8.1.0",
     "oidc-client": "^1.9.1",

@@ -6,6 +6,9 @@ import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
 import {transcode} from 'buffer';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {PostService} from '../../services/post.service';
+import {ReplaySubject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -21,8 +24,9 @@ export class AddPostComponent implements OnInit {
   addPostInfo = new AddPostInfo();
   isSuccess = false;
   isError = false;
+  private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
-  constructor(private http: HttpClient, @Inject(SERVER_API_URL) private apiUrl, public spinner: NgxSpinnerService) {
+  constructor(public spinner: NgxSpinnerService, private postService: PostService) {
   }
 
   ngOnInit() {
@@ -51,17 +55,15 @@ export class AddPostComponent implements OnInit {
 
   uploadPost() {
     this.addPostInfo.photoParam = this.photoParam;
-    console.log(this.addPostInfo);
     const req = JSON.stringify(this.addPostInfo);
-    console.log(req);
     const f = new FormData();
     f.append('param_post', req);
     f.append('upload_file', this.file);
     console.log(f);
     this.spinner.show('publishPost');
-    this.http.post(this.apiUrl + 'api/post/addpost', f).subscribe(res => {
-      console.log(res);
-      // @ts-ignore
+    this.postService.addPost(f).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe(res => {
       if (res.status === 'Success') {
         this.isSuccess = true;
         this.isError = false;
