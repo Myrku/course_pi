@@ -33,6 +33,7 @@ namespace Astro
             services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
             services.Configure<BlobConfig>(Configuration.GetSection("BlobConfig"));
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IPostService, PostService>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
