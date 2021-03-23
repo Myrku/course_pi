@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
 
-  constructor(public navServ: NavBarService, private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(public navBarService: NavBarService, private formBuilder: FormBuilder, private authService: AuthService) {
     this.registerForm = formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(6),]],
       email: ['', [Validators.required, Validators.email]],
@@ -28,11 +28,11 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.navServ.hide();
+    this.navBarService.hide();
   }
 
   showNav() {
-    this.navServ.show();
+    this.navBarService.show();
   }
 
   get _username() {
@@ -52,7 +52,6 @@ export class RegisterComponent implements OnInit {
     newUser.append('username', registerData.username);
     newUser.append('email', registerData.email);
     newUser.append('password', registerData.password);
-    console.log(newUser);
     this.authService.registerUser(newUser).pipe(
       takeUntil(this.destroyed$)
     ).subscribe(result => {
