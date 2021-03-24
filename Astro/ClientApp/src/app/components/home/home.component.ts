@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import { PostTypes } from '../../models/PostTypes';
+import { PostTypes } from '../../models/Statuses/PostTypes';
 
 @Component({
   selector: 'app-home',

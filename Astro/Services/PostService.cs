@@ -1,4 +1,5 @@
 ﻿using Astro.Models;
+using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -16,24 +17,24 @@ namespace Astro.Services
     public class PostService : IPostService
     {
         private readonly IOptions<BlobConfig> config;
-        AstroDBContext dBContext;
+        private readonly AstroDBContext dBContext;
         const int COUNT_GET_POSTS = 6;
         public PostService(IOptions<BlobConfig> config, AstroDBContext dBContext)
         {
             this.config = config;
             this.dBContext = dBContext;
         }
-        public async Task<bool> AddPost(string paramPost, IFormFile file)
+        public async Task<ActionResultStatus> AddPost(string paramPost, IFormFile file)
         {
-            var upload = JsonConvert.DeserializeObject<UploadPhoto>(paramPost);
-            upload.file = file;
-            var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
-            var name = User.FindFirst(ClaimTypes.Name);
-            var time = DateTime.Now.ToString("dd.MM.yyyy_HH:mm:ss");
-            string namefile = $"{name}_{time}";
-            try
+            if (CloudStorageAccount.TryParse(config.Value.StorageConnection, out CloudStorageAccount storageAccount))
             {
-                if (CloudStorageAccount.TryParse(config.Value.StorageConnection, out CloudStorageAccount storageAccount))
+                var upload = JsonConvert.DeserializeObject<UploadPhoto>(paramPost);
+                upload.file = file;
+                var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
+                var name = User.FindFirst(ClaimTypes.Name);
+                var time = DateTime.Now.ToString("dd.MM.yyyy_HH:mm:ss");
+                string namefile = $"{name}_{time}";
+                try
                 {
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                     CloudBlobContainer blobContainer = blobClient.GetContainerReference(config.Value.Container);
@@ -62,24 +63,19 @@ namespace Astro.Services
 
                         await blockBlob.DeleteAsync();
                         transaction.Rollback();
-                        return false;
+                        return ActionResultStatus.Error;
                     }
-
                 }
-                else
+                catch
                 {
-                    return false;
+                    return ActionResultStatus.Error;
                 }
-
-                return true;
+                return ActionResultStatus.Success;
             }
-            catch
-            {
-                return false;
-            }
+            return ActionResultStatus.Error;
         }
 
-        public async Task<bool> DeletePost(int id)
+        public async Task<ActionResultStatus> DeletePost(int id)
         {
             try
             {
@@ -96,15 +92,15 @@ namespace Astro.Services
                     dBContext.SaveChanges();
                     
                 }
-                return true;
+                return ActionResultStatus.Success;
             }
             catch
             {
-                return false;
+                return ActionResultStatus.Error;
             }
         }
 
-        public bool EditPostWithoutPhoto(EditPost editPost)
+        public ActionResultStatus EditPostWithoutPhoto(EditPost editPost)
         {
             using var transaction = dBContext.Database.BeginTransaction();
 
@@ -115,12 +111,12 @@ namespace Astro.Services
                 dBContext.PhotoParams.Update(editPost.photoParam);
                 dBContext.SaveChanges();
                 transaction.Commit();
-                return true;
+                return ActionResultStatus.Success;
             }
             catch (Exception)
             {
                 transaction.Rollback();
-                return false;
+                return ActionResultStatus.Error;
             }
         }
 
@@ -164,7 +160,7 @@ namespace Astro.Services
             return postWithParam;
         }
 
-        public bool SetLike(int id)
+        public ActionResultStatus SetLike(int id)
         {
             try
             {
@@ -175,15 +171,15 @@ namespace Astro.Services
                     Id_User = id_user
                 });
                 dBContext.SaveChanges();
-                return true;
+                return ActionResultStatus.Success;
             }
             catch
             {
-                return false;
+                return ActionResultStatus.Error;
             }
         }
 
-        public bool UnLike(int id)
+        public ActionResultStatus UnLike(int id)
         {
             try
             {
@@ -193,16 +189,13 @@ namespace Astro.Services
                 {
                     dBContext.Likes.Remove(like);
                     dBContext.SaveChanges();
-                    return true;
+                    return ActionResultStatus.Success;
                 }
-                else
-                {
-                    return false;
-                }
+                return ActionResultStatus.Error;
             }
             catch
             {
-                return false;
+                return ActionResultStatus.Error;
             }
         }
     }

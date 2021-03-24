@@ -6,6 +6,7 @@ import {SERVER_API_URL} from '../app-injection-tokens';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
+import {ActionResultStatus} from '../models/Statuses/ActionResultStatus';
 
 export const ACCESS_TOKEN_KEY = 'access_token';
 export const USERNAME = 'username';
@@ -43,8 +44,8 @@ export class AuthService {
     localStorage.removeItem(USERNAME);
     this.router.navigate(['']);
   }
-  registerUser(newUser: FormData): Observable<any> {
-    return this.http.post(this.apiUrl + 'api/auth/register', newUser);
+  registerUser(newUser: FormData): Observable<ActionResultStatus> {
+    return this.http.post<ActionResultStatus>(this.apiUrl + 'api/auth/register', newUser);
   }
   getUsername(): string {
     return localStorage.getItem(USERNAME);

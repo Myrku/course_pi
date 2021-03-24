@@ -1,10 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavBarService} from '../../services/nav-bar.service';
 import {FormBuilder, Validators} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
 import {takeUntil} from 'rxjs/operators';
 import {ReplaySubject} from 'rxjs';
+import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 
 @Component({
   selector: 'app-register',
@@ -54,8 +54,8 @@ export class RegisterComponent implements OnInit {
     newUser.append('password', registerData.password);
     this.authService.registerUser(newUser).pipe(
       takeUntil(this.destroyed$)
-    ).subscribe(result => {
-        if (result.status === 'Success') {
+    ).subscribe((result) => {
+        if (result === ActionResultStatus.Success) {
           this.isRegister = true;
           this.isNotRegister = false;
           this.registerForm.reset();

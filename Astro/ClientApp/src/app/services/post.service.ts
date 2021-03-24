@@ -4,7 +4,7 @@ import {SERVER_API_URL} from '../app-injection-tokens';
 import {Observable} from 'rxjs';
 import {Post} from '../models/Post';
 import {PhotoParam} from '../models/PhotoParam';
-import {PostTypes} from '../models/PostTypes';
+import {PostTypes} from '../models/Statuses/PostTypes';
 
 @Injectable({
   providedIn: 'root'

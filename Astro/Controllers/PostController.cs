@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Astro.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
-using System.Security.Claims;
 using Astro.Services.Interfaces;
+using Astro.Models.Statuses;
 
 namespace Astro.Controllers
 {
@@ -28,20 +22,9 @@ namespace Astro.Controllers
         [Route("addpost")]
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> AddPost([FromForm] string postParam, [FromForm] IFormFile uploadFile)
+        public async Task<ActionResultStatus> AddPost([FromForm] string postParam, [FromForm] IFormFile uploadFile)
         {
-            var result = await postService.AddPost(postParam, uploadFile);
-            if(result)
-            {
-                return Ok(new 
-                {
-                    status = "Success",
-                });
-            }
-            return Ok(new
-            {
-                status = "Error",
-            });
+            return await postService.AddPost(postParam, uploadFile);
         }
 
         [Route("getposts/{type}")]
@@ -79,38 +62,16 @@ namespace Astro.Controllers
 
         [Route("deletepost/{id}")]
         [HttpDelete]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<ActionResultStatus> DeletePost(int id)
         {
-            var result = await postService.DeletePost(id);
-            if(result)
-            {
-                return Ok(new
-                {
-                    status = "Success"
-                });
-            }
-            return Ok(new
-            {
-                status = "Error"
-            });
+            return await postService.DeletePost(id);
         }
 
         [Route("editpost")]
         [HttpPut]
-        public IActionResult EditPostWithoutPhoto(EditPost editPost)
+        public ActionResultStatus EditPostWithoutPhoto(EditPost editPost)
         {
-            var result = postService.EditPostWithoutPhoto(editPost);
-            if (result)
-            {
-                return Ok(new
-                {
-                    status = "Success"
-                });
-            }
-            return Ok(new
-            {
-                status = "Error"
-            });
+            return postService.EditPostWithoutPhoto(editPost);
         }
 
         [Route("getlikes/{id}")]
@@ -123,38 +84,16 @@ namespace Astro.Controllers
 
         [Route("setlike/{id}")]
         [HttpGet]
-        public IActionResult SetLike(int id)
+        public ActionResultStatus SetLike(int id)
         {
-            var result = postService.SetLike(id);
-            if (result)
-            {
-                return Ok(new
-                {
-                    status = "Success"
-                });
-            }
-            return Ok(new
-            {
-                status = "Error"
-            });
+            return postService.SetLike(id);
         }
 
         [Route("unlike/{id}")]
         [HttpGet]
-        public IActionResult UnLike(int id)
+        public ActionResultStatus UnLike(int id)
         {
-            var result = postService.UnLike(id);
-            if (result)
-            {
-                return Ok(new
-                {
-                    status = "Success"
-                });
-            }
-            return Ok(new
-            {
-                status = "Error"
-            });
+            return postService.UnLike(id);
         }
     }
 }

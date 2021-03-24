@@ -1,4 +1,5 @@
 ﻿using Astro.Models;
+using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Astro.Services
 {
@@ -65,16 +65,23 @@ namespace Astro.Services
             return null;
         }
 
-        public User Register(Register registerUser)
+        public ActionResultStatus Register(Register registerUser)
         {
-            var user = dBContext.Add(new User()
+            try
             {
-                Email = registerUser.Email,
-                UserName = registerUser.UserName,
-                Password = GetHashPassword(registerUser.Password)
-            });
-            dBContext.SaveChanges();
-            return user.Entity;
+                dBContext.Add(new User()
+                {
+                    Email = registerUser.Email,
+                    UserName = registerUser.UserName,
+                    Password = GetHashPassword(registerUser.Password)
+                });
+                dBContext.SaveChanges();
+                return ActionResultStatus.Success;
+            }
+            catch
+            {
+                return ActionResultStatus.Error;
+            }
         }
     }
 }

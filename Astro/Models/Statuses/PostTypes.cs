@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Astro.Models
+namespace Astro.Models.Statuses
 {
     public enum PostTypes
     {
-        All,
+        NoType,
         DeepSky,
         SolarSystem,
-        LandScape
+        LandScape,   
     }
 }

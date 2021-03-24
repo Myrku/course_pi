@@ -1,6 +1,6 @@
 export enum PostTypes {
-  All,
+  NoType,
   DeepSky,
   SolarSystem,
-  LandScape
+  LandScape,
 }

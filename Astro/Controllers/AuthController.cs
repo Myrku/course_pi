@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using Astro.Models;
+﻿using Astro.Models;
+using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Astro.Controllers
 {
@@ -17,7 +9,7 @@ namespace Astro.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        IAuthService authService;
+        private readonly IAuthService authService;
         public AuthController(IAuthService authService)
         {
             this.authService = authService;
@@ -37,20 +29,9 @@ namespace Astro.Controllers
 
         [Route("register")]
         [HttpPost]
-        public IActionResult Register([FromForm] Register user)
+        public ActionResultStatus Register([FromForm] Register user)
         {
-            var registerUser = authService.Register(user);
-            if(registerUser != null)
-            {
-                return Ok(new
-                {
-                    status = "Success"
-                });
-            }
-            return Ok(new
-            {
-                status = "Error"
-            });
+            return authService.Register(user);
         }
     }
 }
