@@ -43,13 +43,9 @@ namespace Astro.Controllers
 
         [Route("getpost/{id}")]
         [HttpGet]
-        public IActionResult GetPostWithParam(int id)
+        public PostWithParam GetPostWithParam(int id)
         {
-            var result = postService.GetPostWithParam(id);
-            return Ok(new
-            {
-                result
-            });
+            return postService.GetPostWithParam(id);
         }
 
 

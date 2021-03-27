@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Astro.Services.Interfaces;
 using Astro.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Astro
 {
@@ -34,6 +36,7 @@ namespace Astro
             services.Configure<BlobConfig>(Configuration.GetSection("BlobConfig"));
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IPostService, PostService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

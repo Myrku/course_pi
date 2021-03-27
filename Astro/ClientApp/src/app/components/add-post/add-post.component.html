@@ -85,17 +85,16 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-12 col-lg-6">
+      <div class="col">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">Выберите категорию</span>
           </div>
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-          [(ngModel)]="photoParam.post_type">
-            <option value="0">Без категории</option>
-            <option value="1">Глубокий космос</option>
-            <option value="2">Солнечная система</option>
-            <option value="3">Пейзаж</option>
+          <select class="form-control" [(ngModel)]="addPostInfo.postTypeId">
+            <option [ngValue]="postType.NoType">Без категории</option>
+            <option [ngValue]="postType.DeepSky">Глубокий космос</option>
+            <option [ngValue]="postType.SolarSystem">Солнечная система</option>
+            <option [ngValue]="postType.LandScape">Пейзаж</option>
           </select>
         </div>
       </div>
@@ -112,14 +111,14 @@
     </div>
   </div>
 
-    <ngx-spinner
-      bdColor = "rgba(0, 0, 0, 0.8)"
-      size = "large"
-      color = "#581f87"
-      type = "ball-pulse-sync"
-      [fullScreen] = "true"
-      name="publishPost">
-      <p style="color: white" > Публикация... </p>
-    </ngx-spinner>
+  <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="large"
+    color="#581f87"
+    type="ball-pulse-sync"
+    [fullScreen]="true"
+    name="publishPost">
+    <p style="color: white"> Публикация... </p>
+  </ngx-spinner>
 
 </div>

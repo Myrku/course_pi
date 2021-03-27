@@ -9,5 +9,4 @@ export class PhotoParam {
   exposition: string;
   aperture: string;
   processing_photo: string;
-  post_type: PostTypes;
 }

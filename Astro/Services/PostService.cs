@@ -19,10 +19,18 @@ namespace Astro.Services
         private readonly IOptions<BlobConfig> config;
         private readonly AstroDBContext dBContext;
         const int COUNT_GET_POSTS = 6;
-        public PostService(IOptions<BlobConfig> config, AstroDBContext dBContext)
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public PostService(IOptions<BlobConfig> config, AstroDBContext dBContext, IHttpContextAccessor httpContextAccessor)
         {
             this.config = config;
             this.dBContext = dBContext;
+            this.httpContextAccessor = httpContextAccessor;
+        }
+        private (int id, string name) GetCurrentUserInfo()
+        {
+            var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            return (id, name);
         }
         public async Task<ActionResultStatus> AddPost(string paramPost, IFormFile file)
         {
@@ -30,10 +38,9 @@ namespace Astro.Services
             {
                 var upload = JsonConvert.DeserializeObject<UploadPhoto>(paramPost);
                 upload.file = file;
-                var id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
-                var name = User.FindFirst(ClaimTypes.Name);
+                var curUser = GetCurrentUserInfo();
                 var time = DateTime.Now.ToString("dd.MM.yyyy_HH:mm:ss");
-                string namefile = $"{name}_{time}";
+                string namefile = $"{curUser.name}_{time}";
                 try
                 {
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
@@ -46,10 +53,11 @@ namespace Astro.Services
                     {
                         Post post = new Post()
                         {
-                            Id_User = id,
+                            Id_User = curUser.id,
                             Title_post = upload.title_post,
                             Description_post = upload.description_post,
-                            Url_photo = upload_url
+                            Url_photo = upload_url,
+                            PostTypeId = upload.postType
                         };
                         dBContext.Posts.Add(post);
                         dBContext.SaveChanges();
@@ -122,9 +130,9 @@ namespace Astro.Services
 
         public GetLikesResult GetLikes(int id)
         {
-            int id_user = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
+            var curUser = GetCurrentUserInfo();
             var likes = dBContext.Likes.Where(x => x.Id_Post == id).ToList();
-            bool isLike = likes.Find(x => x.Id_User == id_user) != null ? true : false;
+            bool isLike = likes.Find(x => x.Id_User == curUser.id) != null;
             return new GetLikesResult()
             {
                 IsLike = isLike,
@@ -139,13 +147,17 @@ namespace Astro.Services
 
         public IEnumerable<Post> GetPosts(PostTypes type)
         {
-            return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
+            if (type == PostTypes.NoType)
+            {
+                return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
+            }
+            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.PostTypeId == type).Take(COUNT_GET_POSTS);
         }
 
         public IEnumerable<Post> GetPostsByUser()
         {
-            int id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
-            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == id);
+            var curUser = GetCurrentUserInfo();
+            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == curUser.id);
         }
 
         public PostWithParam GetPostWithParam(int id)
@@ -164,11 +176,11 @@ namespace Astro.Services
         {
             try
             {
-                int id_user = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
+                var curUser = GetCurrentUserInfo();
                 dBContext.Likes.Add(new Like()
                 {
                     Id_Post = id,
-                    Id_User = id_user
+                    Id_User = curUser.id
                 });
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
@@ -183,8 +195,8 @@ namespace Astro.Services
         {
             try
             {
-                int id_user = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier));
-                var like = dBContext.Likes.First(x => x.Id_Post == id && x.Id_User == id_user);
+                var curUser = GetCurrentUserInfo();
+                var like = dBContext.Likes.First(x => x.Id_Post == id && x.Id_User == curUser.id);
                 if (like != null)
                 {
                     dBContext.Likes.Remove(like);

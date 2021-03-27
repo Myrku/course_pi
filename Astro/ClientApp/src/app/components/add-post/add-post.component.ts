@@ -1,14 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app-injection-tokens';
+import {Component, OnInit} from '@angular/core';
 import exifr from 'exifr';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
-import {transcode} from 'buffer';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
+import {PostTypes} from '../../models/Statuses/PostTypes';
 
 
 @Component({
@@ -24,6 +23,7 @@ export class AddPostComponent implements OnInit {
   addPostInfo = new AddPostInfo();
   isSuccess = false;
   isError = false;
+  postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
   constructor(public spinner: NgxSpinnerService, private postService: PostService) {
@@ -63,8 +63,8 @@ export class AddPostComponent implements OnInit {
     this.spinner.show('publishPost');
     this.postService.addPost(f).pipe(
       takeUntil(this.destroyed$),
-    ).subscribe(res => {
-      if (res.status === 'Success') {
+    ).subscribe((res) => {
+      if (res === ActionResultStatus.Success) {
         this.isSuccess = true;
         this.isError = false;
         this.addPostInfo = new AddPostInfo();

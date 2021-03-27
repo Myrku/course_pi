@@ -16,6 +16,5 @@ namespace Astro.Models
         public string exposition { get; set; }
         public string aperture { get; set; }
         public string processing_photo { get; set; }
-        public PostTypes post_type { get; set; }
     }
 }

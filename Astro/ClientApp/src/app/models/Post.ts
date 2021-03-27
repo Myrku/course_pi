@@ -1,3 +1,5 @@
+import {PostTypes} from './Statuses/PostTypes';
+
 export class Post {
   constructor() {
   }
@@ -6,4 +8,5 @@ export class Post {
   title_post: string;
   description_post: string;
   url_photo: string;
+  postTypeId: PostTypes;
 }

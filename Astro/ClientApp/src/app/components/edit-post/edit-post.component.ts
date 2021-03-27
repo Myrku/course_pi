@@ -1,16 +1,12 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app-injection-tokens';
 import {PhotoParam} from '../../models/PhotoParam';
-import {AddPostInfo} from '../../models/AddPostInfo';
-import exifr from 'exifr';
 import {Post} from '../../models/Post';
-import {AuthService} from '../../services/auth.service';
-import {NgxSpinnerService} from 'ngx-spinner';
 import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
+import {PostTypes} from '../../models/Statuses/PostTypes';
 
 @Component({
   selector: 'app-edit-post',
@@ -25,6 +21,7 @@ export class EditPostComponent implements OnInit {
   isError = false;
   countnewline: number;
   postInfo = new Post();
+  postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
   @ViewChild('descArea', {static: false}) textarea: ElementRef;
@@ -42,17 +39,19 @@ export class EditPostComponent implements OnInit {
   GetPost() {
     this.postService.getPostById(this.id).pipe(
       takeUntil(this.destroyed$),
-    ).subscribe(res => {
+    ).subscribe((res) => {
+      console.log(res);
       this.postInfo = res.post;
-      this.photoParam = res.param;
+      this.photoParam = res.photoParam;
       this.countnewline = this.postInfo.description_post.match(/\n/g).length + 1;
       this.url = this.postInfo.url_photo;
     });
   }
 
   UploadChanges() {
-    this.postService.editPost(this.postInfo, this.photoParam).subscribe(res => {
-      if (res.status === 'Success') {
+    console.log(this.postInfo);
+    this.postService.editPost(this.postInfo, this.photoParam).subscribe((res) => {
+      if (res === ActionResultStatus.Success) {
         this.router.navigate(['my-posts']);
       } else {
         this.isError = true;

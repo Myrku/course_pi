@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   notEmptyPost = true;
   notScrolly = true;
   lastId;
-  selectedPostType: PostTypes = PostTypes.All;
+  selectedPostType: PostTypes = PostTypes.NoType;
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
@@ -67,8 +67,8 @@ export class HomeComponent implements OnInit {
     this.postService.getPostsByType(type).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
+      this.allPosts = res;
       if (res.length > 0) {
-        this.allPosts = res;
         this.lastId = this.allPosts[this.allPosts.length - 1].id;
       }
       this.spinner.hide('loadingPage');

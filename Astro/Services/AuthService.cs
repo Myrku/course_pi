@@ -73,7 +73,8 @@ namespace Astro.Services
                 {
                     Email = registerUser.Email,
                     UserName = registerUser.UserName,
-                    Password = GetHashPassword(registerUser.Password)
+                    Password = GetHashPassword(registerUser.Password),
+                    RoleId = Roles.User
                 });
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;

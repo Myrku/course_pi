@@ -1,13 +1,12 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app-injection-tokens';
 import {Post} from '../../models/Post';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AuthService} from '../../services/auth.service';
 import {PostService} from '../../services/post.service';
 import {takeUntil} from 'rxjs/operators';
 import {ReplaySubject} from 'rxjs';
+import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 
 
 @Component({
@@ -38,8 +37,9 @@ export class PostInfoComponent implements OnInit {
 
   GetPost() {
     this.postService.getPostById(this.id).subscribe(res => {
+      console.log(res);
       this.postInfo = res.post;
-      this.paramInfo = res.param;
+      this.paramInfo = res.photoParam;
       this.countNewLine = this.postInfo.description_post.match(/\n/g).length + 1;
     });
   }
@@ -48,8 +48,8 @@ export class PostInfoComponent implements OnInit {
     if (!this.isLike && this.authService.isAuth()) {
       this.postService.addLikeForPost(this.id).pipe(
         takeUntil(this.destroyed$),
-      ).subscribe(res => {
-        if (res.status === 'Success') {
+      ).subscribe((res) => {
+        if (res === ActionResultStatus.Success) {
           this.countLikes += 1;
           this.isLike = true;
         }
@@ -61,8 +61,8 @@ export class PostInfoComponent implements OnInit {
     if (this.isLike && this.authService.isAuth()) {
       this.postService.deleteLikeForPost(this.id).pipe(
         takeUntil(this.destroyed$),
-      ).subscribe(res => {
-        if (res.status === 'Success') {
+      ).subscribe((res) => {
+        if (res === ActionResultStatus.Success) {
           this.countLikes -= 1;
           this.isLike = false;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Astro.Models.Statuses;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Astro.Models
         public string description_post { get; set; }
         public PhotoParam photoParam { get; set; }
         public IFormFile file { get; set; }
+        public PostTypes postType { get; set; }
     }
 }

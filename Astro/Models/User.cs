@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Astro.Models.Statuses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,6 @@ namespace Astro.Models
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-
-        internal static string FindFirst(string name)
-        {
-            throw new NotImplementedException();
-        }
+        public Roles RoleId { get; set; }
     }
 }
