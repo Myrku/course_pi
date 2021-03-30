@@ -59,7 +59,8 @@ namespace Astro.Services
                 return new AuthorizedUser()
                 {
                     AccessToken = GenerateJWTToken(user),
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Role = user.RoleId
                 };
             }
             return null;

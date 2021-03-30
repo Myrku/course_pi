@@ -7,9 +7,11 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {ActionResultStatus} from '../models/Statuses/ActionResultStatus';
+import {Roles} from '../models/Statuses/Roles';
 
 export const ACCESS_TOKEN_KEY = 'access_token';
 export const USERNAME = 'username';
+export const ROLEID = 'roleId';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,7 @@ export class AuthService {
         localStorage.setItem(ACCESS_TOKEN_KEY, authInfo.accessToken);
         // @ts-ignore
         localStorage.setItem(USERNAME, authInfo.username);
+        localStorage.setItem(ROLEID, authInfo.role);
       })
     );
   }
@@ -42,6 +45,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(USERNAME);
+    localStorage.removeItem(ROLEID);
     this.router.navigate(['']);
   }
   registerUser(newUser: FormData): Observable<ActionResultStatus> {
@@ -49,5 +53,9 @@ export class AuthService {
   }
   getUsername(): string {
     return localStorage.getItem(USERNAME);
+  }
+  isAdmin(): boolean {
+    const role = parseInt(localStorage.getItem(ROLEID), null);
+    return role === Roles.Admin;
   }
 }

@@ -23,6 +23,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
 import { MyPostsCardComponent } from './components/my-posts-card/my-posts-card.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import {AdminGuardGuard} from './guards/admin-guard.guard';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ToastComponent } from './shared/components/toast/toast.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 
 export function tokenGetter() {
@@ -43,6 +48,9 @@ export function tokenGetter() {
     PostInfoComponent,
     MyPostsCardComponent,
     EditPostComponent,
+    UsersListComponent,
+    ToastComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -59,7 +67,9 @@ export function tokenGetter() {
       {path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]},
       {path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard]},
       {path: 'post-info/:id', component: PostInfoComponent},
-      {path: 'post-edit/:id', component: EditPostComponent}
+      {path: 'post-edit/:id', component: EditPostComponent, canActivate: [AuthGuard]},
+      {path: 'list-users', component: UsersListComponent, canActivate: [AdminGuardGuard]},
+      {path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard]}
     ]),
 
     JwtModule.forRoot({
@@ -68,6 +78,7 @@ export function tokenGetter() {
         allowedDomains: environment.tokenWhiteListdDomians
       }
     }),
+    NgbModule,
   ],
   providers: [{
     provide: SERVER_API_URL,

@@ -6,11 +6,11 @@ import {AuthService} from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuardGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {
   }
   canActivate(): boolean {
-    if (!this.authService.isAuth()) {
+    if (!this.authService.isAdmin()) {
       this.router.navigate(['']);
     }
     return true;

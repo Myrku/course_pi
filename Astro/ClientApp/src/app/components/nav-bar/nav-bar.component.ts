@@ -12,6 +12,9 @@ export class NavBarComponent implements OnInit {
   public get isLoggedIn(): boolean {
     return this.authService.isAuth();
   }
+  public get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
   constructor(private navService: NavBarService, private authService: AuthService) {
 
   }
