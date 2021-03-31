@@ -3,6 +3,7 @@ import {Post} from '../../models/Post';
 import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {CardTypes} from '../../models/Statuses/CardTypes';
 
 @Component({
   selector: 'app-my-posts',
@@ -11,8 +12,9 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class MyPostsComponent implements OnInit {
 
-  myposts: Post[];
+  myPosts: Post[];
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+  cardType = CardTypes.Edit;
 
   constructor(private postService: PostService) { }
 
@@ -23,7 +25,7 @@ export class MyPostsComponent implements OnInit {
     this.postService.getMyPosts().pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
-      this.myposts = res;
+      this.myPosts = res;
     });
   }
 }

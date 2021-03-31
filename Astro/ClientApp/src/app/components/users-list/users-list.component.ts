@@ -44,10 +44,10 @@ export class UsersListComponent implements OnInit {
       if (res === ActionResultStatus.Success) {
         user.roleId = Roles.Moderator;
         this.toastService.show(`Пользователь ${user.userName} успешно стал модератором`,
-          { classname: 'bg-success text-light', delay: 10000 });
+          { classname: 'bg-success text-light', delay: 3000 });
       } else {
         this.toastService.show(`Ошибка при добавоении модератора ${user.userName}`,
-          { classname: 'bg-danger text-light', delay: 15000 });
+          { classname: 'bg-danger text-light', delay: 3000 });
       }
     });
   }
@@ -58,10 +58,10 @@ export class UsersListComponent implements OnInit {
       if (res === ActionResultStatus.Success) {
         user.roleId = Roles.User;
         this.toastService.show(`Пользователь ${user.userName} успешно убран в качестве модератора`,
-          { classname: 'bg-success text-light', delay: 5000 });
+          { classname: 'bg-success text-light', delay: 3000 });
       } else {
         this.toastService.show(`Ошибка при удалении модератора ${user.userName}`,
-          { classname: 'bg-danger text-light', delay: 5000 });
+          { classname: 'bg-danger text-light', delay: 3000 });
       }
     });
   }

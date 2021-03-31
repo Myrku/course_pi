@@ -5,6 +5,7 @@ import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import { PostTypes } from '../../models/Statuses/PostTypes';
+import {CardTypes} from '../../models/Statuses/CardTypes';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
   selectedPostType: PostTypes = PostTypes.NoType;
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+  cardType = CardTypes.Info;
 
   constructor(public spinner: NgxSpinnerService, private postService: PostService) {
     this.spinner.show('loadingPage');

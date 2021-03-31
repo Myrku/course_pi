@@ -3,6 +3,25 @@
   <div class="card-body d-flex flex-column">
     <h5 class="card-title font-weight-bold">{{post.title_post}}</h5>
     <p class="card-text">{{post.description_post}}</p>
-      <button type="button"class="btn btn-outline-dark mt-auto" [routerLink]="['/post-info',post.id]">Подробнее</button>
+    <button *ngIf="cardType != types.Edit " type="button" class="btn btn-outline-dark mt-auto"
+            [routerLink]="['/post-info',post.id]">Подробнее
+    </button>
+    <div class="row mt-auto" *ngIf="cardType == types.Edit">
+      <div class="col">
+        <button type="button" class="btn btn-outline-dark" [routerLink]="['/post-edit',post.id]">Изменить</button>
+      </div>
+      <div class="col">
+        <a (click)="DeletePost(post.id)" style="cursor: pointer"><i class="fas fa-trash-alt fa-3x float-right ml-auto"
+                                            style="color: #f44336" id="btn_del"></i></a>
+      </div>
+    </div>
+    <div class="row mt-auto" *ngIf="cardType == types.Report">
+      <div class="col">
+        <button type="button" class="btn btn-outline-success btn-block">Убрать жалобу</button>
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-outline-danger btn-block">Удалить пост</button>
+      </div>
+    </div>
   </div>
 </div>

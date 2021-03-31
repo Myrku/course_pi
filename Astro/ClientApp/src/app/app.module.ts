@@ -21,7 +21,6 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
-import { MyPostsCardComponent } from './components/my-posts-card/my-posts-card.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import {AdminGuardGuard} from './guards/admin-guard.guard';
@@ -46,7 +45,6 @@ export function tokenGetter() {
     MyPostsComponent,
     CardPostComponent,
     PostInfoComponent,
-    MyPostsCardComponent,
     EditPostComponent,
     UsersListComponent,
     ToastComponent,

@@ -21,7 +21,7 @@ export class PostInfoComponent implements OnInit {
   paramInfo: PhotoParam;
   countNewLine: number;
   isLike = false;
-  countLikes;
+  countLikes: number;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
 
@@ -37,7 +37,6 @@ export class PostInfoComponent implements OnInit {
 
   GetPost() {
     this.postService.getPostById(this.id).subscribe(res => {
-      console.log(res);
       this.postInfo = res.post;
       this.paramInfo = res.photoParam;
       this.countNewLine = this.postInfo.description_post.match(/\n/g).length + 1;
@@ -75,7 +74,10 @@ export class PostInfoComponent implements OnInit {
      takeUntil(this.destroyed$),
    ).subscribe(res => {
       this.isLike = res.isLike;
-      this.countLikes = res.countLikes;
+      this.countLikes = res.countLike;
     });
+  }
+  AddReport(postId: number) {
+    console.log(postId);
   }
 }
