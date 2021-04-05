@@ -1,10 +1,11 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {Post} from '../../models/Post';
 import {CardTypes} from '../../models/Statuses/CardTypes';
 import {takeUntil} from 'rxjs/operators';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {PostService} from '../../services/post.service';
 import {ReplaySubject} from 'rxjs';
+import {ReportService} from '../../services/report.service';
 
 @Component({
   selector: 'app-card-post',
@@ -17,10 +18,10 @@ export class CardPostComponent implements OnInit {
   post = new Post();
   @Input() cardType;
   types = CardTypes;
-  isDelete = false;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+  @Output() onDeleted = new EventEmitter<boolean>();
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService, private reportService: ReportService) {
   }
   ngOnInit() {
     this.post = this.data;
@@ -33,8 +34,15 @@ export class CardPostComponent implements OnInit {
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       if (res === ActionResultStatus.Success) {
-        this.isDelete = true;
+        this.onDeleted.emit(true);
       }
+    });
+  }
+  DeleteReports(id: number) {
+    this.reportService.deleteReport(id).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      this.onDeleted.emit(true);
     });
   }
 }

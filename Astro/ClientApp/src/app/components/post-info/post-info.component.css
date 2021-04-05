@@ -4,3 +4,7 @@
 .isLike {
   color: #ed1b24;
 }
+
+.container .inp-comment .form-control {
+   height: auto;
+ }

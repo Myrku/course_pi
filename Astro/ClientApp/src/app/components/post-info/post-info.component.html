@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container mb-5">
   <div class="row">
     <div class="col">
       <h1 class="h1 text-center mt-sm-1">Подробная информация
-          <a (click)="AddReport(postInfo.id)"><i class="fas fa-exclamation-triangle"
-             style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
+        <a (click)="AddReport()"><i class="fas fa-exclamation-triangle"
+                                    style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
       </h1>
     </div>
   </div>
@@ -24,7 +24,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Описание</span>
       </div>
-      <textarea class="form-control bg-white" readonly rows="{{countNewLine}}">{{postInfo.description_post}}</textarea>
+      <div style="white-space: pre-line; height: auto" class="form-control bg-white">{{postInfo.description_post}}</div>
     </div>
 
     <div class="row mt-3" *ngIf="paramInfo">
@@ -83,6 +83,7 @@
         </div>
       </div>
     </div>
+    <hr/>
     <div class="row text-center justify-content-center align-items-center h4 mt-5">
       Оценить
       <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
@@ -94,4 +95,22 @@
       {{countLikes}}
     </div>
   </div>
+  <hr>
+
+  <div *ngFor="let comment of comments">
+    <div class="mb-3">
+      <app-comment [commentInfo]="comment" (onDeleted)="deleteComment(comment.commentId, $event)"
+                   (onEdit)="editComment(comment, $event)"></app-comment>
+    </div>
+  </div>
+
+  <hr>
+  <div class="inp-comment">
+    <div #inputComment contenteditable="true" class="form-control"></div>
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn btn-outline-danger" (click)="cancelComment()">Отмена</button>
+      <button class="btn btn-outline-success ml-3" (click)="addComment()">Оставить комментарий</button>
+    </div>
+  </div>
+  <app-toast aria-live="polite" aria-atomic="true"></app-toast>
 </div>

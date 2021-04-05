@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Post} from '../../models/Post';
 import {PhotoParam} from '../../models/PhotoParam';
@@ -7,6 +7,12 @@ import {PostService} from '../../services/post.service';
 import {takeUntil} from 'rxjs/operators';
 import {ReplaySubject} from 'rxjs';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
+import {ReportService} from '../../services/report.service';
+import {ToastService} from '../../services/toast.service';
+import {CommentService} from '../../services/comment.service';
+import {CreateComment} from '../../models/CreateComment';
+import {CommentInfo} from '../../models/CommentInfo';
+import {EditComment} from '../../models/EditComment';
 
 
 @Component({
@@ -22,17 +28,22 @@ export class PostInfoComponent implements OnInit {
   countNewLine: number;
   isLike = false;
   countLikes: number;
+  comments: CommentInfo[] = [];
+  isNewComment = true;
+  editableComment: CommentInfo;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
-
+  @ViewChild('inputComment', {static: false}) inputCommentElem;
 
   constructor(private activateRoute: ActivatedRoute, private postService: PostService,
-              private authService: AuthService) {
-    this.id = activateRoute.snapshot.params['id'];
+              private authService: AuthService, private reportService: ReportService,
+              private toastService: ToastService, private commentService: CommentService) {
+    this.id = parseInt(activateRoute.snapshot.params['id'], 0);
   }
 
   ngOnInit() {
     this.GetPost();
     this.GetLikes();
+    this.getComments();
   }
 
   GetPost() {
@@ -77,7 +88,82 @@ export class PostInfoComponent implements OnInit {
       this.countLikes = res.countLike;
     });
   }
-  AddReport(postId: number) {
-    console.log(postId);
+  AddReport() {
+    this.reportService.addReport(this.id).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if (res === ActionResultStatus.Success) {
+        this.toastService.show(`Жалоба успешно отправлена`,
+          { classname: 'bg-success text-light', delay: 3000 });
+      } else {
+        this.toastService.show(`Ошибка при отправлении жалобы`,
+          { classname: 'bg-danger text-light', delay: 3000 });
+      }
+    });
+  }
+  getComments() {
+    this.commentService.getComments(this.id).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      this.comments = res;
+    });
+  }
+  addComment() {
+    if (this.isNewComment) {
+      const createComment = new CreateComment();
+      createComment.postId = this.id;
+      createComment.textComment = this.inputCommentElem.nativeElement.innerText;
+      this.commentService.addComment(createComment).pipe(
+        takeUntil(this.destroyed$),
+      ).subscribe((res) => {
+        if (res) {
+          this.comments.unshift(res);
+          this.toastService.show(`Комментарий успешно отправлен`,
+            {classname: 'bg-success text-light', delay: 3000});
+        } else {
+          this.toastService.show(`Ошибка при комментировании`,
+            {classname: 'bg-danger text-light', delay: 3000});
+        }
+        this.cancelComment();
+      });
+    } else {
+      const editComment = new EditComment();
+      editComment.commentId = this.editableComment.commentId;
+      editComment.commentText = this.inputCommentElem.nativeElement.innerText;
+      this.commentService.editComment(editComment).pipe(
+        takeUntil(this.destroyed$),
+      ).subscribe((res) => {
+        if (res === ActionResultStatus.Success) {
+          this.editableComment.textComment = editComment.commentText;
+          this.toastService.show(`Комментарий успешно изменен`,
+            { classname: 'bg-success text-light', delay: 3000 });
+        } else {
+          this.toastService.show(`Ошибка при изменении комментария`,
+            { classname: 'bg-success text-light', delay: 3000 });
+        }
+        this.cancelComment();
+      });
+    }
+  }
+  editComment(comment: CommentInfo, event) {
+    if (event) {
+      this.editableComment = comment;
+      this.isNewComment = !event;
+      this.inputCommentElem.nativeElement.innerText = comment.textComment;
+    }
+  }
+  cancelComment() {
+    this.inputCommentElem.nativeElement.innerText = '';
+    this.inputCommentElem.nativeElement.focused = false;
+  }
+  deleteComment(commentId: number, event: boolean) {
+    if (event) {
+      this.comments = this.comments.filter(x => x.commentId !== commentId);
+      this.toastService.show(`Комментарий успешно удален`,
+        { classname: 'bg-success text-light', delay: 3000 });
+    } else {
+      this.toastService.show(`Ошибка при удалении комментария`,
+        { classname: 'bg-danger text-light', delay: 3000 });
+    }
   }
 }

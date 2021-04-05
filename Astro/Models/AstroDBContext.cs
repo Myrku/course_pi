@@ -12,6 +12,8 @@ namespace Astro.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<PhotoParam> PhotoParams { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public AstroDBContext(DbContextOptions<AstroDBContext> options) : base(options)
         {
                 

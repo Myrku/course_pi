@@ -85,25 +85,26 @@ namespace Astro.Services
 
         public async Task<ActionResultStatus> DeletePost(int id)
         {
+            using var transaction = dBContext.Database.BeginTransaction();
+            Post post = dBContext.Posts.Find(id);
             try
             {
-                Post post = dBContext.Posts.Find(id);
-                dBContext.Posts.Remove(post);
                 if (CloudStorageAccount.TryParse(config.Value.StorageConnection, out CloudStorageAccount storageAccount))
                 {
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                     CloudBlobContainer blobContainer = blobClient.GetContainerReference(config.Value.Container);
                     string blobName = new CloudBlockBlob(new Uri(post.Url_photo)).Name;
                     var targetBlob = blobContainer.GetBlockBlobReference(blobName);
-                    await targetBlob.DeleteAsync();
-
+                    await targetBlob.DeleteIfExistsAsync();
+                    dBContext.Posts.Remove(post);
                     dBContext.SaveChanges();
-                    
+                    transaction.Commit();
                 }
                 return ActionResultStatus.Success;
             }
             catch
             {
+                transaction.Rollback();
                 return ActionResultStatus.Error;
             }
         }

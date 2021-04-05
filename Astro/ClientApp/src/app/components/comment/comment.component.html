@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header">
+    Пользователь: {{commentInfo.username}} {{commentInfo.date}}
+    <div class="btn-group" *ngIf="commentInfo.isMyComment">
+      <a class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v"></i>
+      </a>
+      <div class="dropdown-menu">
+        <button class="btn dropdown-item" (click)="editComment()">Изменить комментарий</button>
+        <button class="btn dropdown-item" (click)="deleteComment()">Удалить комментарий</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div style="white-space: pre-line" contenteditable="false" class="card-text">{{commentInfo.textComment}}</div>
+  </div>
+</div>

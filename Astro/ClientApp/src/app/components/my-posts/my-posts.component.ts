@@ -28,4 +28,7 @@ export class MyPostsComponent implements OnInit {
       this.myPosts = res;
     });
   }
+  onDeleted(id: number) {
+    this.myPosts = this.myPosts.filter(post => post.id !== id);
+  }
 }

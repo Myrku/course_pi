@@ -27,6 +27,7 @@ import {AdminGuardGuard} from './guards/admin-guard.guard';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 
 export function tokenGetter() {
@@ -49,6 +50,7 @@ export function tokenGetter() {
     UsersListComponent,
     ToastComponent,
     ReportsComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

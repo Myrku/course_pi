@@ -57,9 +57,8 @@ export class AddPostComponent implements OnInit {
     this.addPostInfo.photoParam = this.photoParam;
     const req = JSON.stringify(this.addPostInfo);
     const f = new FormData();
-    f.append('param_post', req);
-    f.append('upload_file', this.file);
-    console.log(f);
+    f.append('postParam', req);
+    f.append('uploadFile', this.file);
     this.spinner.show('publishPost');
     this.postService.addPost(f).pipe(
       takeUntil(this.destroyed$),
@@ -77,7 +76,7 @@ export class AddPostComponent implements OnInit {
         this.isSuccess = false;
       }
       this.spinner.hide('publishPost');
-    });
+    }, error => this.spinner.hide('publishPost'));
   }
 
 }

@@ -37,6 +37,8 @@ namespace Astro
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<ICommentService, CommentService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

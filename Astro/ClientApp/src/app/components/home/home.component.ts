@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   allPosts: Post[];
   notEmptyPost = true;
   notScrolly = true;
-  lastId;
+  lastId: number;
   selectedPostType: PostTypes = PostTypes.NoType;
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
@@ -77,5 +77,8 @@ export class HomeComponent implements OnInit {
     }, error => {
       this.spinner.hide('loadingPage');
     });
+  }
+  onDeleted(id: number) {
+    this.allPosts = this.allPosts.filter(post => post.id !== id);
   }
 }

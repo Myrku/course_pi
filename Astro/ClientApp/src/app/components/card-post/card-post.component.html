@@ -17,10 +17,10 @@
     </div>
     <div class="row mt-auto" *ngIf="cardType == types.Report">
       <div class="col">
-        <button type="button" class="btn btn-outline-success btn-block">Убрать жалобу</button>
+        <button type="button" class="btn btn-outline-success btn-block" (click)="DeleteReports(post.id)">Убрать жалобы</button>
       </div>
       <div class="col">
-        <button type="button" class="btn btn-outline-danger btn-block">Удалить пост</button>
+        <button type="button" class="btn btn-outline-danger btn-block" (click)="DeletePost(post.id)">Удалить пост</button>
       </div>
     </div>
   </div>
