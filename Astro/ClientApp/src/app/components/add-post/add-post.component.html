@@ -1,8 +1,8 @@
 <div class="container">
-  <h1 class="h1 text-center mt-sm-1">Добавить публикацию</h1>
+  <h1 class="h1 text-center mt-sm-1">{{'AddPostPage.Title' | translate}}</h1>
   <div class="input-group">
     <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroupFileAddon01">Фото для загрузки</span>
+      <span class="input-group-text" id="inputGroupFileAddon01">{{'AddPostPage.PhotoInp' | translate}}</span>
     </div>
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="inputGroupFile01"
@@ -16,13 +16,13 @@
   <div class="mt-5 mb-5">
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text">Название</span>
+        <span class="input-group-text">{{'AddPostPage.PostName' | translate}}</span>
       </div>
       <input type="text" class="form-control" [(ngModel)]="addPostInfo.title_post" maxlength="100" required="required">
     </div>
     <div class="input-group mt-3">
       <div class="input-group-prepend">
-        <span class="input-group-text">Описание</span>
+        <span class="input-group-text">{{'AddPostPage.PostDesc' | translate}}</span>
       </div>
       <textarea class="form-control" id="exampleTextarea" rows="3"
                 [(ngModel)]="addPostInfo.description_post" maxlength="500"></textarea>
@@ -32,7 +32,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Камера</span>
+            <span class="input-group-text">{{'AddPostPage.CameraInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.camera" maxlength="100">
         </div>
@@ -40,7 +40,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Объектив</span>
+            <span class="input-group-text">{{'AddPostPage.CameraLensInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.camera_lens" maxlength="100">
         </div>
@@ -51,7 +51,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">ISO</span>
+            <span class="input-group-text">{{'AddPostPage.IsoInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.iso" maxlength="10">
         </div>
@@ -59,7 +59,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Выдержка</span>
+            <span class="input-group-text">{{'AddPostPage.ExpositionInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.exposition" maxlength="20">
         </div>
@@ -70,7 +70,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Апертура камеры</span>
+            <span class="input-group-text">{{'AddPostPage.ApertureInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.aperture" maxlength="10">
         </div>
@@ -78,7 +78,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Обработка</span>
+            <span class="input-group-text">{{'AddPostPage.ProcessingInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.processing_photo" maxlength="150">
         </div>
@@ -88,13 +88,13 @@
       <div class="col">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Выберите категорию</span>
+            <span class="input-group-text">{{'AddPostPage.CategoryInp' | translate}}</span>
           </div>
           <select class="form-control" [(ngModel)]="addPostInfo.postTypeId">
-            <option [ngValue]="postType.NoType">Без категории</option>
-            <option [ngValue]="postType.DeepSky">Глубокий космос</option>
-            <option [ngValue]="postType.SolarSystem">Солнечная система</option>
-            <option [ngValue]="postType.LandScape">Пейзаж</option>
+            <option [ngValue]="postType.NoType">{{'PostTypes.UnTyped' | translate}}</option>
+            <option [ngValue]="postType.DeepSky">{{'PostTypes.DeepSky' | translate}}</option>
+            <option [ngValue]="postType.SolarSystem">{{'PostTypes.SolarSys' | translate}}</option>
+            <option [ngValue]="postType.LandScape">{{'PostTypes.LandScape' | translate}}</option>
           </select>
         </div>
       </div>
@@ -106,8 +106,8 @@
          [class.alert-success]="isSuccess"
          [class.alert-danger]="isError"
          *ngIf="isSuccess || isError">
-      <p *ngIf="isSuccess">Успешная публикация</p>
-      <p *ngIf="isError">Ошибка при публикации</p>
+      <p *ngIf="isSuccess">{{'AddPostPage.SuccessPublish' | translate}}</p>
+      <p *ngIf="isError">{{'AddPostPage.ErrorPublish' | translate}}</p>
     </div>
   </div>
 
@@ -118,7 +118,7 @@
     type="ball-pulse-sync"
     [fullScreen]="true"
     name="publishPost">
-    <p style="color: white"> Публикация... </p>
+    <p style="color: white">{{'AddPostPage.SpinnerText' | translate}}</p>
   </ngx-spinner>
 
 </div>

@@ -1,13 +1,13 @@
 <div class="card">
   <div class="card-header">
-    Пользователь: {{commentInfo.username}} {{commentInfo.date}}
+    {{'Comment.UserPrefix' | translate}}: {{commentInfo.username}} {{commentInfo.date}}
     <div class="btn-group" *ngIf="commentInfo.isMyComment">
       <a class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-ellipsis-v"></i>
       </a>
       <div class="dropdown-menu">
-        <button class="btn dropdown-item" (click)="editComment()">Изменить комментарий</button>
-        <button class="btn dropdown-item" (click)="deleteComment()">Удалить комментарий</button>
+        <button class="btn dropdown-item" (click)="editComment()">{{'Comment.EditCommentBtn' | translate}}</button>
+        <button class="btn dropdown-item" (click)="deleteComment()">{{'Comment.RemoveCommentBtn' | translate}}</button>
       </div>
     </div>
   </div>

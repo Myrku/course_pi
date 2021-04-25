@@ -1,0 +1,117 @@
+{
+    "NavBar": {
+        "MainBtn": "Home",
+        "MyPostsBtn": "My posts",
+        "AddPostBtn": "App post",
+        "AddModerBtn": "Add moderator",
+        "ReportsBtn": "Reports",
+        "UserPrefix": "Username",
+        "LogInBtn": "Log in",
+        "RegBtn": "Sign up",
+        "LogOutBtn": "Log out"
+    },
+     "PostTypes" : {
+        "AllPosts": "All posts",
+        "DeepSky": "Deep sky",
+        "SolarSys": "Solar system",
+        "LandScape": "Landscape",
+        "UnTyped": "Without category"
+    },
+    "LoginPage": {
+        "Info": "Enter data",
+        "Req": "Fill value",
+        "Username": "Username",
+        "Password": "Password",
+        "LoginBtn": "Login",
+        "Error": {
+            "UsernameError": "Username min 6 characters",
+            "PasswordError": "Password mmin 8 characters",
+            "LoginError": "Faild to login"
+        }
+    },
+    "HomePage": {
+        "SpinnerText": "Loading..."
+    },
+    "AddPostPage": {
+        "Title": "Add post",
+        "PhotoInp": "Photo for upload",
+        "PostName": "Post name",
+        "PostDesc": "Description",
+        "CameraInp": "Camera",
+        "CameraLensInp": "Camera lens",
+        "IsoInp": "ISO",
+        "ExpositionInp": "Exposition",
+        "ApertureInp": "Aperture",
+        "ProcessingInp": "Processing",
+        "CategoryInp": "Select category",
+        "SuccessPublish": "Seccess publish",
+        "ErrorPublish": "Error publish",
+        "SpinnerText": "Publishing..."
+    },
+    "CardPost": {
+        "MoreBtn": "More info",
+        "EditBtn": "Edit",
+        "RemovePostBtn": "Remove post",
+        "RemoveReportsBtn": "Remove reports"
+    },
+    "Comment": {
+        "UserPrefix": "User",
+        "EditCommentBtn": "Edit comment",
+        "RemoveCommentBtn": "Remove comment"
+    },
+    "EditPostPage": {
+        "Title": "Edit post",
+        "PostName": "Post name",
+        "PostDesc": "Description",
+        "CameraInp": "Camera",
+        "CameraLensInp": "Camera lens",
+        "IsoInp": "ISO",
+        "ExpositionInp": "Exposition",
+        "ApertureInp": "Aperture",
+        "ProcessingInp": "Processing",
+        "CategoryInp": "Select category",
+        "ErrorPublish": "Error updating post",
+        "SaveChangeBtn": "Save changes"
+    },
+    "MyPostsPage": {
+        "Title": "My posts"
+    },
+    "PostInfoPage": {
+        "Title": "More information",
+        "PostName": "Post name",
+        "PostDesc": "Description",
+        "CameraInp": "Camera",
+        "CameraLensInp": "Camera lens",
+        "IsoInp": "ISO",
+        "ExpositionInp": "Exposition",
+        "ApertureInp": "Aperture",
+        "ProcessingInp": "Processing",
+        "Like": "Like",
+        "CancelComment": "Cansel",
+        "AddComment": "Add comment"
+    },
+    "RegisterPage": {
+        "Title": "Registration",
+        "Req": "Fill value",
+        "Password": "Password",
+        "Username": "Username",
+        "LoginBtn": "Login",
+        "Error": {
+            "UsernameError": "Username min 6 characters",
+            "PasswordError": "Password mmin 8 characters",
+            "EmailError": "Email format incorrect"
+        }
+    },
+    "ReportsPage": {
+        "Title": "User reports",
+        "SpinnerText": "Loading..."
+    },
+    "UsersListPage": {
+        "Search": "Search",
+        "UsernameInp": "Ipnut user name",
+        "Username": "Username",
+        "Action": "Action",
+        "SetModerBtn": "Add moderator",
+        "DeleteMOderBtn": "Remove moderator"
+    }
+}

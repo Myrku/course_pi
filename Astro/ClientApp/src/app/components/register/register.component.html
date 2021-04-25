@@ -9,18 +9,18 @@
             <div class="d-flex justify-content-end">
               <a [routerLink]="['/']" (click)="showNav()"><i class="fas fa-times fa-2x" style="color: #343a40"></i></a>
             </div>
-            <h5 class="card-title text-center">Регистрация</h5>
+            <h5 class="card-title text-center">{{'RegisterPage.Title' | translate}}</h5>
             <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
               <div class="form-group">
                 <input formControlName="username" type="text" id="inputUserame" class="form-control form-control-lg"
-                       placeholder="Имя пользоваетля" required autofocus>
+                       placeholder="{{'RegisterPage.Username' | translate}}" required autofocus>
                 <div *ngIf="_username.invalid && (_username.dirty || _username.touched)"
                      class="alert alert-danger mt-sm-1">
                   <div *ngIf="_username.errors.required">
-                    Заполните поле
+                    {{'RegisterPage.Req' | translate}}
                   </div>
                   <div *ngIf="_username.hasError('minlength')">
-                    Имя пользователя не менее 6 знаков
+                    {{'RegisterPage.UsernameError' | translate}}
                   </div>
                 </div>
               </div>
@@ -31,10 +31,10 @@
                 <div *ngIf="_email.invalid && (_email.dirty || _email.touched)"
                      class="alert alert-danger mt-sm-1">
                   <div *ngIf="_email.errors.required">
-                    Заполните поле
+                    {{'RegisterPage.Req' | translate}}
                   </div>
                   <div *ngIf="_email.hasError('email')">
-                    Формат почты неправильный
+                    {{'RegisterPage.EmailError' | translate}}
                   </div>
                 </div>
               </div>
@@ -42,21 +42,21 @@
 
                 <div class="form-group">
                   <input formControlName="password" type="password" id="inputPassword"
-                         class="form-control form-control-lg" placeholder="Пароль" required>
+                         class="form-control form-control-lg" placeholder="{{'RegisterPage.Password' | translate}}" required>
                   <div *ngIf="_password.invalid && (_password.dirty || _password.touched)"
                        class="alert alert-danger mt-sm-1">
                     <div *ngIf="_password.errors.required">
-                      Заполните поле
+                      {{'RegisterPage.Req' | translate}}
                     </div>
                     <div *ngIf="_password.hasError('minlength')">
-                      Пароль не менее 8 знаков
+                      {{'RegisterPage.PasswordError' | translate}}
                     </div>
                   </div>
                 </div>
 
                 <input type="button" id="btn2" class="btn btn-lg btn-block register-btn text-uppercase" type="submit"
                        value="Регистрация" [disabled]="!registerForm.valid">
-                <a class="d-block text-center mt-2 text-" [routerLink]="['/login']"><u>Войти</u></a>
+                <a class="d-block text-center mt-2 text-" [routerLink]="['/login']"><u>{{'RegisterPage.LoginBtn' | translate}}</u></a>
               <div class="alert" [class.alert-success]="isRegister" [class.alert-danger]="isNotRegister" *ngIf="isRegister || isNotRegister">
                 <p *ngIf="isRegister">Успешная решистрация</p>
                 <p *ngIf="isNotRegister">Ошибка решистрации</p>

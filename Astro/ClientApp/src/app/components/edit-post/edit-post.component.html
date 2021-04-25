@@ -1,18 +1,18 @@
 <div class="container">
-  <h1 class="h1 text-center mt-sm-1">Редактировать публикацию</h1>
+  <h1 class="h1 text-center mt-sm-1">{{'EditPostPage.Title' | translate}}</h1>
   <div class="text-center">
     <img [src]="url" #img class="img-fluid mt-sm-5" *ngIf="url">
   </div>
   <div class="mt-5 mb-5">
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text">Название</span>
+        <span class="input-group-text">{{'EditPostPage.PostName' | translate}}</span>
       </div>
       <input type="text" class="form-control" [(ngModel)]="postInfo.title_post" maxlength="100">
     </div>
     <div class="input-group mt-3">
       <div class="input-group-prepend">
-        <span class="input-group-text">Описание</span>
+        <span class="input-group-text">{{'EditPostPage.PostDesc' | translate}}</span>
       </div>
       <textarea class="form-control" id="exampleTextarea" rows="{{countnewline}}" [(ngModel)]="postInfo.description_post" maxlength="500"></textarea>
     </div>
@@ -21,7 +21,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Камера</span>
+            <span class="input-group-text">{{'EditPostPage.CameraInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.camera" maxlength="100">
         </div>
@@ -29,7 +29,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Объектив</span>
+            <span class="input-group-text">{{'EditPostPage.CameraLensInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.camera_lens" maxlength="100">
         </div>
@@ -40,7 +40,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">ISO</span>
+            <span class="input-group-text">{{'EditPostPage.IsoInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.iso" maxlength="10">
         </div>
@@ -48,7 +48,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Выдержка</span>
+            <span class="input-group-text">{{'EditPostPage.ExpositionInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.exposition" maxlength="20">
         </div>
@@ -59,7 +59,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Апертура камеры</span>
+            <span class="input-group-text">{{'EditPostPage.ApertureInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.aperture" maxlength="10">
         </div>
@@ -67,7 +67,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Обработка</span>
+            <span class="input-group-text">{{'EditPostPage.ProcessingInp' | translate}}</span>
           </div>
           <input type="text" class="form-control" [(ngModel)]="photoParam.processing_photo" maxlength="150">
         </div>
@@ -77,22 +77,22 @@
       <div class="col">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Выберите категорию</span>
+            <span class="input-group-text">{{'EditPostPage.CategoryInp' | translate}}</span>
           </div>
           <select class="form-control" [(ngModel)]="postInfo.postTypeId">
-            <option [ngValue]="postType.NoType">Без категории</option>
-            <option [ngValue]="postType.DeepSky">Глубокий космос</option>
-            <option [ngValue]="postType.SolarSystem">Солнечная система</option>
-            <option [ngValue]="postType.LandScape">Пейзаж</option>
+            <option [ngValue]="postType.NoType">{{'PostTypes.UnTyped' | translate}}</option>
+            <option [ngValue]="postType.DeepSky">{{'PostTypes.DeepSky' | translate}}</option>
+            <option [ngValue]="postType.SolarSystem">{{'PostTypes.SolarSys' | translate}}</option>
+            <option [ngValue]="postType.LandScape">{{'PostTypes.LandScape' | translate}}</option>
           </select>
         </div>
       </div>
     </div>
     <div class="text-center mt-3">
-      <input type="button" class="btn btn-success text-uppercase form-control" value="Сохранить изменения" (click)="UploadChanges()">
+      <input type="button" class="btn btn-success text-uppercase form-control" value="{{'EditPostPage.SaveChangeBtn' | translate}}" (click)="UploadChanges()">
     </div>
     <div class="alert mt-4 mb-4 text-center h4" [class.alert-danger]="isError" *ngIf="isError">
-      <p *ngIf="isError">Ошибка при обновлении публикации</p>
+      <p *ngIf="isError">{{'EditPostPage.ErrorPublish' | translate}}</p>
     </div>
   </div>
 </div>

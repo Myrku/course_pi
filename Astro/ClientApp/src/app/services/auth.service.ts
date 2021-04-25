@@ -12,6 +12,7 @@ import {Roles} from '../models/Statuses/Roles';
 export const ACCESS_TOKEN_KEY = 'access_token';
 export const USERNAME = 'username';
 export const ROLEID = 'roleId';
+export const LOCALE = 'locale';
 
 @Injectable({
   providedIn: 'root'
@@ -48,14 +49,25 @@ export class AuthService {
     localStorage.removeItem(ROLEID);
     this.router.navigate(['']);
   }
+
   registerUser(newUser: FormData): Observable<ActionResultStatus> {
     return this.http.post<ActionResultStatus>(this.apiUrl + 'api/auth/register', newUser);
   }
+
   getUsername(): string {
     return localStorage.getItem(USERNAME);
   }
+
   isAdmin(): boolean {
     const role = parseInt(localStorage.getItem(ROLEID), null);
     return role === Roles.Admin;
+  }
+
+  setLocale(locale: string): void {
+    localStorage.setItem(LOCALE, locale);
+  }
+  getLocale(): string {
+    const locale = localStorage.getItem(LOCALE);
+    return locale;
   }
 }

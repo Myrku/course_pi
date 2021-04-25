@@ -10,36 +10,36 @@
             <a [routerLink]="['/']" (click)="showNav()"><i class="fas fa-times fa-3x" style="color: #343a40"></i></a>
           </div>
           <div class="card-body">
-            <p class="login-card-description">Введите данные</p>
+            <p class="login-card-description">{{'LoginPage.Info' | translate}}</p>
             <form action="#!" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
               <div class="form-group">
-                <input formControlName="username" id="username" class="form-control form-control-lg" placeholder="Имя пользователя" autofocus>
+                <input formControlName="username" id="username" class="form-control form-control-lg" placeholder="{{'LoginPage.Username' | translate}}" autofocus>
                 <div *ngIf="_username.invalid && (_username.dirty || _username.touched)"
                      class="alert alert-danger mt-sm-1">
                   <div *ngIf="_username.errors.required" >
-                    Заполните поле
+                    {{'LoginPage.Req' | translate}}
                   </div>
                   <div *ngIf="_username.hasError('minlength')">
-                    Имя пользователя не менее 6 знаков
+                    {{'LoginPage.Error.UsernameError' | translate}}
                   </div>
                 </div>
               </div>
               <div class="form-group mb-4">
-                <input type="password" formControlName="password" id="password" class="form-control form-control-lg" placeholder="Пароль">
+                <input type="password" formControlName="password" id="password" class="form-control form-control-lg" placeholder="{{'LoginPage.Password' | translate}}">
                 <div *ngIf="_password.invalid && (_password.dirty || _password.touched)"
                      class="alert alert-danger mt-sm-1">
                   <div *ngIf="_password.errors.required">
-                    Заполните поле
+                    {{'LoginPage.Req' | translate}}
                   </div>
                   <div *ngIf="_password.hasError('minlength')">
-                    Пароль не менее 8 знаков
+                    {{'LoginPage.Error.PasswordError' | translate}}
                   </div>
                 </div>
               </div>
-              <input name="login" id="login" class="btn btn-block mb-4 login-btn" type="submit" value="Login"
+              <input name="login" id="login" class="btn btn-block mb-4 login-btn" type="submit" value="{{'LoginPage.LoginBtn' | translate}}"
                      [disabled]="!loginForm.valid" >
               <div class="alert-danger alert" *ngIf="isError">
-                Неудачная попытка входа
+                {{'LoginPage.Error.LoginError' | translate}}
               </div>
             </form>
           </div>

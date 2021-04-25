@@ -12,16 +12,16 @@
         type = "ball-pulse-sync"
         [fullScreen] = "true"
         name="loadingPage">
-        <p style="color: white" > Загрузка... </p>
+        <p style="color: white" > {{'HomePage.SpinnerText' | translate}} </p>
       </ngx-spinner>
     </div>
     <div>
       <div class="row mt-2">
         <div class="col">
-        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.NoType)">Все посты</button>
-        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.DeepSky)">Глубокий космос</button>
-        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.SolarSystem)">Солнечная система</button>
-        <button class="btn btn-outline-dark" (click)="gePostByType(postType.LandScape)">Пейзаж</button>
+        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.NoType)">{{'PostTypes.AllPosts' | translate}}</button>
+        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.DeepSky)">{{'PostTypes.DeepSky' | translate}}</button>
+        <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.SolarSystem)">{{'PostTypes.SolarSys' | translate}}</button>
+        <button class="btn btn-outline-dark" (click)="gePostByType(postType.LandScape)">{{'PostTypes.LandScape' | translate}}</button>
         </div>
       </div>
       <hr>

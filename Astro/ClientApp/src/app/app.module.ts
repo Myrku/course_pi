@@ -11,28 +11,35 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
-import {SERVER_API_URL} from './app-injection-tokens';
-import {environment} from '../environments/environment';
-import {JwtModule} from '@auth0/angular-jwt';
-import {ACCESS_TOKEN_KEY} from './services/auth.service';
-import {AuthGuard} from './guards/auth.guard';
+import { SERVER_API_URL } from './app-injection-tokens';
+import { environment } from '../environments/environment';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ACCESS_TOKEN_KEY, AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
 import { CardPostComponent } from './components/card-post/card-post.component';
-import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {NgxSpinnerModule} from 'ngx-spinner';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
-import {AdminGuardGuard} from './guards/admin-guard.guard';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AdminGuardGuard } from './guards/admin-guard.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({
@@ -53,7 +60,7 @@ export function tokenGetter() {
     CommentComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
@@ -61,15 +68,15 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent},
-      {path: 'login', component: LoginComponent},
-      {path: 'register', component: RegisterComponent},
-      {path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard]},
-      {path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard]},
-      {path: 'post-info/:id', component: PostInfoComponent},
-      {path: 'post-edit/:id', component: EditPostComponent, canActivate: [AuthGuard]},
-      {path: 'list-users', component: UsersListComponent, canActivate: [AdminGuardGuard]},
-      {path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard]}
+      { path: '', component: HomeComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'add-post', component: AddPostComponent, canActivate: [AuthGuard] },
+      { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
+      { path: 'post-info/:id', component: PostInfoComponent },
+      { path: 'post-edit/:id', component: EditPostComponent, canActivate: [AuthGuard] },
+      { path: 'list-users', component: UsersListComponent, canActivate: [AdminGuardGuard] },
+      { path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard] }
     ]),
 
     JwtModule.forRoot({
@@ -79,6 +86,15 @@ export function tokenGetter() {
       }
     }),
     NgbModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en',
+    })
   ],
   providers: [{
     provide: SERVER_API_URL,
@@ -86,4 +102,9 @@ export function tokenGetter() {
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(translate: TranslateService, authService: AuthService) {
+    const locale = authService.getLocale();
+    translate.use(locale? locale : 'en');
+  }
+}

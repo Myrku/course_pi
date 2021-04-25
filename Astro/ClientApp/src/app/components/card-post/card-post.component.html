@@ -4,11 +4,11 @@
     <h5 class="card-title font-weight-bold">{{post.title_post}}</h5>
     <p class="card-text">{{post.description_post}}</p>
     <button *ngIf="cardType != types.Edit " type="button" class="btn btn-outline-dark mt-auto"
-            [routerLink]="['/post-info',post.id]">Подробнее
+            [routerLink]="['/post-info',post.id]">{{'CardPost.MoreBtn' | translate}}
     </button>
     <div class="row mt-auto" *ngIf="cardType == types.Edit">
       <div class="col">
-        <button type="button" class="btn btn-outline-dark" [routerLink]="['/post-edit',post.id]">Изменить</button>
+        <button type="button" class="btn btn-outline-dark" [routerLink]="['/post-edit',post.id]">{{'CardPost.EditBtn' | translate}}</button>
       </div>
       <div class="col">
         <a (click)="DeletePost(post.id)" style="cursor: pointer"><i class="fas fa-trash-alt fa-3x float-right ml-auto"
@@ -17,10 +17,10 @@
     </div>
     <div class="row mt-auto" *ngIf="cardType == types.Report">
       <div class="col">
-        <button type="button" class="btn btn-outline-success btn-block" (click)="DeleteReports(post.id)">Убрать жалобы</button>
+        <button type="button" class="btn btn-outline-success btn-block" (click)="DeleteReports(post.id)">{{'CardPost.RemoveReportsBtn' | translate}}</button>
       </div>
       <div class="col">
-        <button type="button" class="btn btn-outline-danger btn-block" (click)="DeletePost(post.id)">Удалить пост</button>
+        <button type="button" class="btn btn-outline-danger btn-block" (click)="DeletePost(post.id)">{{'CardPost.RemovePostBtn' | translate}}</button>
       </div>
     </div>
   </div>

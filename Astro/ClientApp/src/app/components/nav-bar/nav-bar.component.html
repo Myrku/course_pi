@@ -6,26 +6,34 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link font-weight-bold" [routerLink]="['/']">Главная<span class="sr-only">(current)</span></a>
+        <a class="nav-link font-weight-bold" [routerLink]="['/']">{{'NavBar.MainBtn' | translate}}<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link font-weight-bold" [routerLink]="['/my-posts']" *ngIf="isLoggedIn">Мои публикации</a>
+        <a class="nav-link font-weight-bold" [routerLink]="['/my-posts']" *ngIf="isLoggedIn">{{'NavBar.MyPostsBtn' | translate}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link font-weight-bold" [routerLink]="['/add-post']" *ngIf="isLoggedIn">Добавить публикацию</a>
+        <a class="nav-link font-weight-bold" [routerLink]="['/add-post']" *ngIf="isLoggedIn">{{'NavBar.AddPostBtn' | translate}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link font-weight-bold" [routerLink]="['/list-users']" *ngIf="isLoggedIn && isAdmin">Добавить модератора</a>
+        <a class="nav-link font-weight-bold" [routerLink]="['/list-users']" *ngIf="isLoggedIn && isAdmin">{{'NavBar.AddModerBtn' | translate}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link font-weight-bold" [routerLink]="['/reports']" *ngIf="isLoggedIn && isAdmin">Жалобы</a>
+        <a class="nav-link font-weight-bold" [routerLink]="['/reports']" *ngIf="isLoggedIn && isAdmin">{{'NavBar.ReportsBtn' | translate}}</a>
       </li>
     </ul>
     <span class="navbar-text">
-      <span *ngIf="isLoggedIn" class="font-weight-bold mr-2 my-2 font-weight-bold">Пользовтель: {{authService.getUsername()}}</span>
-      <button class="btn btn-outline-light my-2 my-sm-0 mr-sm-4 font-weight-bold" type="submit" [routerLink]="['/login']" *ngIf="!isLoggedIn">Войти</button>
-      <button class="btn btn-outline-light my-2 my-sm-0 font-weight-bold" type="submit" [routerLink]="['/register']" *ngIf="!isLoggedIn">Регистрация</button>
-      <button class="btn btn-outline-light my-2 my-sm-0 font-weight-bold" type="submit" (click)="authService.logout()" *ngIf="isLoggedIn">Выйти</button>
+        <select #selectLanguage (change)='languageChange($event.target.value)'>
+          <option value="en">En</option>
+          <option value="ru">Ru</option>
+        </select>
+      <span *ngIf="isLoggedIn" class="font-weight-bold mr-2 my-2 font-weight-bold">
+        {{'NavBar.UserPrefix' | translate}}: {{authService.getUsername()}}</span>
+      <button class="btn btn-outline-light my-2 my-sm-0 mr-sm-4 font-weight-bold" type="submit" [routerLink]="['/login']" *ngIf="!isLoggedIn">
+        {{'NavBar.LogInBtn' | translate}}</button>
+      <button class="btn btn-outline-light my-2 my-sm-0 font-weight-bold" type="submit" [routerLink]="['/register']" *ngIf="!isLoggedIn">
+        {{'NavBar.RegBtn' | translate}}</button>
+      <button class="btn btn-outline-light my-2 my-sm-0 font-weight-bold" type="submit" (click)="authService.logout()" *ngIf="isLoggedIn">
+        {{'NavBar.LogOutBtn' | translate}}</button>
     </span>
   </div>
 </nav>

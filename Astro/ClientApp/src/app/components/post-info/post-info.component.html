@@ -1,7 +1,7 @@
 <div class="container mb-5">
   <div class="row">
     <div class="col">
-      <h1 class="h1 text-center mt-sm-1">Подробная информация
+      <h1 class="h1 text-center mt-sm-1">{{'PostInfoPage.Title' | translate}}
         <a (click)="AddReport()"><i class="fas fa-exclamation-triangle"
                                     style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
       </h1>
@@ -16,13 +16,13 @@
   <div class="mt-5 mb-5" *ngIf="postInfo">
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text">Название</span>
+        <span class="input-group-text">{{'PostInfoPage.PostName' | translate}}</span>
       </div>
       <input type="text" class="form-control bg-white" readonly value="{{postInfo.title_post}}">
     </div>
     <div class="input-group mt-3">
       <div class="input-group-prepend">
-        <span class="input-group-text">Описание</span>
+        <span class="input-group-text">{{'PostInfoPage.PostDesc' | translate}}</span>
       </div>
       <div style="white-space: pre-line; height: auto" class="form-control bg-white">{{postInfo.description_post}}</div>
     </div>
@@ -31,7 +31,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Камера</span>
+            <span class="input-group-text">{{'PostInfoPage.Camera' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera}}">
         </div>
@@ -39,7 +39,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Объектив</span>
+            <span class="input-group-text">{{'PostInfoPage.CameraLens' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera_lens}}">
         </div>
@@ -50,7 +50,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">ISO</span>
+            <span class="input-group-text">{{'PostInfoPage.Iso' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.iso}}">
         </div>
@@ -58,7 +58,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Выдержка</span>
+            <span class="input-group-text">{{'PostInfoPage.Exposition' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.exposition}}">
         </div>
@@ -69,7 +69,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Апертура камеры</span>
+            <span class="input-group-text">{{'PostInfoPage.Aperture' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.aperture}}">
         </div>
@@ -77,7 +77,7 @@
       <div class="col-12 col-lg-6">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Обработка</span>
+            <span class="input-group-text">{{'PostInfoPage.Processing' | translate}}</span>
           </div>
           <input type="text" class="form-control bg-white" readonly value="{{paramInfo.processing_photo}}">
         </div>
@@ -85,7 +85,7 @@
     </div>
     <hr/>
     <div class="row text-center justify-content-center align-items-center h4 mt-5">
-      Оценить
+      {{'PostInfoPage.Like' | translate}}
       <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
         <i class="far fa-heart fa-2x like"></i>
       </div>
@@ -108,8 +108,8 @@
   <div class="inp-comment">
     <div #inputComment contenteditable="true" class="form-control"></div>
     <div class="d-flex justify-content-end mt-2">
-      <button class="btn btn-outline-danger" (click)="cancelComment()">Отмена</button>
-      <button class="btn btn-outline-success ml-3" (click)="addComment()">Оставить комментарий</button>
+      <button class="btn btn-outline-danger" (click)="cancelComment()">{{'PostInfoPage.CancelComment' | translate}}</button>
+      <button class="btn btn-outline-success ml-3" (click)="addComment()">{{'PostInfoPage.AddComment' | translate}}</button>
     </div>
   </div>
   <app-toast aria-live="polite" aria-atomic="true"></app-toast>

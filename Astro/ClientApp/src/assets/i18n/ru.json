@@ -1,0 +1,117 @@
+{
+    "NavBar": {
+        "MainBtn": "Главная",
+        "MyPostsBtn": "Мои публикации",
+        "AddPostBtn": "Добавить публикацию",
+        "AddModerBtn": "Добавить модератора",
+        "ReportsBtn": "Жалобы",
+        "UserPrefix": "Пользователь",
+        "LogInBtn": "Войти",
+        "RegBtn": "Регистрация",
+        "LogOutBtn": "Выйти"
+    },
+    "PostTypes" : {
+        "AllPosts": "Все посты",
+        "DeepSky": "Глубокий космос",
+        "SolarSys": "Солнечная система",
+        "LandScape": "Пейзаж",
+        "UnTyped": "Без категории"
+    },
+    "LoginPage": {
+        "Info": "Введите данные",
+        "Req": "Заполните поле",
+        "Username": "Имя пользователя",
+        "Password": "Пароль",
+        "LoginBtn": "Войти",
+        "Error": {
+            "UsernameError": "Имя пользователя не менее 6 знаков",
+            "PasswordError": "Пароль не менее 8 знаков",
+            "LoginError": "Неудачная попытка входа"
+        }
+    },
+    "HomePage": {
+        "SpinnerText": "Загрузка..."
+    },
+    "AddPostPage": {
+        "Title": "Добавить публикацию",
+        "PhotoInp": "Фото для загрузки",
+        "PostName": "Название",
+        "PostDesc": "Описание",
+        "CameraInp": "Камера",
+        "CameraLensInp": "Объектив",
+        "IsoInp": "ISO",
+        "ExpositionInp": "Выдержка",
+        "ApertureInp": "Апертура",
+        "ProcessingInp": "Обработка",
+        "CategoryInp": "Выберите категорию",
+        "SuccessPublish": "Успешная публикация",
+        "ErrorPublish": "Ошибка публикации",
+        "SpinnerText": "Публикация..."
+    },
+    "CardPost": {
+        "MoreBtn": "Подробнее",
+        "EditBtn": "Изменить",
+        "RemovePostBtn": "Удалить пост",
+        "RemoveReportsBtn": "Удалить жалобы"
+    },
+    "Comment": {
+        "UserPrefix": "Пользователь",
+        "EditCommentBtn": "Изменить комментарий",
+        "RemoveCommentBtn": "Удалить комментарий"
+    },
+    "EditPostPage": {
+        "Title": "Редактировать публикацию",
+        "PostName": "Название",
+        "PostDesc": "Описание",
+        "CameraInp": "Камера",
+        "CameraLensInp": "Объектив",
+        "IsoInp": "ISO",
+        "ExpositionInp": "Выдержка",
+        "ApertureInp": "Апертура",
+        "ProcessingInp": "Обработка",
+        "CategoryInp": "Выберите категорию",
+        "ErrorPublish": "Ошибка при обновлении публикации",
+        "SaveChangeBtn": "Сохранить изменения"
+    },
+    "MyPostsPage": {
+        "Title": "Мои публикации"
+    },
+    "PostInfoPage": {
+        "Title": "Подробная информация",
+        "PostName": "Название",
+        "PostDesc": "Описание",
+        "Camera": "Камера",
+        "CameraLens": "Объектив",
+        "Iso": "ISO",
+        "Exposition": "Выдержка",
+        "Aperture": "Апертура",
+        "Processing": "Обработка",
+        "Like": "Оценить",
+        "CancelComment": "Отмена",
+        "AddComment": "Оставить комментарий"
+    },
+    "RegisterPage": {
+        "Title": "Регистрация",
+        "Req": "Заполните поле",
+        "Password": "Пароль",
+        "Username": "Имя пользователя",
+        "LoginBtn": "Войти",
+        "Error": {
+            "UsernameError": "Имя пользователя не менее 6 знаков",
+            "PasswordError": "Пароль не менее 8 знаков",
+            "EmailError": "Формат почты неправильный"
+        }
+    },
+    "ReportsPage": {
+        "Title": "Жалобы пользователей",
+        "SpinnerText": "Загрузка..."
+    },
+    "UsersListPage": {
+        "Search": "Поиск",
+        "UsernameInp": "Введите имя пользователя",
+        "Username": "Имя пользователя",
+        "Action": "Действие",
+        "SetModerBtn": "Добавить модератора",
+        "DeleteMOderBtn": "Удалить модератора"
+    }
+}
