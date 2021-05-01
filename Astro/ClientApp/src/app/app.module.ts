@@ -32,6 +32,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { UserPageComponent } from './components/user-page/user-page.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 export function tokenGetter() {
@@ -58,6 +60,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToastComponent,
     ReportsComponent,
     CommentComponent,
+    UserPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NgxChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
@@ -76,7 +80,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: 'post-info/:id', component: PostInfoComponent },
       { path: 'post-edit/:id', component: EditPostComponent, canActivate: [AuthGuard] },
       { path: 'list-users', component: UsersListComponent, canActivate: [AdminGuardGuard] },
-      { path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard] }
+      { path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard] },
+      { path: 'user-info', component: UserPageComponent},
     ]),
 
     JwtModule.forRoot({

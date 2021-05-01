@@ -1,0 +1,16 @@
+.user-info {
+    border-bottom: 2px solid;
+    cursor: pointer;
+}
+
+.user-info:hover {
+    color: white;
+}
+
+.selected-lang {
+    color: white;
+    border-bottom: 1px solid;
+}
+.select-lang {
+    cursor: pointer;
+}

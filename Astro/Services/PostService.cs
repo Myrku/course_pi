@@ -96,6 +96,8 @@ namespace Astro.Services
                     string blobName = new CloudBlockBlob(new Uri(post.Url_photo)).Name;
                     var targetBlob = blobContainer.GetBlockBlobReference(blobName);
                     await targetBlob.DeleteIfExistsAsync();
+                    var likes = dBContext.Likes.Where(x => x.Id_Post == post.Id);
+                    dBContext.Likes.RemoveRange(likes);
                     dBContext.Posts.Remove(post);
                     dBContext.SaveChanges();
                     transaction.Commit();

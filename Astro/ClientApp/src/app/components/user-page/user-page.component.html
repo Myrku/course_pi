@@ -1,0 +1,62 @@
+<div class="container">
+    <h1 class="h1 text-center">{{'UserPage.Title' | translate}} <span class="font-weight-bold">{{getUsername}}</span></h1>
+    <hr>
+    <div>
+        <div class="h5 row text-center">
+            <div class="col">{{'UserPage.PubPosts' | translate}} {{context?.publishedPosts}}</div>
+            <div class="col">{{'UserPage.Likes' | translate}} {{context?.allLikes}}</div>
+            <div class="col">{{'UserPage.Reports' | translate}} {{context?.allReports}}</div>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex row">
+        <div class="col">
+            <h4 class="text-center">{{'UserPage.Password.Title' | translate}}</h4>
+            <div class="d-flex flex-column">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{'UserPage.Password.Old' | translate}}</span>
+                    </div>
+                    <input type="password" class="form-control" [(ngModel)]="password" >
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{'UserPage.Password.New' | translate}}</span>
+                    </div>
+                    <input type="password" class="form-control" [(ngModel)]="newPassword" >
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{'UserPage.Password.ConfNew' | translate}}</span>
+                    </div>
+                    <input type="password" class="form-control" value="" >
+                </div>
+                <button class="btn btn-success text-uppercase form-control" (click)="resetPassword()">{{'UserPage.Password.SaveBtn' | translate}}</button>
+            </div>
+        </div>
+        <div class="col">
+            <h4 class="text-center">{{'UserPage.Camera.Title' | translate}}</h4>
+            <div class="d-flex flex-column">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{'UserPage.Camera.CameraName' | translate}}</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]='context.cameraInfo.camera' >
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{'UserPage.Camera.CameraLens' | translate}}</span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]='context.cameraInfo.cameraLens'>
+                </div>
+                <button class="btn btn-success text-uppercase form-control" (click)='saveCamera()'>{{'UserPage.Camera.SaveBtn' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <ngx-charts-bar-vertical *ngIf='context.chartInfo' class="font-weight-bold" [results]="context.chartInfo" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+        [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'UserPage.Chart.xLabel' | translate" [yAxisLabel]="'UserPage.Chart.yLabel' | translate">
+    </ngx-charts-bar-vertical>
+    <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+</div>

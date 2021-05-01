@@ -22,12 +22,11 @@
       </li>
     </ul>
     <span class="navbar-text">
-        <select #selectLanguage (change)='languageChange($event.target.value)'>
-          <option value="en">En</option>
-          <option value="ru">Ru</option>
-        </select>
-      <span *ngIf="isLoggedIn" class="font-weight-bold mr-2 my-2 font-weight-bold">
-        {{'NavBar.UserPrefix' | translate}}: {{authService.getUsername()}}</span>
+      <span class="select-lang" [ngClass]="{ 'selected-lang': this.locale === 'en' }" (click)="languageChange('en')">En</span>
+      <span> / </span>
+      <span class="select-lang" [ngClass]="{ 'selected-lang': this.locale === 'ru' }" (click)="languageChange('ru')">Ru</span>
+      <span *ngIf="isLoggedIn" class="font-weight-bold mr-2 ml-3 my-2 font-weight-bold">
+        {{'NavBar.UserPrefix' | translate}}: <span class="user-info" [routerLink]="['/user-info']">{{authService.getUsername()}}</span></span>
       <button class="btn btn-outline-light my-2 my-sm-0 mr-sm-4 font-weight-bold" type="submit" [routerLink]="['/login']" *ngIf="!isLoggedIn">
         {{'NavBar.LogInBtn' | translate}}</button>
       <button class="btn btn-outline-light my-2 my-sm-0 font-weight-bold" type="submit" [routerLink]="['/register']" *ngIf="!isLoggedIn">

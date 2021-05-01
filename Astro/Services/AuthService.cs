@@ -1,6 +1,7 @@
 ﻿using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,11 +18,23 @@ namespace Astro.Services
     {
         AstroDBContext dBContext;
         private readonly IOptions<AuthOptions> authoptions;
-        public AuthService(AstroDBContext context, IOptions<AuthOptions> authoptions)
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public AuthService(AstroDBContext context, IOptions<AuthOptions> authoptions, IHttpContextAccessor httpContextAccessor)
         {
             dBContext = context;
             this.authoptions = authoptions;
+            this.httpContextAccessor = httpContextAccessor;
+
         }
+
+        private (int id, string name) GetCurrentUserInfo()
+        {
+            var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            return (id, name);
+        }
+
         private User AuthUser(string username, string password)
         {
             return dBContext.Users.SingleOrDefault(u => u.UserName == username && u.Password == GetHashPassword(password));
@@ -84,6 +97,22 @@ namespace Astro.Services
             {
                 return ActionResultStatus.Error;
             }
+        }
+
+        public ActionResultStatus ResetPassword(string password, string newPassword)
+        {
+            var user = dBContext.Users.FirstOrDefault(x => x.Id == GetCurrentUserInfo().id);
+            
+            if(user != null)
+            {
+                if(user.Password == GetHashPassword(password))
+                {
+                    user.Password = GetHashPassword(newPassword);
+                    dBContext.SaveChanges();
+                    return ActionResultStatus.Success;
+                }
+            }
+            return ActionResultStatus.Error;
         }
     }
 }

@@ -50,6 +50,10 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
+  resetPassword(password: string, newPassword: string): Observable<ActionResultStatus> {
+    return this.http.post<ActionResultStatus>(`${this.apiUrl}api/auth/reset-password1`, {password, newPassword});
+  }
+
   registerUser(newUser: FormData): Observable<ActionResultStatus> {
     return this.http.post<ActionResultStatus>(this.apiUrl + 'api/auth/register', newUser);
   }

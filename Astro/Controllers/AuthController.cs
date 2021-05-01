@@ -33,5 +33,11 @@ namespace Astro.Controllers
         {
             return authService.Register(user);
         }
+
+        [HttpPost("reset-password")]
+        public ActionResultStatus ResetPassword(string password, string newPassword)
+        {
+            return authService.ResetPassword(password, newPassword);
+        }
     }
 }

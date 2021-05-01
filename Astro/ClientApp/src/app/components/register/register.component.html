@@ -55,7 +55,7 @@
                 </div>
 
                 <input type="button" id="btn2" class="btn btn-lg btn-block register-btn text-uppercase" type="submit"
-                       value="Регистрация" [disabled]="!registerForm.valid">
+                       value="{{'RegisterPage.RegisterBtn' | translate}}" [disabled]="!registerForm.valid">
                 <a class="d-block text-center mt-2 text-" [routerLink]="['/login']"><u>{{'RegisterPage.LoginBtn' | translate}}</u></a>
               <div class="alert" [class.alert-success]="isRegister" [class.alert-danger]="isNotRegister" *ngIf="isRegister || isNotRegister">
                 <p *ngIf="isRegister">Успешная решистрация</p>

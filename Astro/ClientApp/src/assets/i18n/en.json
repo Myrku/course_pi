@@ -18,7 +18,7 @@
         "UnTyped": "Without category"
     },
     "LoginPage": {
-        "Info": "Enter data",
+        "Info": "Log in to Astro",
         "Req": "Fill value",
         "Username": "Username",
         "Password": "Password",
@@ -46,7 +46,8 @@
         "CategoryInp": "Select category",
         "SuccessPublish": "Seccess publish",
         "ErrorPublish": "Error publish",
-        "SpinnerText": "Publishing..."
+        "SpinnerText": "Publishing...",
+        "UploadBtn": "Publish"
     },
     "CardPost": {
         "MoreBtn": "More info",
@@ -91,11 +92,12 @@
         "AddComment": "Add comment"
     },
     "RegisterPage": {
-        "Title": "Registration",
+        "Title": "Sign up",
         "Req": "Fill value",
         "Password": "Password",
         "Username": "Username",
         "LoginBtn": "Login",
+        "RegisterBtn": "Create account",
         "Error": {
             "UsernameError": "Username min 6 characters",
             "PasswordError": "Password mmin 8 characters",
@@ -108,10 +110,37 @@
     },
     "UsersListPage": {
         "Search": "Search",
-        "UsernameInp": "Ipnut user name",
+        "UsernameInp": "Username",
         "Username": "Username",
         "Action": "Action",
         "SetModerBtn": "Add moderator",
         "DeleteMOderBtn": "Remove moderator"
+    },
+    "UserPage": {
+        "Title": "User information: ",
+        "PubPosts": "Published posts: ",
+        "Likes": "All likes: ",
+        "Reports": "Reports on my posts: ",
+        "Password": {
+            "Title": "Change password",
+            "Old": "Old password",
+            "New": "New password",
+            "ConfNew": "Confirm password",
+            "SaveBtn": "Save new password"
+        },
+        "Camera": {
+            "Title": "Add camera",
+            "CameraName": "Camera",
+            "CameraLens": "Camera lens",
+            "SaveBtn": "Save camera"
+        },
+        "Chart": {
+            "xLabel": "Post",
+            "yLabel": "Likes"
+        },
+        "Toast": {
+            "SuccessAddCamera": "Camera added successfully",
+            "ErrorAddCamera": "Error adding camera"
+        }           
     }
 }
