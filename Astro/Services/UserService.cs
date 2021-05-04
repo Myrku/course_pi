@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -30,55 +31,71 @@ namespace Astro.Services
 
         public UserPageContext GetContext()
         {
-            var userId = GetCurrentUserInfo().id;
-
-            var postCount = dBContext.Posts.Where(x => x.Id_User == userId).Count();
-            var reportsCount = dBContext.Reports.Where(x => x.UserId == userId).Count();
-            var cameraInfo = dBContext.CameraInfos.FirstOrDefault(x => x.IdUser == userId);
-
-            var chartInfo = new List<ChartInfo>();
-            var userPosts = dBContext.Posts.Where(x => x.Id_User == userId).ToList();
-            int likesCount = 0;
-
-            for (int i = 0; i < userPosts.Count; i++)
+            try
             {
-                var postLikes = dBContext.Likes.Where(x => x.Id_Post == userPosts[i].Id).Count();
-                likesCount += postLikes;
-                chartInfo.Add(new ChartInfo()
+                var userId = GetCurrentUserInfo().id;
+
+                var postCount = dBContext.Posts.Where(x => x.Id_User == userId).Count();
+                var reportsCount = dBContext.Reports.Where(x => x.UserId == userId).Count();
+                var cameraInfo = dBContext.CameraInfos.FirstOrDefault(x => x.IdUser == userId);
+
+                var chartInfo = new List<ChartInfo>();
+                var userPosts = dBContext.Posts.Where(x => x.Id_User == userId).ToList();
+                int likesCount = 0;
+
+                for (int i = 0; i < userPosts.Count; i++)
                 {
-                    Name = userPosts[i].Title_post,
-                    Value = postLikes
-                });
+                    var postLikes = dBContext.Likes.Where(x => x.Id_Post == userPosts[i].Id).Count();
+                    likesCount += postLikes;
+                    chartInfo.Add(new ChartInfo()
+                    {
+                        Name = userPosts[i].Title_post,
+                        Value = postLikes
+                    });
+                }
+
+                var result = new UserPageContext()
+                {
+                    PublishedPosts = postCount,
+                    AllLikes = likesCount,
+                    AllReports = reportsCount,
+                    CameraInfo = cameraInfo ?? new CameraInfo(),
+                    ChartInfo = chartInfo.OrderBy(x => x.Value).Take(10).ToList()
+                };
+
+                return result;
             }
-
-            var result = new UserPageContext()
+            catch(Exception ex)
             {
-                PublishedPosts = postCount,
-                AllLikes = likesCount,
-                AllReports = reportsCount,
-                CameraInfo = cameraInfo ?? new CameraInfo(),
-                ChartInfo = chartInfo.OrderBy(x => x.Value).Take(10).ToList()
-            };
-
-            return result;
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get user info");
+            }
         }
 
         public ActionResultStatus SetCamera(CameraInfo camera)
         {
-            camera.IdUser = GetCurrentUserInfo().id;
-            var cameraInfo = dBContext.CameraInfos.FirstOrDefault(x => x.IdUser == camera.IdUser);
-            if(cameraInfo == null)
+            try
             {
-                dBContext.CameraInfos.Add(camera);
-                dBContext.SaveChanges();
-                return ActionResultStatus.Success;
+                camera.IdUser = GetCurrentUserInfo().id;
+                var cameraInfo = dBContext.CameraInfos.FirstOrDefault(x => x.IdUser == camera.IdUser);
+                if (cameraInfo == null)
+                {
+                    dBContext.CameraInfos.Add(camera);
+                    dBContext.SaveChanges();
+                    return ActionResultStatus.Success;
+                }
+                else
+                {
+                    cameraInfo.Camera = camera.Camera;
+                    cameraInfo.CameraLens = camera.CameraLens;
+                    dBContext.SaveChanges();
+                    return ActionResultStatus.Success;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                cameraInfo.Camera = camera.Camera;
-                cameraInfo.CameraLens = camera.CameraLens;
-                dBContext.SaveChanges();
-                return ActionResultStatus.Success;
+                Logger.LogError(ex.Message, ex);
+                return ActionResultStatus.Error;
             }
         }
     }

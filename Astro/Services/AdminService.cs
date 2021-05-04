@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using System;
@@ -24,15 +25,24 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
 
         public List<User> GetUsers()
         {
-            return dBContext.Users.Where(x => x.RoleId != Roles.Admin).ToList();
+            try
+            {
+                return dBContext.Users.Where(x => x.RoleId != Roles.Admin).ToList();
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed get users");
+            }
         }
 
         public ActionResultStatus AddModerator(int userId)
@@ -44,8 +54,9 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }

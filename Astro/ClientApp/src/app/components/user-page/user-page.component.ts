@@ -67,7 +67,17 @@ export class UserPageComponent implements OnInit {
     this.authService.resetPassword(this.password, this.newPassword).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
-      
+      if (res === ActionResultStatus.Success) {
+        const toastText = this.translateService.get('UserPage.Toast.PasswordChanged');
+        toastText.pipe(takeUntil(this.destroyed$)).subscribe((tr) => {
+          this.toastService.show(tr, { classname: 'bg-success text-light', delay: 3000 });
+        });
+      } else {
+        const toastText = this.translateService.get('UserPage.Toast.PasswordChangeError');
+        toastText.pipe(takeUntil(this.destroyed$)).subscribe((tr) => {
+          this.toastService.show(tr, { classname: 'bg-danger text-light', delay: 3000 });
+        });
+      }
     })
   }
 }

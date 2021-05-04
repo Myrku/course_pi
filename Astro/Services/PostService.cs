@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -66,16 +67,17 @@ namespace Astro.Services
                         dBContext.SaveChanges();
                         transaction.Commit();
                     }
-                    catch
+                    catch(Exception ex)
                     {
-
                         await blockBlob.DeleteAsync();
                         transaction.Rollback();
+                        Logger.LogError(ex.Message, ex);
                         return ActionResultStatus.Error;
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Logger.LogError(ex.Message, ex);
                     return ActionResultStatus.Error;
                 }
                 return ActionResultStatus.Success;
@@ -104,9 +106,10 @@ namespace Astro.Services
                 }
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
                 transaction.Rollback();
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
@@ -124,55 +127,96 @@ namespace Astro.Services
                 transaction.Commit();
                 return ActionResultStatus.Success;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Rollback();
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
 
         public GetLikesResult GetLikes(int id)
         {
-            var curUser = GetCurrentUserInfo();
-            var likes = dBContext.Likes.Where(x => x.Id_Post == id).ToList();
-            bool isLike = likes.Find(x => x.Id_User == curUser.id) != null;
-            return new GetLikesResult()
+            try
             {
-                IsLike = isLike,
-                CountLike = likes.Count
-            };
+                var curUser = GetCurrentUserInfo();
+                var likes = dBContext.Likes.Where(x => x.Id_Post == id).ToList();
+                bool isLike = likes.Find(x => x.Id_User == curUser.id) != null;
+                return new GetLikesResult()
+                {
+                    IsLike = isLike,
+                    CountLike = likes.Count
+                };
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get likes");
+            }
         }
 
         public IEnumerable<Post> GetNextPost(int id)
         {
-            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id < id).Take(COUNT_GET_POSTS);
+            try
+            {
+                return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id < id).Take(COUNT_GET_POSTS);
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get next posts");
+            }
         }
 
         public IEnumerable<Post> GetPosts(PostTypes type)
         {
-            if (type == PostTypes.NoType)
+            try
             {
-                return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
+                if (type == PostTypes.NoType)
+                {
+                    return dBContext.Posts.OrderByDescending(x => x.Id).Take(COUNT_GET_POSTS);
+                }
+                return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.PostTypeId == type).Take(COUNT_GET_POSTS);
             }
-            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.PostTypeId == type).Take(COUNT_GET_POSTS);
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get posts");
+            }
         }
 
         public IEnumerable<Post> GetPostsByUser()
         {
-            var curUser = GetCurrentUserInfo();
-            return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == curUser.id);
+            try
+            {
+                var curUser = GetCurrentUserInfo();
+                return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == curUser.id);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get user posts");
+            }
         }
 
         public PostWithParam GetPostWithParam(int id)
         {
-            var post = dBContext.Posts.Find(id);
-            var param = dBContext.PhotoParams.First(x => x.Id_post == id);
-            var postWithParam = new PostWithParam()
+            try
             {
-                photoParam = param,
-                post = post
-            };
-            return postWithParam;
+                var post = dBContext.Posts.Find(id);
+                var param = dBContext.PhotoParams.First(x => x.Id_post == id);
+                var postWithParam = new PostWithParam()
+                {
+                    photoParam = param,
+                    post = post
+                };
+                return postWithParam;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get post with param photo");
+            }
         }
 
         public ActionResultStatus SetLike(int id)
@@ -188,8 +232,9 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
@@ -208,8 +253,9 @@ namespace Astro.Services
                 }
                 return ActionResultStatus.Error;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }

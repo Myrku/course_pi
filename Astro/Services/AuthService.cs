@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,15 @@ namespace Astro.Services
 
         private User AuthUser(string username, string password)
         {
-            return dBContext.Users.SingleOrDefault(u => u.UserName == username && u.Password == GetHashPassword(password));
+            try
+            {
+                return dBContext.Users.SingleOrDefault(u => u.UserName == username && u.Password == GetHashPassword(password));
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed get user");
+            }
         }
 
         string GenerateJWTToken(User user)
@@ -66,17 +75,25 @@ namespace Astro.Services
 
         public AuthorizedUser Login(Login userForLogin)
         {
-            var user = AuthUser(userForLogin.UserName, userForLogin.Password);
-            if (user != null)
+            try
             {
-                return new AuthorizedUser()
+                var user = AuthUser(userForLogin.UserName, userForLogin.Password);
+                if (user != null)
                 {
-                    AccessToken = GenerateJWTToken(user),
-                    Username = user.UserName,
-                    Role = user.RoleId
-                };
+                    return new AuthorizedUser()
+                    {
+                        AccessToken = GenerateJWTToken(user),
+                        Username = user.UserName,
+                        Role = user.RoleId
+                    };
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return null;
+            }
         }
 
         public ActionResultStatus Register(Register registerUser)
@@ -93,26 +110,35 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
 
         public ActionResultStatus ResetPassword(string password, string newPassword)
         {
-            var user = dBContext.Users.FirstOrDefault(x => x.Id == GetCurrentUserInfo().id);
-            
-            if(user != null)
+            try
             {
-                if(user.Password == GetHashPassword(password))
+                var user = dBContext.Users.FirstOrDefault(x => x.Id == GetCurrentUserInfo().id);
+
+                if (user != null)
                 {
-                    user.Password = GetHashPassword(newPassword);
-                    dBContext.SaveChanges();
-                    return ActionResultStatus.Success;
+                    if (user.Password == GetHashPassword(password))
+                    {
+                        user.Password = GetHashPassword(newPassword);
+                        dBContext.SaveChanges();
+                        return ActionResultStatus.Success;
+                    }
                 }
+                return ActionResultStatus.Error;
             }
-            return ActionResultStatus.Error;
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return ActionResultStatus.Error;
+            }
         }
     }
 }

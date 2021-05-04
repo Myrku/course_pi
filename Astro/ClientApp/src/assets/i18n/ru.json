@@ -140,7 +140,9 @@
         },
         "Toast": {
             "SuccessAddCamera": "Камера успешно добавлена",
-            "ErrorAddCamera": "Ошибка при добавлении камеры"
+            "ErrorAddCamera": "Ошибка при добавлении камеры",
+            "PasswordChanged": "Пароль успешно изменен",
+            "PasswordChangeError": "Ошибка изменения пароля"
         }     
     }
 }

@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -39,8 +40,9 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }
@@ -54,9 +56,10 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
-            {
-                return ActionResultStatus.Error;
+            catch(Exception ex) 
+            { 
+                Logger.LogError(ex.Message, ex); 
+                return ActionResultStatus.Error; 
             }
         }
 
@@ -72,8 +75,9 @@ namespace Astro.Services
                 }
                 return posts;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return null;
             }
         }
@@ -85,9 +89,10 @@ namespace Astro.Services
                 var report = dBContext.Reports.Where(x => x.PostId == postId && x.UserId == GetCurrentUserInfo().id);
                 return report != null;
             }
-            catch
-            {
-                return false;
+            catch(Exception ex) 
+            { 
+                Logger.LogError(ex.Message, ex); 
+                return false; 
             }
         }
     }

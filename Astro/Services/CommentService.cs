@@ -1,4 +1,5 @@
-﻿using Astro.Models;
+﻿using Astro.Logging;
+using Astro.Models;
 using Astro.Models.Statuses;
 using Astro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -42,8 +43,9 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return Fill(comment);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return null;
             }
         }
@@ -73,7 +75,7 @@ namespace Astro.Services
             try
             {
                 var comment = dBContext.Comments.Find(editComment.CommentId);
-                if(comment != null)
+                if (comment != null)
                 {
                     comment.TextComment = editComment.CommentText;
                     dBContext.SaveChanges();
@@ -81,23 +83,30 @@ namespace Astro.Services
                 }
                 return ActionResultStatus.Error;
             }
-            catch
-            {
-                return ActionResultStatus.Error;
+            catch (Exception ex) 
+            { 
+                Logger.LogError(ex.Message, ex); 
+                return ActionResultStatus.Error; 
             }
         }
 
         public IEnumerable<CommentInfo> GetCommentsByPostId(int postId)
         {
-            var comments = dBContext.Comments.Where(x => x.PostId == postId).OrderByDescending(x => x.Date).ToList();
-            var commentsInfo = new List<CommentInfo>();
-            foreach (var comment in comments)
+            try
             {
-                commentsInfo.Add(Fill(comment));
+                var comments = dBContext.Comments.Where(x => x.PostId == postId).OrderByDescending(x => x.Date).ToList();
+                var commentsInfo = new List<CommentInfo>();
+                foreach (var comment in comments)
+                {
+                    commentsInfo.Add(Fill(comment));
+                }
+                return commentsInfo;
             }
-            return commentsInfo;
-
-            
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new Exception("Failed to get comments");
+            }
         }
         private CommentInfo Fill(Comment comment)
         {

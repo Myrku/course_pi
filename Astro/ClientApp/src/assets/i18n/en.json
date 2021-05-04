@@ -140,7 +140,9 @@
         },
         "Toast": {
             "SuccessAddCamera": "Camera added successfully",
-            "ErrorAddCamera": "Error adding camera"
+            "ErrorAddCamera": "Error adding camera",
+            "PasswordChanged": "Password changed successfully",
+            "PasswordChangeError": "Password change error"
         }           
     }
 }
