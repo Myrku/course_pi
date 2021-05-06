@@ -10,11 +10,13 @@ namespace Astro.Models
     {
         public int Id { get; set; }
         public int Id_post { get; set; }
-        public string camera { get; set; }
-        public string camera_lens { get; set; }
+        public string Camera { get; set; }
+        public string Camera_lens { get; set; }
         public string ISO { get; set; }
-        public string exposition { get; set; }
-        public string aperture { get; set; }
-        public string processing_photo { get; set; }
+        public string Exposition { get; set; }
+        public string Aperture { get; set; }
+        public string Processing_photo { get; set; }
+        public double? Lat_Location { get; set; }
+        public double? Lng_Location { get; set; }
     }
 }

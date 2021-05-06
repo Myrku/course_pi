@@ -151,7 +151,7 @@ namespace Astro.Services
             catch(Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get likes");
+                return null;
             }
         }
 
@@ -164,7 +164,7 @@ namespace Astro.Services
             catch(Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get next posts");
+                return null;
             }
         }
 
@@ -181,7 +181,7 @@ namespace Astro.Services
             catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get posts");
+                return null;
             }
         }
 
@@ -195,7 +195,7 @@ namespace Astro.Services
             catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get user posts");
+                return null;
             }
         }
 
@@ -215,7 +215,7 @@ namespace Astro.Services
             catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get post with param photo");
+                return null;
             }
         }
 

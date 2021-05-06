@@ -9,4 +9,6 @@ export class PhotoParam {
   exposition: string;
   aperture: string;
   processing_photo: string;
+  lat_Location: number;
+  lng_Location: number;
 }

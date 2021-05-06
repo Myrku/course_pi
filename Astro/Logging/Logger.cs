@@ -12,6 +12,8 @@ namespace Astro.Logging
         private static FileStream GetFileForSaveLog()
         {
             var path = $"logs/log_{DateTime.UtcNow:MM:dd:yyyy}.txt";
+            if (!Directory.Exists("logs"))
+                Directory.CreateDirectory("logs");
             if (!File.Exists(path)) 
                 return File.Create(path);
             return new FileStream(path, FileMode.Open);
@@ -42,9 +44,9 @@ namespace Astro.Logging
                     await writer.WriteLineAsync(text);
                 }
             }
-            catch(Exception ex)
+            catch()
             {
-                throw new Exception($"Error write logs: {ex.Message}");
+                return;
             }
         }
     }

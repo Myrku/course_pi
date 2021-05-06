@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import exifr from 'exifr';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AddPostInfo} from '../../models/AddPostInfo';
@@ -8,6 +8,7 @@ import {ReplaySubject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {PostTypes} from '../../models/Statuses/PostTypes';
+import * as mapboxgl from 'mapbox-gl';
 
 
 @Component({
@@ -26,14 +27,46 @@ export class AddPostComponent implements OnInit {
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
+
+  @ViewChild('mapElem', { static: false }) mapElem: ElementRef;
+  map: mapboxgl.Map;
+  marker: mapboxgl.Marker;
+  lat = 53.902287;
+  lng = 27.561824;
+  
   constructor(public spinner: NgxSpinnerService, private postService: PostService) {
   }
 
   ngOnInit() {
-
+    navigator.geolocation.getCurrentPosition((position)=>{
+      this.lat = position.coords.latitude;
+      this.lng = position.coords.longitude;
+    });
   }
 
-  onSelectFile(fileInput: any) {
+  ngAfterViewInit() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A';
+    this.map = new mapboxgl.Map({
+      container: this.mapElem.nativeElement,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      zoom: 12,
+      center: [this.lng, this.lat]
+    });
+    this.map.addControl(new mapboxgl.NavigationControl());
+
+    this.map.on('click', (e) => {this.AddMarker(e.lngLat)});
+  }
+
+  AddMarker(lngLat: any): void {
+    if(this.marker) {
+      this.marker.remove();
+    }
+    this.photoParam.lat_Location = lngLat.lat;
+    this.photoParam.lng_Location = lngLat.lng;
+    this.marker = new mapboxgl.Marker().setLngLat([lngLat.lng, lngLat.lat]).addTo(this.map);
+  }
+
+  onSelectFile(fileInput: any): void {
     this.file = <File>fileInput.target.files[0];
     this.fileName = this.file.name;
     const reader = new FileReader();
@@ -53,24 +86,18 @@ export class AddPostComponent implements OnInit {
     this.photoParam.processing_photo = `${allInfo.Software}`.includes('undefined') ? '' : `${allInfo.Software}`;
   }
 
-  uploadPost() {
+  uploadPost(): void {
     this.addPostInfo.photoParam = this.photoParam;
     const req = JSON.stringify(this.addPostInfo);
-    const f = new FormData();
-    f.append('postParam', req);
-    f.append('uploadFile', this.file);
+    const formData = new FormData();
+    formData.append('postParam', req);
+    formData.append('uploadFile', this.file);
     this.spinner.show('publishPost');
-    this.postService.addPost(f).pipe(
+    this.postService.addPost(formData).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       if (res === ActionResultStatus.Success) {
-        this.isSuccess = true;
-        this.isError = false;
-        this.addPostInfo = new AddPostInfo();
-        this.photoParam = new PhotoParam();
-        this.url = null;
-        this.fileName = null;
-
+        this.resetPostInfo();
       } else {
         this.isError = true;
         this.isSuccess = false;
@@ -79,4 +106,12 @@ export class AddPostComponent implements OnInit {
     }, error => this.spinner.hide('publishPost'));
   }
 
+  resetPostInfo(): void {
+    this.isSuccess = true;
+    this.isError = false;
+    this.addPostInfo = new AddPostInfo();
+    this.photoParam = new PhotoParam();
+    this.url = null;
+    this.fileName = null;
+  }
 }

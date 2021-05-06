@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Post} from '../../models/Post';
 import {PhotoParam} from '../../models/PhotoParam';
 import {AuthService} from '../../services/auth.service';
 import {PostService} from '../../services/post.service';
 import {takeUntil} from 'rxjs/operators';
-import {ReplaySubject} from 'rxjs';
+import {from, ReplaySubject} from 'rxjs';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {ReportService} from '../../services/report.service';
 import {ToastService} from '../../services/toast.service';
@@ -14,6 +14,7 @@ import {CreateComment} from '../../models/CreateComment';
 import {CommentInfo} from '../../models/CommentInfo';
 import {EditComment} from '../../models/EditComment';
 
+import * as mapboxgl from 'mapbox-gl';
 
 @Component({
   selector: 'app-post-info',
@@ -34,6 +35,12 @@ export class PostInfoComponent implements OnInit {
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
   @ViewChild('inputComment', {static: false}) inputCommentElem;
 
+  @ViewChild('mapElem', { static: false }) mapElem: ElementRef;
+  map: mapboxgl.Map;
+  marker: mapboxgl.Marker;
+  lat = 53.902287;
+  lng = 27.561824;
+
   constructor(private activateRoute: ActivatedRoute, private postService: PostService,
               private authService: AuthService, private reportService: ReportService,
               private toastService: ToastService, private commentService: CommentService) {
@@ -44,17 +51,33 @@ export class PostInfoComponent implements OnInit {
     this.GetPost();
     this.GetLikes();
     this.getComments();
+    
   }
 
-  GetPost() {
+  ngAfterViewInit() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A';
+    this.map = new mapboxgl.Map({
+      container: this.mapElem.nativeElement,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      zoom: 12,
+      center: [this.lng, this.lat]
+    });
+    this.map.addControl(new mapboxgl.NavigationControl());
+  }
+
+  GetPost(): void {
     this.postService.getPostById(this.id).subscribe(res => {
       this.postInfo = res.post;
       this.paramInfo = res.photoParam;
+      if(this.paramInfo.lat_Location && this.paramInfo.lng_Location) {
+        new mapboxgl.Marker().setLngLat([this.paramInfo.lng_Location, this.paramInfo.lat_Location]).addTo(this.map);
+        this.map.setCenter([this.paramInfo.lng_Location, this.paramInfo.lat_Location]);
+      }
       this.countNewLine = this.postInfo.description_post.match(/\n/g).length + 1;
     });
   }
 
-  LikeClick() {
+  LikeClick(): void {
     if (!this.isLike && this.authService.isAuth()) {
       this.postService.addLikeForPost(this.id).pipe(
         takeUntil(this.destroyed$),
@@ -67,7 +90,7 @@ export class PostInfoComponent implements OnInit {
     }
   }
 
-  UnLike() {
+  UnLike(): void {
     if (this.isLike && this.authService.isAuth()) {
       this.postService.deleteLikeForPost(this.id).pipe(
         takeUntil(this.destroyed$),
@@ -80,7 +103,7 @@ export class PostInfoComponent implements OnInit {
     }
   }
 
-  GetLikes() {
+  GetLikes(): void {
    this.postService.getLikesByPostId(this.id).pipe(
      takeUntil(this.destroyed$),
    ).subscribe(res => {
@@ -88,7 +111,7 @@ export class PostInfoComponent implements OnInit {
       this.countLikes = res.countLike;
     });
   }
-  AddReport() {
+  AddReport(): void {
     this.reportService.addReport(this.id).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
@@ -101,14 +124,14 @@ export class PostInfoComponent implements OnInit {
       }
     });
   }
-  getComments() {
+  getComments(): void {
     this.commentService.getComments(this.id).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       this.comments = res;
     });
   }
-  addComment() {
+  addComment(): void {
     if (this.isNewComment) {
       const createComment = new CreateComment();
       createComment.postId = this.id;

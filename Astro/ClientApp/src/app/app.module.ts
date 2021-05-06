@@ -35,7 +35,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 }
@@ -99,7 +98,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       },
       defaultLanguage: 'en',
-    })
+    }),
   ],
   providers: [{
     provide: SERVER_API_URL,

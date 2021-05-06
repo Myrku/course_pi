@@ -67,7 +67,6 @@ namespace Astro.Services
             {
                 return ActionResultStatus.Error;
             }
-            throw new NotImplementedException();
         }
 
         public ActionResultStatus EditComment(EditComment editComment)
@@ -105,7 +104,7 @@ namespace Astro.Services
             catch(Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed to get comments");
+                return null;
             }
         }
         private CommentInfo Fill(Comment comment)

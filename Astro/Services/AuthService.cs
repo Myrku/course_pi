@@ -45,7 +45,7 @@ namespace Astro.Services
             catch(Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
-                throw new Exception("Failed get user");
+                return null;
             }
         }
 

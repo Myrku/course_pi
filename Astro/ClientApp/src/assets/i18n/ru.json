@@ -47,7 +47,8 @@
         "SuccessPublish": "Успешная публикация",
         "ErrorPublish": "Ошибка публикации",
         "SpinnerText": "Публикация...",
-        "UploadBtn": "Опубликовать"
+        "UploadBtn": "Опубликовать",
+        "AddLocation": "Выберите место съемки"
     },
     "CardPost": {
         "MoreBtn": "Подробнее",

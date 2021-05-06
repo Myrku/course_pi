@@ -47,7 +47,8 @@
         "SuccessPublish": "Seccess publish",
         "ErrorPublish": "Error publish",
         "SpinnerText": "Publishing...",
-        "UploadBtn": "Publish"
+        "UploadBtn": "Publish",
+        "AddLocation": "Select the location of the photo "
     },
     "CardPost": {
         "MoreBtn": "More info",
