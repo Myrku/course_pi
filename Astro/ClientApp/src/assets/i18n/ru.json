@@ -107,6 +107,8 @@
     },
     "ReportsPage": {
         "Title": "Жалобы пользователей",
+        "ActiveReportBtn": "Астивные жалобы",
+        "NotActiveReportBtn": "Не активные жалобы",
         "SpinnerText": "Загрузка..."
     },
     "UsersListPage": {

@@ -44,7 +44,7 @@ namespace Astro.Logging
                     await writer.WriteLineAsync(text);
                 }
             }
-            catch()
+            catch
             {
                 return;
             }

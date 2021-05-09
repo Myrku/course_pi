@@ -20,10 +20,10 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show('loadingPage');
-    this.getReports();
+    this.getReports(true);
   }
-  getReports() {
-    this.reportService.getReports().pipe(
+  getReports(isActive: boolean) {
+    this.reportService.getReports(isActive).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       this.reportedPosts = res;

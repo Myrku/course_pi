@@ -63,8 +63,9 @@ namespace Astro.Services
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.LogError(ex.Message, ex);
                 return ActionResultStatus.Error;
             }
         }

@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {SERVER_API_URL} from '../app-injection-tokens';
 import {Observable} from 'rxjs';
 import {ActionResultStatus} from '../models/Statuses/ActionResultStatus';
@@ -19,7 +19,10 @@ export class ReportService {
   deleteReport(postId: number): Observable<ActionResultStatus> {
     return this.http.delete<ActionResultStatus>(`${this.apiUrl}api/report/delete-report/${postId}`);
   }
-  getReports(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.apiUrl}api/report/get-reports`);
+  getReports(isActive: boolean): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}api/report/get-reports?isActive=${isActive}`);
+  }
+  isReport(postId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}api/report/isReported/${postId}`)
   }
 }

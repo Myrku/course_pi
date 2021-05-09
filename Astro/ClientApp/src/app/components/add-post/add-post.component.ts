@@ -9,6 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {PostTypes} from '../../models/Statuses/PostTypes';
 import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class AddPostComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A';
+    mapboxgl.accessToken = environment.mapToken;
     this.map = new mapboxgl.Map({
       container: this.mapElem.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',

@@ -15,6 +15,7 @@ import {CommentInfo} from '../../models/CommentInfo';
 import {EditComment} from '../../models/EditComment';
 
 import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-post-info',
@@ -28,6 +29,7 @@ export class PostInfoComponent implements OnInit {
   paramInfo: PhotoParam;
   countNewLine: number;
   isLike = false;
+  isReported = false;
   countLikes: number;
   comments: CommentInfo[] = [];
   isNewComment = true;
@@ -51,11 +53,11 @@ export class PostInfoComponent implements OnInit {
     this.GetPost();
     this.GetLikes();
     this.getComments();
-    
+    this.isReportedPost();
   }
 
   ngAfterViewInit() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A';
+    mapboxgl.accessToken = environment.mapToken;
     this.map = new mapboxgl.Map({
       container: this.mapElem.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -111,6 +113,7 @@ export class PostInfoComponent implements OnInit {
       this.countLikes = res.countLike;
     });
   }
+
   AddReport(): void {
     this.reportService.addReport(this.id).pipe(
       takeUntil(this.destroyed$),
@@ -118,12 +121,22 @@ export class PostInfoComponent implements OnInit {
       if (res === ActionResultStatus.Success) {
         this.toastService.show(`Жалоба успешно отправлена`,
           { classname: 'bg-success text-light', delay: 3000 });
+          this.isReported = true;
       } else {
         this.toastService.show(`Ошибка при отправлении жалобы`,
           { classname: 'bg-danger text-light', delay: 3000 });
       }
     });
   }
+
+  isReportedPost(): void {
+    this.reportService.isReport(this.id).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe((res: boolean) => {
+      this.isReported = res;
+    })
+  }
+
   getComments(): void {
     this.commentService.getComments(this.id).pipe(
       takeUntil(this.destroyed$),
@@ -131,6 +144,7 @@ export class PostInfoComponent implements OnInit {
       this.comments = res;
     });
   }
+
   addComment(): void {
     if (this.isNewComment) {
       const createComment = new CreateComment();

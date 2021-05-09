@@ -1,9 +1,9 @@
-<div class="card shadow" style="height: 530px">
+<div class="card shadow" [ngClass]="{'height-Report': cardType == types.Report, 'height-def': cardType != types.Report}">
   <img class="card-img-top" [src]="post.url_photo" height="300px" alt="Card image cap">
   <div class="card-body d-flex flex-column">
     <h5 class="card-title font-weight-bold">{{post.title_post}}</h5>
     <p class="card-text">{{post.description_post}}</p>
-    <button *ngIf="cardType != types.Edit " type="button" class="btn btn-outline-dark mt-auto"
+    <button *ngIf="cardType != types.Edit " type="button" class="btn btn-outline-dark mt-auto mb-2"
             [routerLink]="['/post-info',post.id]">{{'CardPost.MoreBtn' | translate}}
     </button>
     <div class="row mt-auto" *ngIf="cardType == types.Edit">

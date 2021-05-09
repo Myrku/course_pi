@@ -8,6 +8,7 @@ import {takeUntil} from 'rxjs/operators';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {PostTypes} from '../../models/Statuses/PostTypes';
 import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class EditPostComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A';
+    mapboxgl.accessToken = environment.mapToken;
     this.map = new mapboxgl.Map({
       container: this.mapElem.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -69,7 +70,6 @@ export class EditPostComponent implements OnInit {
     this.postService.getPostById(this.id).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
-      console.log(res);
       this.postInfo = res.post;
       this.photoParam = res.photoParam;
       this.countnewline = this.postInfo.description_post.match(/\n/g).length + 1;

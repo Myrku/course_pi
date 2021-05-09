@@ -24,9 +24,16 @@ namespace Astro.Controllers
 
         [HttpGet]
         [Route(@"get-reports")]
-        public IEnumerable<Post> GetReports()
+        public IEnumerable<Post> GetReports(bool isActive)
         {
-            return reportService.GetReports();
+            return reportService.GetReports(isActive);
+        }
+
+        [HttpGet]
+        [Route(@"isReported/{postId}")]
+        public bool IsReportedPost(int postId)
+        {
+            return reportService.IsReported(postId);
         }
 
         [HttpPost]

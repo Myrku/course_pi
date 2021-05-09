@@ -34,7 +34,8 @@ namespace Astro.Services
                 var report = new Report()
                 {
                     PostId = postId,
-                    UserId = GetCurrentUserInfo().id
+                    UserId = GetCurrentUserInfo().id,
+                    IsActive = true
                 };
                 dBContext.Reports.Add(report);
                 dBContext.SaveChanges();
@@ -52,7 +53,10 @@ namespace Astro.Services
             try
             {
                 var reports = dBContext.Reports.Where(item => item.PostId == postId).ToList();
-                dBContext.Reports.RemoveRange(reports);
+                foreach (var report in reports)
+                {
+                    report.IsActive = false;
+                }
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
             }
@@ -63,11 +67,11 @@ namespace Astro.Services
             }
         }
 
-        public IEnumerable<Post> GetReports()
+        public IEnumerable<Post> GetReports(bool isActive)
         {
             try
             {
-                var postsReport = dBContext.Reports.GroupBy(x => x.PostId).Where(x => x.Count() >= 5).Select(x => x.Key).ToList();
+                var postsReport = dBContext.Reports.Where(x => x.IsActive == isActive).GroupBy(x => x.PostId).Where(x => x.Count() >= 5).Select(x => x.Key).ToList();
                 var posts = new List<Post>();
                 foreach (var postId in postsReport)
                 {
@@ -86,7 +90,7 @@ namespace Astro.Services
         {
             try
             {
-                var report = dBContext.Reports.Where(x => x.PostId == postId && x.UserId == GetCurrentUserInfo().id);
+                var report = dBContext.Reports.Where(x => x.PostId == postId && x.UserId == GetCurrentUserInfo().id).FirstOrDefault();
                 return report != null;
             }
             catch(Exception ex) 

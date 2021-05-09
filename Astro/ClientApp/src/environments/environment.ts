@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   serverApi: 'https://localhost:44361/',
-  tokenWhiteListdDomians: ['localhost']
+  tokenWhiteListdDomians: ['localhost'],
+  mapToken: 'pk.eyJ1IjoibXlya3UiLCJhIjoiY2tvYWJ3MjZ3MDVrbTJwcGcxY2tueTk0aCJ9.-GOaV30MQMTGWkO6V59c0A'
 };
 
 /*

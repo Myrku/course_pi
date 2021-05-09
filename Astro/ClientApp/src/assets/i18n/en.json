@@ -107,6 +107,8 @@
     },
     "ReportsPage": {
         "Title": "User reports",
+        "ActiveReportBtn": "Active reports",
+        "NotActiveReportBtn": "Not active reports",
         "SpinnerText": "Loading..."
     },
     "UsersListPage": {

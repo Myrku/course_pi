@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <h1 class="h1 text-center mt-sm-1">{{'PostInfoPage.Title' | translate}}
-        <a (click)="AddReport()"><i class="fas fa-exclamation-triangle"
+        <a *ngIf='!this.isReported' (click)="AddReport()"><i class="fas fa-exclamation-triangle"
                                     style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
       </h1>
     </div>

@@ -9,7 +9,7 @@ namespace Astro.Services.Interfaces
 {
     public interface IReportService
     {
-        IEnumerable<Post> GetReports();
+        IEnumerable<Post> GetReports(bool isActive);
         ActionResultStatus DeleteReport(int postId);
         ActionResultStatus AddReport(int postId);
         bool IsReported(int postId);

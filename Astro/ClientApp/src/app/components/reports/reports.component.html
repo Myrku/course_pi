@@ -17,6 +17,8 @@
       <p style="color: white"> {{'ReportsPage.SpinnerText' | translate}} </p>
     </ngx-spinner>
   </div>
+  <button class="btn btn-outline-dark mr-2" (click)="getReports(true)">{{'ReportsPage.ActiveReportBtn' | translate}}</button>
+  <button class="btn btn-outline-dark mr-2" (click)="getReports(false)">{{'ReportsPage.NotActiveReportBtn' | translate}}</button>
   <hr>
   <div class="row mt-2">
     <div class="col-md-4 p-2" *ngFor="let post of reportedPosts">
