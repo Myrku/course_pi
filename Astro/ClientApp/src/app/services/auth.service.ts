@@ -58,6 +58,10 @@ export class AuthService {
     return this.http.post<ActionResultStatus>(this.apiUrl + 'api/auth/register', newUser);
   }
 
+  verifyUser(verifyCode: string, userId: number): Observable<ActionResultStatus> {
+    return this.http.get<ActionResultStatus>(`${this.apiUrl}api/auth/verification?verifyCode=${verifyCode}&userId=${userId}`);
+  }
+
   getUsername(): string {
     return localStorage.getItem(USERNAME);
   }
@@ -65,6 +69,11 @@ export class AuthService {
   isAdmin(): boolean {
     const role = parseInt(localStorage.getItem(ROLEID), null);
     return role === Roles.Admin;
+  }
+
+  isModerator(): boolean {
+    const role = parseInt(localStorage.getItem(ROLEID), null);
+    return role === Roles.Moderator;
   }
 
   setLocale(locale: string): void {

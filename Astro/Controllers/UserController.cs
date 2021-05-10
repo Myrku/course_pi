@@ -34,5 +34,11 @@ namespace Astro.Controllers
         {
             return userService.SetCamera(cameraInfo);
         }
+
+        [HttpGet("get-user-camera")]
+        public CameraInfo GetUserCamera()
+        {
+            return userService.GetUserCamera();
+        }
     }
 }

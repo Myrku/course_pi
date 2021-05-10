@@ -19,4 +19,8 @@ export class UserService {
   setCamera(cameraInfo: CameraInfo): Observable<ActionResultStatus> {
     return this.http.post<ActionResultStatus>(`${this.apiUrl}api/user/set-camera`, cameraInfo);
   }
+
+  getCamera(): Observable<CameraInfo> {
+    return this.http.get<CameraInfo>(`${this.apiUrl}api/user/get-user-camera`);
+  }
 }

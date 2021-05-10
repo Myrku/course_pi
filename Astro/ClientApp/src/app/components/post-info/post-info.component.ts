@@ -34,6 +34,8 @@ export class PostInfoComponent implements OnInit {
   comments: CommentInfo[] = [];
   isNewComment = true;
   editableComment: CommentInfo;
+  userName: string;
+
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
   @ViewChild('inputComment', {static: false}) inputCommentElem;
 
@@ -71,6 +73,7 @@ export class PostInfoComponent implements OnInit {
     this.postService.getPostById(this.id).subscribe(res => {
       this.postInfo = res.post;
       this.paramInfo = res.photoParam;
+      this.userName = res.userName;
       if(this.paramInfo.lat_Location && this.paramInfo.lng_Location) {
         new mapboxgl.Marker().setLngLat([this.paramInfo.lng_Location, this.paramInfo.lat_Location]).addTo(this.map);
         this.map.setCenter([this.paramInfo.lng_Location, this.paramInfo.lat_Location]);

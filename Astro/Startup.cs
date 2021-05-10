@@ -13,6 +13,7 @@ using Astro.Services.Interfaces;
 using Astro.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
+using Astro.Services.MailService;
 
 namespace Astro
 {
@@ -34,13 +35,19 @@ namespace Astro
             var authoptions = Configuration.GetSection("Auth").Get<AuthOptions>();
             services.Configure<AuthOptions>(Configuration.GetSection("Auth"));
             services.Configure<BlobConfig>(Configuration.GetSection("BlobConfig"));
+            services.Configure<MailSenderConfig>(Configuration.GetSection("MailSender"));
+
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IUserService, UserService>();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IMailSender, MailSender>();
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

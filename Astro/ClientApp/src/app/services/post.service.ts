@@ -44,4 +44,7 @@ export class PostService {
   getPostsByType(type: PostTypes): Observable<Post[]> {
     return this.http.get<Post[]>( `${this.apiUrl}api/post/getposts/${type}`);
   }
+  getPostByUserId(userId: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}api/post/get-user-posts/${userId}`);
+  } 
 }

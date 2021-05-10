@@ -53,7 +53,14 @@ namespace Astro.Controllers
         [HttpGet]
         public IEnumerable<Post> GetPostsUser()
         {
-            return postService.GetPostsByUser();
+            return postService.GetPostsByCurUser();
+        }
+
+        [Route("get-user-posts/{userId}")]
+        [HttpGet]
+        public IEnumerable<Post> GetUserPosts(int userId)
+        {
+            return postService.GetPostsByUserId(userId);
         }
 
         [Route("deletepost/{id}")]

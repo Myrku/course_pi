@@ -9,7 +9,16 @@
   height: auto;
 }
 
- .match-parent {
+.match-parent {
   width: 100%;
   height: 700px;
+}
+
+.user-info {
+  border-bottom: 2px solid;
+  cursor: pointer;
+}
+
+.user-info:hover {
+  color: gray;
 }

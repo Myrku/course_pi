@@ -8,5 +8,6 @@ namespace Astro.Services.Interfaces
         AuthorizedUser Login(Login userForLogin);
         ActionResultStatus Register(Register registerUser);
         ActionResultStatus ResetPassword(string password, string newPassword);
+        ActionResultStatus VerifyUser(string verifyCode, int userId);
     }
 }

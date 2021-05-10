@@ -10,6 +10,7 @@ import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 import {PostTypes} from '../../models/Statuses/PostTypes';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -35,10 +36,12 @@ export class AddPostComponent implements OnInit {
   lat = 53.902287;
   lng = 27.561824;
   
-  constructor(public spinner: NgxSpinnerService, private postService: PostService) {
+  constructor(public spinner: NgxSpinnerService, private postService: PostService,
+    private userService: UserService) {
   }
 
   ngOnInit() {
+    this.getUserCamera();
     navigator.geolocation.getCurrentPosition((position)=>{
       this.lat = position.coords.latitude;
       this.lng = position.coords.longitude;
@@ -114,5 +117,16 @@ export class AddPostComponent implements OnInit {
     this.photoParam = new PhotoParam();
     this.url = null;
     this.fileName = null;
+  }
+
+  getUserCamera(): void {
+    this.userService.getCamera().pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if (res) {
+        this.photoParam.camera = res.camera;
+        this.photoParam.camera_lens = res.cameraLens;
+      }
+    });
   }
 }

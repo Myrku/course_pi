@@ -7,7 +7,8 @@ namespace Astro.Models
 {
     public class PostWithParam
     {
-        public Post post { get; set; }
-        public PhotoParam photoParam { get; set; }
+        public Post Post { get; set; }
+        public PhotoParam PhotoParam { get; set; }
+        public string UserName { get; set; }
     }
 }

@@ -5,6 +5,8 @@
         <a *ngIf='!this.isReported' (click)="AddReport()"><i class="fas fa-exclamation-triangle"
                                     style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
       </h1>
+      <hr>
+      <h4>{{'PostInfoPage.UserPrefix' | translate}}: <span class="user-info" [routerLink]="['/user-posts', postInfo.id_User]">{{userName}}</span></h4>
     </div>
   </div>
   <hr>

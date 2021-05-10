@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostInfoComponent } from './components/post-info/post-info.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
-import { AdminGuardGuard } from './guards/admin-guard.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -34,6 +34,9 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ReportGuard } from './guards/report.guard';
+import { UserPostsComponent } from './components/user-posts/user-posts.component';
+import { VerificationComponent } from './components/verification/verification.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -60,6 +63,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReportsComponent,
     CommentComponent,
     UserPageComponent,
+    UserPostsComponent,
+    VerificationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -78,9 +83,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: 'my-posts', component: MyPostsComponent, canActivate: [AuthGuard] },
       { path: 'post-info/:id', component: PostInfoComponent },
       { path: 'post-edit/:id', component: EditPostComponent, canActivate: [AuthGuard] },
-      { path: 'list-users', component: UsersListComponent, canActivate: [AdminGuardGuard] },
-      { path: 'reports', component: ReportsComponent, canActivate: [AdminGuardGuard] },
-      { path: 'user-info', component: UserPageComponent},
+      { path: 'list-users', component: UsersListComponent, canActivate: [AdminGuard] },
+      { path: 'reports', component: ReportsComponent, canActivate: [ReportGuard] },
+      { path: 'user-info', component: UserPageComponent, canActivate: [AuthGuard]},
+      { path: 'user-posts/:id', component: UserPostsComponent },
+      { path: 'verify', component: VerificationComponent }
     ]),
 
     JwtModule.forRoot({

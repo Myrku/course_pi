@@ -90,7 +90,8 @@
         "Processing": "Обработка",
         "Like": "Оценить",
         "CancelComment": "Отмена",
-        "AddComment": "Оставить комментарий"
+        "AddComment": "Оставить комментарий",
+        "UserPrefix": "Опубликованно пользователем"
     },
     "RegisterPage": {
         "Title": "Регистрация",
@@ -147,5 +148,14 @@
             "PasswordChanged": "Пароль успешно изменен",
             "PasswordChangeError": "Ошибка изменения пароля"
         }     
+    },
+    "UserPostsPage": {
+        "SpinnerText": "Загрузка...",
+        "UserPrefix": "Публикации пользователя",
+        "CountPosts": "Количество публикаций пользователя"
+    },
+    "VerificationPage": {
+        "Error": "Ошибка подтверждения  аккаунта, попробуйте снова",
+        "SpinnerText": "Подтвержение аккаунта"
     }
 }

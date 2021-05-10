@@ -11,5 +11,7 @@ namespace Astro.Services.Interfaces
     {
         UserPageContext GetContext();
         ActionResultStatus SetCamera(CameraInfo cameraInfo);
+        CameraInfo GetUserCamera();
+        string GetUserNameById(int userId);
     }
 }

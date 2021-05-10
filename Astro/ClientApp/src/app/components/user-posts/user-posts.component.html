@@ -1,0 +1,20 @@
+<div class="container">
+    <h3 class="mt-5">{{'UserPostsPage.UserPrefix' | translate}}: {{authService.getUsername()}}</h3>
+    <span class="h5">{{'UserPostsPage.CountPosts' | translate}}: {{userPosts.length}}</span>
+    <hr>
+    <div class="row pt-4">
+        <div class="col-md-4 p-2" *ngFor="let post of userPosts">
+            <app-card-post [data]="post" [cardType]="cardType"></app-card-post>
+        </div>
+    </div>
+
+    <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="large"
+    color="#581f87"
+    type="ball-pulse-sync"
+    [fullScreen]="true"
+    name="getUserPosts">
+    <p style="color: white">{{'UserPostsPage.SpinnerText' | translate}}</p>
+  </ngx-spinner>
+</div>

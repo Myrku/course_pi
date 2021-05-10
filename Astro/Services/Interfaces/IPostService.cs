@@ -12,7 +12,8 @@ namespace Astro.Services.Interfaces
         IEnumerable<Post> GetPosts(PostTypes type);
         IEnumerable<Post> GetNextPost(int id);
         PostWithParam GetPostWithParam(int id);
-        IEnumerable<Post> GetPostsByUser();
+        IEnumerable<Post> GetPostsByCurUser();
+        IEnumerable<Post> GetPostsByUserId(int userId);
         Task<ActionResultStatus> DeletePost(int id);
         ActionResultStatus EditPostWithoutPhoto(EditPost editPost);
         GetLikesResult GetLikes(int id);

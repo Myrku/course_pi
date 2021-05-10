@@ -185,12 +185,25 @@ namespace Astro.Services
             }
         }
 
-        public IEnumerable<Post> GetPostsByUser()
+        public IEnumerable<Post> GetPostsByCurUser()
         {
             try
             {
                 var curUser = GetCurrentUserInfo();
                 return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == curUser.id);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IEnumerable<Post> GetPostsByUserId(int userId)
+        {
+            try
+            {
+                return dBContext.Posts.OrderByDescending(x => x.Id).Where(x => x.Id_User == userId);
             }
             catch (Exception ex)
             {
@@ -205,10 +218,12 @@ namespace Astro.Services
             {
                 var post = dBContext.Posts.Find(id);
                 var param = dBContext.PhotoParams.First(x => x.Id_post == id);
+                var userName = dBContext.Users.FirstOrDefault(x => x.Id == post.Id_User).UserName;
                 var postWithParam = new PostWithParam()
                 {
-                    photoParam = param,
-                    post = post
+                    PhotoParam = param,
+                    Post = post,
+                    UserName = userName
                 };
                 return postWithParam;
             }

@@ -39,5 +39,11 @@ namespace Astro.Controllers
         {
             return authService.ResetPassword(password, newPassword);
         }
+
+        [HttpGet("verification")]
+        public ActionResultStatus VerificationUser(string verifyCode, int userId)
+        {
+            return authService.VerifyUser(verifyCode, userId);
+        }
     }
 }

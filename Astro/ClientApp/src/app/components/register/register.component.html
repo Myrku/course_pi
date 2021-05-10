@@ -20,7 +20,7 @@
                     {{'RegisterPage.Req' | translate}}
                   </div>
                   <div *ngIf="_username.hasError('minlength')">
-                    {{'RegisterPage.UsernameError' | translate}}
+                    {{'RegisterPage.Error.UsernameError' | translate}}
                   </div>
                 </div>
               </div>
@@ -34,7 +34,7 @@
                     {{'RegisterPage.Req' | translate}}
                   </div>
                   <div *ngIf="_email.hasError('email')">
-                    {{'RegisterPage.EmailError' | translate}}
+                    {{'RegisterPage.Error.EmailError' | translate}}
                   </div>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                       {{'RegisterPage.Req' | translate}}
                     </div>
                     <div *ngIf="_password.hasError('minlength')">
-                      {{'RegisterPage.PasswordError' | translate}}
+                      {{'RegisterPage.Error.PasswordError' | translate}}
                     </div>
                   </div>
                 </div>

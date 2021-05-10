@@ -98,5 +98,34 @@ namespace Astro.Services
                 return ActionResultStatus.Error;
             }
         }
+
+        public string GetUserNameById(int userId)
+        {
+            try
+            {
+                var userName = dBContext.Users.FirstOrDefault(x => x.Id == userId).UserName;
+                return userName;
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public CameraInfo GetUserCamera()
+        {
+            try
+            {
+                var userId = GetCurrentUserInfo().id;
+                var cameraInfo = dBContext.CameraInfos.FirstOrDefault(x => x.IdUser == userId);
+                return cameraInfo;
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

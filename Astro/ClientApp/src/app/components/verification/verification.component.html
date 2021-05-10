@@ -1,0 +1,11 @@
+<h3 *ngIf="showError" class="text-center">{{'VerificationPage.Error' | translate}}</h3>
+
+<ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="large"
+    color="#581f87"
+    type="ball-pulse-sync"
+    [fullScreen]="true"
+    name="getUserPosts">
+    <p style="color: white">{{'VerificationPage.SpinnerText' | translate}}</p>
+  </ngx-spinner>

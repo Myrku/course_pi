@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
 
 
   login(loginData) {
-    const body = new FormData();
     this.authService.login(loginData.username.toString(), loginData.password.toString()).subscribe(res => {
       this.router.navigate(['']);
       this.showNav();

@@ -90,7 +90,8 @@
         "Processing": "Processing",
         "Like": "Like",
         "CancelComment": "Cansel",
-        "AddComment": "Add comment"
+        "AddComment": "Add comment",
+        "UserPrefix": "Published by"
     },
     "RegisterPage": {
         "Title": "Sign up",
@@ -147,5 +148,14 @@
             "PasswordChanged": "Password changed successfully",
             "PasswordChangeError": "Password change error"
         }           
+    },
+    "UserPostsPage": {
+        "SpinnerText": "Loading...",
+        "UserPrefix": "Posts by user",
+        "CountPosts": "Number of user posts"
+    },
+    "VerificationPage": {
+        "Error": "Account verification error, please try again",
+        "SpinnerText": "Account verification"
     }
 }
