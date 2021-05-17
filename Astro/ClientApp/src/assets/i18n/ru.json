@@ -11,7 +11,7 @@
         "LogOutBtn": "Выйти"
     },
     "PostTypes" : {
-        "AllPosts": "Все посты",
+        "AllPosts": "Все публикации",
         "DeepSky": "Глубокий космос",
         "SolarSys": "Солнечная система",
         "LandScape": "Пейзаж",
@@ -88,7 +88,7 @@
         "Exposition": "Выдержка",
         "Aperture": "Апертура",
         "Processing": "Обработка",
-        "Like": "Оценить",
+        "Like": "Мне нравится",
         "CancelComment": "Отмена",
         "AddComment": "Оставить комментарий",
         "UserPrefix": "Опубликованно пользователем"
@@ -113,12 +113,13 @@
         "SpinnerText": "Загрузка..."
     },
     "UsersListPage": {
+        "Title": "Назначение модераторов",
         "Search": "Поиск",
         "UsernameInp": "Введите имя пользователя",
         "Username": "Имя пользователя",
         "Action": "Действие",
-        "SetModerBtn": "Добавить модератора",
-        "DeleteMOderBtn": "Удалить модератора"
+        "SetModerBtn": "Назначить модератором",
+        "DeleteMOderBtn": "Убрать с роли модератора"
     },
     "UserPage": {
         "Title": "Информация пользователя:",

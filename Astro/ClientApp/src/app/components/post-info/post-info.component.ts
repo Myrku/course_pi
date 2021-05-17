@@ -27,7 +27,6 @@ export class PostInfoComponent implements OnInit {
   id: number;
   postInfo: Post;
   paramInfo: PhotoParam;
-  countNewLine: number;
   isLike = false;
   isReported = false;
   countLikes: number;
@@ -77,8 +76,9 @@ export class PostInfoComponent implements OnInit {
       if(this.paramInfo.lat_Location && this.paramInfo.lng_Location) {
         new mapboxgl.Marker().setLngLat([this.paramInfo.lng_Location, this.paramInfo.lat_Location]).addTo(this.map);
         this.map.setCenter([this.paramInfo.lng_Location, this.paramInfo.lat_Location]);
+      } else {
+        this.mapElem.nativeElement.style.display = 'none';
       }
-      this.countNewLine = this.postInfo.description_post.match(/\n/g).length + 1;
     });
   }
 

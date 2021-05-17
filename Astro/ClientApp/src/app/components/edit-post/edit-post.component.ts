@@ -22,12 +22,11 @@ export class EditPostComponent implements OnInit {
   url;
   photoParam = new PhotoParam();
   isError = false;
-  countnewline: number;
   postInfo = new Post();
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
 
-  @ViewChild('descArea', {static: false}) textarea: ElementRef;
+  @ViewChild('description', {static: false}) descriptionInp: ElementRef;
   @ViewChild('mapElem', { static: false }) mapElem: ElementRef;
   map: mapboxgl.Map;
   marker: mapboxgl.Marker;
@@ -72,8 +71,9 @@ export class EditPostComponent implements OnInit {
     ).subscribe((res) => {
       this.postInfo = res.post;
       this.photoParam = res.photoParam;
-      this.countnewline = this.postInfo.description_post.match(/\n/g).length + 1;
       this.url = this.postInfo.url_photo;
+      this.descriptionInp.nativeElement.innerText = this.postInfo.description_post;
+
       if(this.photoParam.lat_Location && this.photoParam.lng_Location) {
         this.marker = new mapboxgl.Marker().setLngLat([this.photoParam.lng_Location, this.photoParam.lat_Location]).addTo(this.map);
         this.map.setCenter([this.photoParam.lng_Location, this.photoParam.lat_Location]);
@@ -83,7 +83,7 @@ export class EditPostComponent implements OnInit {
   }
 
   UploadChanges() {
-    console.log(this.postInfo);
+    this.postInfo.description_post = this.descriptionInp.nativeElement.innerText;
     this.postService.editPost(this.postInfo, this.photoParam).subscribe((res) => {
       if (res === ActionResultStatus.Success) {
         this.router.navigate(['my-posts']);

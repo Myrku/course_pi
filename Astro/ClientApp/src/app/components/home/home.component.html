@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="search-results"
        infiniteScroll
        [infiniteScrollDistance]="2"
@@ -16,7 +16,7 @@
       </ngx-spinner>
     </div>
     <div>
-      <div class="row mt-2">
+      <div class="row mt-2 text-center">
         <div class="col">
         <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.NoType)">{{'PostTypes.AllPosts' | translate}}</button>
         <button class="btn btn-outline-dark mr-2" (click)="gePostByType(postType.DeepSky)">{{'PostTypes.DeepSky' | translate}}</button>
@@ -27,7 +27,7 @@
       <hr>
     </div>
     <div class="row mt-2">
-      <div class="col-md-4 p-2" *ngFor="let post of allPosts">
+      <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of allPosts">
         <app-card-post [data]="post" [cardType]="cardType" (onDeleted)="onDeleted(post.id)"></app-card-post>
       </div>
     </div>

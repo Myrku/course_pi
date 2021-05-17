@@ -173,7 +173,7 @@ namespace Astro.Services
         {
             var md5 = MD5.Create();
             var codeBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(DateTime.Now.ToString()));
-            var code = BitConverter.ToString(codeBytes);
+            var code = Convert.ToBase64String(codeBytes);
             return code;
         }
     }

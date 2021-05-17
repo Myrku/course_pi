@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container-fluid">
   <h1 class="h1 text-center">{{'MyPostsPage.Title' | translate}}</h1>
   <hr>
   <div class="row pt-4">
-    <div class="col-md-4 p-2" *ngFor="let post of myPosts">
+    <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of myPosts">
       <app-card-post [data]="post" [cardType]="cardType" (onDeleted)="onDeleted(post.id)"></app-card-post>
     </div>
   </div>

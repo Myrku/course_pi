@@ -5,3 +5,8 @@
 .height-def {
     height: 530px;
 }
+
+.max-width {
+    min-width: 330px;
+    max-width: 370px;
+}

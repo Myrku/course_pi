@@ -4,6 +4,7 @@ import {CommentInfo} from '../../models/CommentInfo';
 import {CommentService} from '../../services/comment.service';
 import {takeUntil} from 'rxjs/operators';
 import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -12,7 +13,7 @@ import {ActionResultStatus} from '../../models/Statuses/ActionResultStatus';
 })
 export class CommentComponent implements OnInit {
 
-  constructor(private commentService: CommentService) { }
+  constructor(private commentService: CommentService, private authService: AuthService) { }
   private destroyed$ = new ReplaySubject<void>();
 
   @Input() commentInfo: CommentInfo;
@@ -21,6 +22,11 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  get adminOrModer(): boolean {
+    return this.authService.isAdmin() || this.authService.isModerator();
+  }
+
   deleteComment() {
     this.commentService.deleteComment(this.commentInfo.commentId).pipe(
       takeUntil(this.destroyed$),

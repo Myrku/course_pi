@@ -113,12 +113,13 @@
         "SpinnerText": "Loading..."
     },
     "UsersListPage": {
+        "Title": "Set moderators",
         "Search": "Search",
         "UsernameInp": "Username",
         "Username": "Username",
         "Action": "Action",
-        "SetModerBtn": "Add moderator",
-        "DeleteMOderBtn": "Remove moderator"
+        "SetModerBtn": "Appoint as a moderator",
+        "DeleteMOderBtn": "Remove role moderator"
     },
     "UserPage": {
         "Title": "User information: ",

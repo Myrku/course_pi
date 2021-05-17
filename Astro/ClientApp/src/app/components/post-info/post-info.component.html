@@ -1,95 +1,95 @@
-<div class="container mb-5">
-  <div class="row">
+<div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col d-flex align-items-center">
+      <h5>{{'PostInfoPage.UserPrefix' | translate}}: <span class="user-info"
+          [routerLink]="['/user-posts', postInfo?.id_User]">{{userName}}</span></h5>
+    </div>
     <div class="col">
-      <h1 class="h1 text-center mt-sm-1">{{'PostInfoPage.Title' | translate}}
-        <a *ngIf='!this.isReported' (click)="AddReport()"><i class="fas fa-exclamation-triangle"
-                                    style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
-      </h1>
-      <hr>
-      <h4>{{'PostInfoPage.UserPrefix' | translate}}: <span class="user-info" [routerLink]="['/user-posts', postInfo.id_User]">{{userName}}</span></h4>
+      <h1 class="h1 text-center">{{'PostInfoPage.Title' | translate}}</h1>
+    </div>
+    <div class="col d-flex align-items-center h1 justify-content-end">
+      <a *ngIf='!this.isReported' (click)="AddReport()"><i class="fas fa-exclamation-triangle"
+          style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
     </div>
   </div>
   <hr>
-  <div class="input-group">
-  </div>
-  <div class="text-center">
-    <img src="{{postInfo.url_photo}}" class="img-fluid mt-sm-4" *ngIf="postInfo">
-  </div>
-  <div class="mt-5" *ngIf="postInfo">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">{{'PostInfoPage.PostName' | translate}}</span>
+</div>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-xl-8">
+      <div class="text-center">
+        <img src="{{postInfo.url_photo}}" class="img-fluid image" *ngIf="postInfo">
       </div>
-      <input type="text" class="form-control bg-white" readonly value="{{postInfo.title_post}}">
     </div>
-    <div class="input-group mt-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">{{'PostInfoPage.PostDesc' | translate}}</span>
-      </div>
-      <div style="white-space: pre-line; height: auto" class="form-control bg-white">{{postInfo.description_post}}</div>
-    </div>
+    <div class="col-xl-4 mt-lg-3 mt-sm-3 mt-md-3 mt-3 mt-xl-0 d-flex flex-column justify-content-between">
 
-    <div class="row mt-3" *ngIf="paramInfo">
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.Camera' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera}}">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.PostName' | translate}}</span>
         </div>
+        <input type="text" class="form-control bg-white" readonly value="{{postInfo?.title_post}}">
       </div>
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.CameraLens' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.camera_lens}}">
-        </div>
-      </div>
-    </div>
 
-    <div class="row mt-3">
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.Iso' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.iso}}">
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.PostDesc' | translate}}</span>
         </div>
+        <div style="white-space: pre-line; height: auto" class="form-control bg-white">{{postInfo?.description_post}}</div>
       </div>
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.Exposition' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.exposition}}">
-        </div>
-      </div>
-    </div>
 
-    <div class="row mt-3">
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.Aperture' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.aperture}}">
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.Camera' | translate}}</span>
         </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.camera}}">
       </div>
-      <div class="col-12 col-lg-6">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">{{'PostInfoPage.Processing' | translate}}</span>
-          </div>
-          <input type="text" class="form-control bg-white" readonly value="{{paramInfo.processing_photo}}">
+
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.CameraLens' | translate}}</span>
         </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.camera_lens}}">
       </div>
+
+
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.Iso' | translate}}</span>
+        </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.iso}}">
+      </div>
+
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.Exposition' | translate}}</span>
+        </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.exposition}}">
+      </div>
+
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.Aperture' | translate}}</span>
+        </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.aperture}}">
+      </div>
+
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{'PostInfoPage.Processing' | translate}}</span>
+        </div>
+        <input type="text" class="form-control bg-white" readonly value="{{paramInfo?.processing_photo}}">
+      </div>
+
+
+      <div #mapElem class="map mt-2"></div>
+
     </div>
   </div>
+</div>
+
+<div class="container">
 
   <hr>
-  <div #mapElem class="match-parent"></div>
-  <hr/>
   <div class="row text-center justify-content-center align-items-center h4">
     {{'PostInfoPage.Like' | translate}}
     <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
@@ -100,21 +100,23 @@
     </div>
     {{countLikes}}
   </div>
-  <hr/>
+  <hr />
 
   <div *ngFor="let comment of comments">
     <div class="mb-3">
       <app-comment [commentInfo]="comment" (onDeleted)="deleteComment(comment.commentId, $event)"
-                   (onEdit)="editComment(comment, $event)"></app-comment>
+        (onEdit)="editComment(comment, $event)"></app-comment>
     </div>
   </div>
 
   <hr>
-  <div class="inp-comment">
+  <div class="inp-comment mb-5">
     <div #inputComment contenteditable="true" class="form-control"></div>
     <div class="d-flex justify-content-end mt-2">
-      <button class="btn btn-outline-danger" (click)="cancelComment()">{{'PostInfoPage.CancelComment' | translate}}</button>
-      <button class="btn btn-outline-success ml-3" (click)="addComment()">{{'PostInfoPage.AddComment' | translate}}</button>
+      <button class="btn btn-outline-danger" (click)="cancelComment()">{{'PostInfoPage.CancelComment' |
+        translate}}</button>
+      <button class="btn btn-outline-success ml-3" (click)="addComment()">{{'PostInfoPage.AddComment' |
+        translate}}</button>
     </div>
   </div>
   <app-toast aria-live="polite" aria-atomic="true"></app-toast>

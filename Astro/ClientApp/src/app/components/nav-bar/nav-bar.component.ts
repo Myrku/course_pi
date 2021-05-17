@@ -18,6 +18,10 @@ export class NavBarComponent {
     return this.authService.isAdmin();
   }
 
+  public get isModer(): boolean {
+    return this.authService.isModerator();
+  }
+
   public get locale(): string {
     return this.authService.getLocale();
   }

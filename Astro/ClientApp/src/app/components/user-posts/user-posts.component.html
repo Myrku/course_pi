@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container-fluid">
     <h3 class="mt-5">{{'UserPostsPage.UserPrefix' | translate}}: {{authService.getUsername()}}</h3>
-    <span class="h5">{{'UserPostsPage.CountPosts' | translate}}: {{userPosts.length}}</span>
+    <span class="h5">{{'UserPostsPage.CountPosts' | translate}}: {{userPosts?.length}}</span>
     <hr>
     <div class="row pt-4">
-        <div class="col-md-4 p-2" *ngFor="let post of userPosts">
+        <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of userPosts">
             <app-card-post [data]="post" [cardType]="cardType"></app-card-post>
         </div>
     </div>
