@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { Post } from 'src/app/models/Post';
 import { ActionResultStatus } from 'src/app/models/Statuses/ActionResultStatus';
+import { CardTypes } from 'src/app/models/Statuses/CardTypes';
 import { UserPageContext } from 'src/app/models/UserPageContext';
 import { AuthService } from 'src/app/services/auth.service';
+import { PostService } from 'src/app/services/post.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -29,8 +32,11 @@ export class UserPageComponent implements OnInit {
   password: string;
   newPassword: string;
 
+  userLikesPosts: Post[];
+  cardType = CardTypes.Info;
+
   constructor(private authService: AuthService, private userService: UserService,
-    private toastService: ToastService, private translateService: TranslateService) { 
+    private toastService: ToastService, private translateService: TranslateService, private postService: PostService) { 
   }
   
   ngOnInit(): void {
@@ -38,7 +44,17 @@ export class UserPageComponent implements OnInit {
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       this.context = res;
+      let hideChart = true;
+      for (let index = 0; index < res.chartInfo.length; index++) {
+        if(res.chartInfo[index].value > 0) {
+          hideChart = false;
+        }
+      }
+      if(hideChart) {
+        this.context = null;
+      }
     });
+    this.getUserLikesPosts();
   }
 
   get getUsername(): string {
@@ -77,6 +93,17 @@ export class UserPageComponent implements OnInit {
         toastText.pipe(takeUntil(this.destroyed$)).subscribe((tr) => {
           this.toastService.show(tr, { classname: 'bg-danger text-light', delay: 3000 });
         });
+      }
+    })
+  }
+
+  getUserLikesPosts(): void {
+    this.postService.getLikePostsCurUser().pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if(res) {
+        console.log(res);
+        this.userLikesPosts = res;
       }
     })
   }

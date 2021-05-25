@@ -12,6 +12,5 @@ namespace Astro.Models
         public int UserId { get; set; }
         public string TextComment { get; set; }
         public DateTime Date { get; set; }
-
     }
 }

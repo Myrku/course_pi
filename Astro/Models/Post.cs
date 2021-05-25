@@ -14,6 +14,5 @@ namespace Astro.Models
         public string Description_post { get; set; }
         public string Url_photo { get; set; }
         public PostTypes PostTypeId { get; set; }
-        public string Tags_Json { get; set; }
     }
 }

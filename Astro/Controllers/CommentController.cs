@@ -13,7 +13,6 @@ namespace Astro.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentService;
@@ -31,6 +30,7 @@ namespace Astro.Controllers
 
         [HttpPost]
         [Route("add-comment")]
+        [Authorize]
         public CommentInfo AddComment(CreateComment comment)
         {
             return commentService.AddCommentToPost(comment);
@@ -38,6 +38,7 @@ namespace Astro.Controllers
 
         [HttpPut]
         [Route(@"edit-comment")]
+        [Authorize]
         public ActionResultStatus EditComment(EditComment editComment)
         {
             return commentService.EditComment(editComment);
@@ -45,6 +46,7 @@ namespace Astro.Controllers
 
         [HttpDelete]
         [Route(@"delete-comment/{commentId}")]
+        [Authorize]
         public ActionResultStatus DeleteComment(int commentId)
         {
             return commentService.DeleteCommentById(commentId);

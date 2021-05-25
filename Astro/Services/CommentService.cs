@@ -21,11 +21,18 @@ namespace Astro.Services
             this.dBContext = dBContext;
             this.httpContextAccessor = httpContextAccessor;
         }
-        private (int id, string name) GetCurrentUserInfo()
+        private (int? id, string? name) GetCurrentUserInfo()
         {
-            var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
-            return (id, name);
+            try
+            {
+                var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+                return (id, name);
+            }
+            catch
+            {
+                return (null, null);
+            }
         }
         public CommentInfo AddCommentToPost(CreateComment createComment)
         {
@@ -33,7 +40,7 @@ namespace Astro.Services
             {
                 var comment = new Comment()
                 {
-                    UserId = GetCurrentUserInfo().id,
+                    UserId = GetCurrentUserInfo().id.Value,
                     Date = DateTime.UtcNow,
                     PostId = createComment.PostId,
                     TextComment = createComment.TextComment
@@ -117,7 +124,7 @@ namespace Astro.Services
                 PostId = comment.PostId,
                 Date = comment.Date.ToString(),
                 Username = dBContext.Users.Find(comment.UserId).UserName,
-                IsMyComment = comment.UserId == GetCurrentUserInfo().id
+                IsMyComment = GetCurrentUserInfo().id.HasValue ? comment.UserId == GetCurrentUserInfo().id.Value : false,
             };
         }
     }

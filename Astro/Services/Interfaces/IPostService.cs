@@ -10,6 +10,7 @@ namespace Astro.Services.Interfaces
     {
         Task<ActionResultStatus> AddPost(string paramPost, IFormFile file);
         IEnumerable<Post> GetPosts(PostTypes type);
+        IEnumerable<Post> GetLikesPostByCurUser();
         IEnumerable<Post> GetNextPost(int id);
         PostWithParam GetPostWithParam(int id);
         IEnumerable<Post> GetPostsByCurUser();

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,15 @@ namespace Astro.Services.MailService
     public class MailSender : IMailSender
     {
         private MailSenderConfig mailConfug;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private const string DisplayMailName = "Astro";
         private const string SubjectMail = "Verification account";
-        private const string UrlTemplate = @"https://localhost:44361/verify?code={0}&userId={1}";
+        private const string UrlTemplate = @"https://{0}/verify?code={1}&userId={2}";
 
-        public MailSender(IOptions<MailSenderConfig> _mailConfug)
+        public MailSender(IOptions<MailSenderConfig> _mailConfug, IHttpContextAccessor _httpContextAccessor)
         {
             mailConfug = _mailConfug.Value;
+            httpContextAccessor = _httpContextAccessor;
         }
         public async Task Send(string userMail, string verifyCode, int userId)
         {
@@ -25,7 +28,7 @@ namespace Astro.Services.MailService
 
             try
             {
-                var verifyUrl = String.Format(UrlTemplate, verifyCode, userId);
+                var verifyUrl = String.Format(UrlTemplate, httpContextAccessor.HttpContext.Request.Host.Value, verifyCode, userId);
                 var from = new MailAddress(mailConfug.Login, DisplayMailName);
                 var to = new MailAddress(userMail);
                 var mail = new MailMessage(from, to)

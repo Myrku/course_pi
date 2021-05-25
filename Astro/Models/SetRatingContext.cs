@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Astro.Models
 {
-    public class ChartInfo
+    public class SetRatingContext
     {
-        public string Name { get; set; }
-        public double Value { get; set; }
+        public int PostId { get; set; }
+        public int Rating { get; set; }
     }
 }

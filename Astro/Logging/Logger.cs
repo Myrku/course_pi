@@ -12,13 +12,11 @@ namespace Astro.Logging
         private const string dirName = "logs";
         private static FileStream GetFileForSaveLog()
         {
-            var path = $"{dirName}/log_{DateTime.UtcNow:MM:dd:yyyy}.txt";
+            var path = $"{dirName}\\log_{DateTime.UtcNow:MM_dd_yyyy}.txt";
             if (!Directory.Exists(dirName))
-                Directory.CreateDirectory("logs");
+                Directory.CreateDirectory(dirName);
 
-            if (!File.Exists(path)) 
-                return File.Create(path);
-            return new FileStream(path, FileMode.Open);
+            return new FileStream(path, FileMode.OpenOrCreate);
         }
 
         public static async void LogError(string message, Exception exception = null)

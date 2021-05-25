@@ -27,7 +27,7 @@ namespace Astro.Services
             var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
             return (id, name);
         }
-        public ActionResultStatus AddReport(int postId)
+        public ActionResultStatus AddReport(int postId, ReportTypes reportType)
         {
             try
             {
@@ -35,6 +35,7 @@ namespace Astro.Services
                 {
                     PostId = postId,
                     UserId = GetCurrentUserInfo().id,
+                    ReportType = reportType,
                     IsActive = true
                 };
                 dBContext.Reports.Add(report);
@@ -67,11 +68,21 @@ namespace Astro.Services
             }
         }
 
-        public IEnumerable<Post> GetReports(bool isActive)
+        public IEnumerable<Post> GetReports(bool isActive, ReportTypes? reportType)
         {
             try
             {
-                var postsReport = dBContext.Reports.Where(x => x.IsActive == isActive).GroupBy(x => x.PostId).Where(x => x.Count() >= 5).Select(x => x.Key).ToList();
+                var postsReport = new List<int>();
+                if (!reportType.HasValue)
+                {
+                    postsReport = dBContext.Reports.Where(x => x.IsActive == isActive).GroupBy(x => x.PostId).Where(x => x.Count() >= 5).Select(x => x.Key).ToList();
+                }
+                
+                if(reportType.HasValue)
+                {
+                    postsReport = dBContext.Reports.Where(x => x.IsActive == isActive && x.ReportType == reportType.Value).GroupBy(x => x.PostId).Where(x => x.Count() >= 5).Select(x => x.Key).ToList();
+                }
+
                 var posts = new List<Post>();
                 foreach (var postId in postsReport)
                 {

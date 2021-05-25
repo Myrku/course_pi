@@ -14,6 +14,7 @@ namespace Astro.Controllers
         {
             this.authService = authService;
         }
+
         [Route("login")]
         [HttpPost]
         public IActionResult Login ([FromForm] Login user)

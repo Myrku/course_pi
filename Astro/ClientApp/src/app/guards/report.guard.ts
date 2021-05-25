@@ -11,7 +11,8 @@ export class ReportGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {
   }
   canActivate(): boolean {
-    if (!this.authService.isAdmin() || !this.authService.isModerator()) {
+    const adminOrModer = this.authService.isAdmin() || this.authService.isModerator();
+    if (!adminOrModer) {
       this.router.navigate(['']);
     }
     return true;

@@ -16,6 +16,9 @@ import {EditComment} from '../../models/EditComment';
 
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { RatingService } from 'src/app/services/rating.service';
+import { PostRatingContext } from 'src/app/models/PostRatingContext';
+import { ReportTypes } from 'src/app/models/Statuses/ReportTypes';
 
 @Component({
   selector: 'app-post-info',
@@ -24,7 +27,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PostInfoComponent implements OnInit {
 
-  id: number;
+  postId: number;
   postInfo: Post;
   paramInfo: PhotoParam;
   isLike = false;
@@ -34,6 +37,8 @@ export class PostInfoComponent implements OnInit {
   isNewComment = true;
   editableComment: CommentInfo;
   userName: string;
+  ratingContext = new PostRatingContext();
+  reportType = ReportTypes;
 
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
   @ViewChild('inputComment', {static: false}) inputCommentElem;
@@ -46,8 +51,9 @@ export class PostInfoComponent implements OnInit {
 
   constructor(private activateRoute: ActivatedRoute, private postService: PostService,
               private authService: AuthService, private reportService: ReportService,
-              private toastService: ToastService, private commentService: CommentService) {
-    this.id = parseInt(activateRoute.snapshot.params['id'], 0);
+              private toastService: ToastService, private commentService: CommentService, private ratingServise: RatingService) {
+    this.postId = parseInt(activateRoute.snapshot.params['id'], 0);
+    this.ratingContext.curUserRating = 0;
   }
 
   ngOnInit() {
@@ -55,6 +61,7 @@ export class PostInfoComponent implements OnInit {
     this.GetLikes();
     this.getComments();
     this.isReportedPost();
+    this.getPostRating();
   }
 
   ngAfterViewInit() {
@@ -69,7 +76,7 @@ export class PostInfoComponent implements OnInit {
   }
 
   GetPost(): void {
-    this.postService.getPostById(this.id).subscribe(res => {
+    this.postService.getPostById(this.postId).subscribe(res => {
       this.postInfo = res.post;
       this.paramInfo = res.photoParam;
       this.userName = res.userName;
@@ -84,7 +91,7 @@ export class PostInfoComponent implements OnInit {
 
   LikeClick(): void {
     if (!this.isLike && this.authService.isAuth()) {
-      this.postService.addLikeForPost(this.id).pipe(
+      this.postService.addLikeForPost(this.postId).pipe(
         takeUntil(this.destroyed$),
       ).subscribe((res) => {
         if (res === ActionResultStatus.Success) {
@@ -97,7 +104,7 @@ export class PostInfoComponent implements OnInit {
 
   UnLike(): void {
     if (this.isLike && this.authService.isAuth()) {
-      this.postService.deleteLikeForPost(this.id).pipe(
+      this.postService.deleteLikeForPost(this.postId).pipe(
         takeUntil(this.destroyed$),
       ).subscribe((res) => {
         if (res === ActionResultStatus.Success) {
@@ -109,16 +116,18 @@ export class PostInfoComponent implements OnInit {
   }
 
   GetLikes(): void {
-   this.postService.getLikesByPostId(this.id).pipe(
-     takeUntil(this.destroyed$),
-   ).subscribe(res => {
-      this.isLike = res.isLike;
-      this.countLikes = res.countLike;
+    this.postService.getLikesByPostId(this.postId).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if (res) {
+        this.isLike = res.isLike;
+        this.countLikes = res.countLike;
+      }
     });
   }
 
-  AddReport(): void {
-    this.reportService.addReport(this.id).pipe(
+  AddReport(type: ReportTypes): void {
+    this.reportService.addReport(this.postId, type).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       if (res === ActionResultStatus.Success) {
@@ -133,15 +142,17 @@ export class PostInfoComponent implements OnInit {
   }
 
   isReportedPost(): void {
-    this.reportService.isReport(this.id).pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe((res: boolean) => {
-      this.isReported = res;
-    })
+    if (this.authService.isAuth()) {
+      this.reportService.isReport(this.postId).pipe(
+        takeUntil(this.destroyed$)
+      ).subscribe((res: boolean) => {
+        this.isReported = res;
+      });
+    }
   }
 
   getComments(): void {
-    this.commentService.getComments(this.id).pipe(
+    this.commentService.getComments(this.postId).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       this.comments = res;
@@ -151,7 +162,7 @@ export class PostInfoComponent implements OnInit {
   addComment(): void {
     if (this.isNewComment) {
       const createComment = new CreateComment();
-      createComment.postId = this.id;
+      createComment.postId = this.postId;
       createComment.textComment = this.inputCommentElem.nativeElement.innerText;
       this.commentService.addComment(createComment).pipe(
         takeUntil(this.destroyed$),
@@ -185,6 +196,7 @@ export class PostInfoComponent implements OnInit {
       });
     }
   }
+
   editComment(comment: CommentInfo, event) {
     if (event) {
       this.editableComment = comment;
@@ -192,11 +204,13 @@ export class PostInfoComponent implements OnInit {
       this.inputCommentElem.nativeElement.innerText = comment.textComment;
     }
   }
-  cancelComment() {
+
+  cancelComment(): void {
     this.inputCommentElem.nativeElement.innerText = '';
     this.inputCommentElem.nativeElement.focused = false;
   }
-  deleteComment(commentId: number, event: boolean) {
+
+  deleteComment(commentId: number, event: boolean): void {
     if (event) {
       this.comments = this.comments.filter(x => x.commentId !== commentId);
       this.toastService.show(`Комментарий успешно удален`,
@@ -204,6 +218,29 @@ export class PostInfoComponent implements OnInit {
     } else {
       this.toastService.show(`Ошибка при удалении комментария`,
         { classname: 'bg-danger text-light', delay: 3000 });
+    }
+  }
+
+  getPostRating(): void {
+    this.ratingServise.getPostRating(this.postId).pipe(
+      takeUntil(this.destroyed$),
+    ).subscribe((res) => {
+      if (res) {
+        this.ratingContext = res;
+        if (!this.ratingContext.curUserRating) {
+          this.ratingContext.curUserRating = 0;
+        }
+      }
+    });
+  }
+
+  setPostRating(): void {
+    if (this.ratingContext.curUserRating && this.authService.isAuth()) {
+      this.ratingServise.setPostRating(this.postId, this.ratingContext.curUserRating).pipe(
+        takeUntil(this.destroyed$),
+      ).subscribe((res) => {
+        this.ratingContext = res;
+      });
     }
   }
 }

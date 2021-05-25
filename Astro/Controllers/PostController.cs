@@ -13,10 +13,12 @@ namespace Astro.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        IPostService postService;
-        public PostController(IPostService postService)
+        readonly IPostService postService;
+        readonly IRatingService ratingService;
+        public PostController(IPostService postService, IRatingService ratingService)
         {
             this.postService = postService;
+            this.ratingService = ratingService;
         }
 
         [Route("addpost")]
@@ -63,6 +65,13 @@ namespace Astro.Controllers
             return postService.GetPostsByUserId(userId);
         }
 
+        [Route("get-user-likes-posts")]
+        [HttpGet]
+        public IEnumerable<Post> GetCurUserLiksPots()
+        {
+            return postService.GetLikesPostByCurUser();
+        }
+
         [Route("deletepost/{id}")]
         [HttpDelete]
         public async Task<ActionResultStatus> DeletePost(int id)
@@ -87,6 +96,7 @@ namespace Astro.Controllers
 
         [Route("setlike/{id}")]
         [HttpGet]
+        [Authorize]
         public ActionResultStatus SetLike(int id)
         {
             return postService.SetLike(id);
@@ -94,9 +104,24 @@ namespace Astro.Controllers
 
         [Route("unlike/{id}")]
         [HttpGet]
+        [Authorize]
         public ActionResultStatus UnLike(int id)
         {
             return postService.UnLike(id);
+        }
+
+        [Route("getrating/{postId}")]
+        [HttpGet]
+        public PostRatingContext GetPostRating(int postId)
+        {
+            return ratingService.GetPostRating(postId);
+        }
+
+        [Route("setrating")]
+        [HttpPost]
+        public PostRatingContext SetPostRating(SetRatingContext ratingContext)
+        {
+            return ratingService.SetPostRating(ratingContext.PostId, ratingContext.Rating);
         }
     }
 }

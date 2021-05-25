@@ -48,13 +48,14 @@
         "ErrorPublish": "Error publish",
         "SpinnerText": "Publishing...",
         "UploadBtn": "Publish",
-        "AddLocation": "Select the location of the photo "
+        "AddLocation": "Select the location of the photo",
+        "FileBtn": "Browse"
     },
     "CardPost": {
         "MoreBtn": "More info",
         "EditBtn": "Edit",
         "RemovePostBtn": "Remove post",
-        "RemoveReportsBtn": "Remove reports"
+        "RemoveReportsBtn": "Deactive reports"
     },
     "Comment": {
         "UserPrefix": "User",
@@ -91,7 +92,15 @@
         "Like": "Like",
         "CancelComment": "Cansel",
         "AddComment": "Add comment",
-        "UserPrefix": "Published by"
+        "UserPrefix": "Published by",
+        "UserRating": "Your rating",
+        "GenRating": "General rating",
+        "Report": {
+            "Content": "Report on content",
+            "Comment": "Report on comment",
+            "NotOriginal": "Not original content",
+            "Other": "Other"
+        }
     },
     "RegisterPage": {
         "Title": "Sign up",
@@ -110,6 +119,10 @@
         "Title": "User reports",
         "ActiveReportBtn": "Active reports",
         "NotActiveReportBtn": "Not active reports",
+        "Content": "Reports on content",
+        "Comment": "Reports on comment",
+        "NotOriginal": "Reports on not original content",
+        "Other": "Other reports",
         "SpinnerText": "Loading..."
     },
     "UsersListPage": {
@@ -126,6 +139,7 @@
         "PubPosts": "Published posts: ",
         "Likes": "All likes: ",
         "Reports": "Reports on my posts: ",
+        "LikesPosts": "Likes posts",
         "Password": {
             "Title": "Change password",
             "Old": "Old password",

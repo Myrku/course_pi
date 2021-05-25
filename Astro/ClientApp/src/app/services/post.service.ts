@@ -47,4 +47,7 @@ export class PostService {
   getPostByUserId(userId: number): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.apiUrl}api/post/get-user-posts/${userId}`);
   } 
+  getLikePostsCurUser(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.apiUrl}api/post/get-user-likes-posts`);
+  }
 }

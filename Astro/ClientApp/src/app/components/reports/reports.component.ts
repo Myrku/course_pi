@@ -5,6 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {CardTypes} from '../../models/Statuses/CardTypes';
 import {Post} from '../../models/Post';
 import {NgxSpinnerService} from 'ngx-spinner';
+import { ReportTypes } from 'src/app/models/Statuses/ReportTypes';
 
 @Component({
   selector: 'app-reports',
@@ -17,13 +18,14 @@ export class ReportsComponent implements OnInit {
   private destroyed$ = new ReplaySubject<void>();
   cardType = CardTypes.Report;
   reportedPosts: Post[] = [];
+  reportType = ReportTypes;
 
   ngOnInit() {
     this.spinner.show('loadingPage');
-    this.getReports(true);
+    this.getReports(true, null);
   }
-  getReports(isActive: boolean) {
-    this.reportService.getReports(isActive).pipe(
+  getReports(isActive: boolean, type: ReportTypes) {
+    this.reportService.getReports(isActive, type).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       this.reportedPosts = res;

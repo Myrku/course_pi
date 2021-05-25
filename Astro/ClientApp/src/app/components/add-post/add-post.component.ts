@@ -28,6 +28,7 @@ export class AddPostComponent implements OnInit {
   isError = false;
   postType = PostTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
+  browseBtnLable: string;
 
 
   @ViewChild('mapElem', { static: false }) mapElem: ElementRef;

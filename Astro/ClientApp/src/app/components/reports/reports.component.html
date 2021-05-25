@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <!--  <div class="search-results"-->
   <!--       infiniteScroll-->
   <!--       [infiniteScrollDistance]="2"-->
@@ -17,11 +17,23 @@
       <p style="color: white"> {{'ReportsPage.SpinnerText' | translate}} </p>
     </ngx-spinner>
   </div>
-  <button class="btn btn-outline-dark mr-2" (click)="getReports(true)">{{'ReportsPage.ActiveReportBtn' | translate}}</button>
-  <button class="btn btn-outline-dark mr-2" (click)="getReports(false)">{{'ReportsPage.NotActiveReportBtn' | translate}}</button>
+  <div class="text-center">
+    <button class="btn btn-outline-dark mr-2" (click)="getReports(true, null)">{{'ReportsPage.ActiveReportBtn' |
+      translate}}</button>
+    <button class="btn btn-outline-dark mr-2" (click)="getReports(false, null)">{{'ReportsPage.NotActiveReportBtn' |
+      translate}}</button>
+    <button class="btn btn-outline-dark mr-2" (click)="getReports(true, reportType.Content)">{{'ReportsPage.Content' |
+      translate}}</button>
+    <button class="btn btn-outline-dark mr-2" (click)="getReports(true, reportType.Comment)">{{'ReportsPage.Comment' |
+      translate}}</button>
+    <button class="btn btn-outline-dark mr-2"
+      (click)="getReports(true, reportType.NotOriginalContent)">{{'ReportsPage.NotOriginal' | translate}}</button>
+    <button class="btn btn-outline-dark mr-2" (click)="getReports(true, reportType.Other)">{{'ReportsPage.Other' |
+      translate}}</button>
+  </div>
   <hr>
   <div class="row mt-2">
-    <div class="col-md-4 p-2" *ngFor="let post of reportedPosts">
+    <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of reportedPosts">
       <app-card-post [data]="post" [cardType]="cardType" (onDeleted)="onDeleted(post.id)"></app-card-post>
     </div>
   </div>

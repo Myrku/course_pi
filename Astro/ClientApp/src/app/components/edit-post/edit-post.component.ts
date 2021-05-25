@@ -18,8 +18,8 @@ import { environment } from 'src/environments/environment';
 })
 export class EditPostComponent implements OnInit {
 
-  id;
-  url;
+  id: number;
+  url: string;
   photoParam = new PhotoParam();
   isError = false;
   postInfo = new Post();

@@ -48,13 +48,14 @@
         "ErrorPublish": "Ошибка публикации",
         "SpinnerText": "Публикация...",
         "UploadBtn": "Опубликовать",
-        "AddLocation": "Выберите место съемки"
+        "AddLocation": "Выберите место съемки",
+        "FileBtn": "Обзор"
     },
     "CardPost": {
         "MoreBtn": "Подробнее",
         "EditBtn": "Изменить",
         "RemovePostBtn": "Удалить пост",
-        "RemoveReportsBtn": "Удалить жалобы"
+        "RemoveReportsBtn": "Деактивировать жалобы"
     },
     "Comment": {
         "UserPrefix": "Пользователь",
@@ -91,7 +92,15 @@
         "Like": "Мне нравится",
         "CancelComment": "Отмена",
         "AddComment": "Оставить комментарий",
-        "UserPrefix": "Опубликованно пользователем"
+        "UserPrefix": "Опубликованно пользователем",
+        "UserRating": "Ваша оценка",
+        "GenRating": "Общий рейтинг",
+        "Report": {
+            "Content": "Пожаловаться на содержание",
+            "Comment": "Пожаловаться на комментарий",
+            "NotOriginal": "Не оригинальный контент",
+            "Other": "Другое"
+        }
     },
     "RegisterPage": {
         "Title": "Регистрация",
@@ -108,8 +117,12 @@
     },
     "ReportsPage": {
         "Title": "Жалобы пользователей",
-        "ActiveReportBtn": "Астивные жалобы",
+        "ActiveReportBtn": "Активные жалобы",
         "NotActiveReportBtn": "Не активные жалобы",
+        "Content": "Жалобы на содержание",
+        "Comment": "Жалобы на комментарий",
+        "NotOriginal": "Жалобы на не оригинальный контент",
+        "Other": "Другие жалобы",
         "SpinnerText": "Загрузка..."
     },
     "UsersListPage": {
@@ -126,6 +139,7 @@
         "PubPosts": "Количество публикаций:",
         "Likes": "Количество всех лайков:",
         "Reports": "Количество жалоб на мои публикации:",
+        "LikesPosts": "Понравившееся публикации",
         "Password": {
             "Title": "Изменение пароля",
             "Old": "Старый пароль",

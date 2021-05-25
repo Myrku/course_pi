@@ -24,9 +24,9 @@ namespace Astro.Controllers
 
         [HttpGet]
         [Route(@"get-reports")]
-        public IEnumerable<Post> GetReports(bool isActive)
+        public IEnumerable<Post> GetReports(bool isActive, ReportTypes? reportType)
         {
-            return reportService.GetReports(isActive);
+            return reportService.GetReports(isActive, reportType);
         }
 
         [HttpGet]
@@ -37,10 +37,10 @@ namespace Astro.Controllers
         }
 
         [HttpPost]
-        [Route(@"add-report")]
-        public ActionResultStatus AddReport([FromBody]int postId)
+        [Route(@"add-report/{postId}/{reportType}")]
+        public ActionResultStatus AddReport(int postId, ReportTypes reportType)
         {
-            return reportService.AddReport(postId);
+            return reportService.AddReport(postId, reportType);
         }
 
         [HttpDelete]

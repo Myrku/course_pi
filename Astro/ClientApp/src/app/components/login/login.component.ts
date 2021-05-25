@@ -33,8 +33,12 @@ export class LoginComponent implements OnInit {
 
   login(loginData) {
     this.authService.login(loginData.username.toString(), loginData.password.toString()).subscribe(res => {
-      this.router.navigate(['']);
-      this.showNav();
+      if (res) {
+        this.router.navigate(['']);
+        this.showNav();
+      } else {
+        this.isError = true;
+      }
     }, error => {
       this.isError = true;
     });

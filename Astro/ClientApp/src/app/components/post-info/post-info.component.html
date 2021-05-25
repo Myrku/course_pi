@@ -7,9 +7,16 @@
     <div class="col">
       <h1 class="h1 text-center">{{'PostInfoPage.Title' | translate}}</h1>
     </div>
-    <div class="col d-flex align-items-center h1 justify-content-end">
-      <a *ngIf='!this.isReported' (click)="AddReport()"><i class="fas fa-exclamation-triangle"
-          style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i></a>
+    <div class="col d-flex align-items-center h1 justify-content-end btn-group">
+      <a *ngIf='!this.isReported' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-exclamation-triangle"
+          style="color: #f44336; cursor: pointer" title="Отправить жалобу"></i>
+      </a>
+      <div class="dropdown-menu">
+        <button class="btn dropdown-item" (click)="AddReport(reportType.Content)">{{'PostInfoPage.Report.Content' | translate}}</button>
+        <button class="btn dropdown-item" (click)="AddReport(reportType.Comment)">{{'PostInfoPage.Report.Comment' | translate}}</button>
+        <button class="btn dropdown-item" (click)="AddReport(reportType.NotOriginalContent)">{{'PostInfoPage.Report.NotOriginal' | translate}}</button>
+        <button class="btn dropdown-item" (click)="AddReport(reportType.Other)">{{'PostInfoPage.Report.Other' | translate}}</button>
+      </div>
     </div>
   </div>
   <hr>
@@ -90,17 +97,45 @@
 <div class="container">
 
   <hr>
-  <div class="row text-center justify-content-center align-items-center h4">
-    {{'PostInfoPage.Like' | translate}}
-    <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
-      <i class="far fa-heart fa-2x like"></i>
+
+  <div class="row">
+    <div class="col-5">
+      <div class="d-flex align-items-center justify-content-start">
+        <b class="h4 mt-2">{{'PostInfoPage.UserRating' | translate}}:</b>
+        <ngb-rating [(rate)]="ratingContext.curUserRating" [starTemplate]="t" [max]="5" (rateChange)="setPostRating()">
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.full]="fill === 100">
+              <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+            </span>
+          </ng-template>
+        </ngb-rating>
+      </div>
     </div>
-    <div *ngIf="isLike" (click)="UnLike()" class="ml-3 mr-3">
-      <i class="fas fa-heart fa-2x like isLike"></i>
+  
+  
+    <div class="col d-flex align-items-center h4">
+      {{'PostInfoPage.GenRating' | translate}}: {{ratingContext?.generalRating}}
+      <span class="star" class="fill">
+        <span class="half">&#9733;</span>&#9733;
+      </span>
     </div>
-    {{countLikes}}
+  
+    <div class="d-flex align-items-center col">
+      <div class="d-flex align-items-center justify-content-end h4">
+        {{'PostInfoPage.Like' | translate}}
+        <div *ngIf="!isLike" (click)="LikeClick()" class="ml-3 mr-3">
+          <i class="far fa-heart fa-2x like"></i>
+        </div>
+        <div *ngIf="isLike" (click)="UnLike()" class="ml-3 mr-3">
+          <i class="fas fa-heart fa-2x like isLike"></i>
+        </div>
+        {{countLikes}}
+      </div>
+    </div>
+  
   </div>
-  <hr />
+
+  <hr *ngIf="comments?.length > 0">
 
   <div *ngFor="let comment of comments">
     <div class="mb-3">

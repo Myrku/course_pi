@@ -58,7 +58,7 @@
                        value="{{'RegisterPage.RegisterBtn' | translate}}" [disabled]="!registerForm.valid">
                 <a class="d-block text-center mt-2 text-" [routerLink]="['/login']"><u>{{'RegisterPage.LoginBtn' | translate}}</u></a>
               <div class="alert" [class.alert-success]="isRegister" [class.alert-danger]="isNotRegister" *ngIf="isRegister || isNotRegister">
-                <p *ngIf="isRegister">Успешная решистрация</p>
+                <p *ngIf="isRegister">Успешная решистрация, на вашу почту отправлено письмо с для подтверждения</p>
                 <p *ngIf="isNotRegister">Ошибка решистрации</p>
               </div>
             </form>

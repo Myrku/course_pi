@@ -43,6 +43,7 @@ namespace Astro
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRatingService, RatingService>();
             services.AddTransient<IMailSender, MailSender>();
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();

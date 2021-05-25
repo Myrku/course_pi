@@ -46,11 +46,15 @@ namespace Astro.Services
                 for (int i = 0; i < userPosts.Count; i++)
                 {
                     var postLikes = dBContext.Likes.Where(x => x.Id_Post == userPosts[i].Id).Count();
+
+                    var postRatings = dBContext.Ratings.Where(x => x.IdPost == userPosts[i].Id);
+                    double generalRating = postRatings.Count() > 0 ? Math.Round((double)postRatings.Sum(x => x.RatingValue) / (double)postRatings.Count(), 2, MidpointRounding.AwayFromZero) : 0;
+
                     likesCount += postLikes;
                     chartInfo.Add(new ChartInfo()
                     {
                         Name = userPosts[i].Title_post,
-                        Value = postLikes
+                        Value = generalRating
                     });
                 }
 

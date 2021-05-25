@@ -54,9 +54,20 @@
         </div>
     </div>
     <hr>
-    <ngx-charts-bar-vertical *ngIf='context.chartInfo' class="font-weight-bold" [results]="context.chartInfo" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
-        [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="'UserPage.Chart.xLabel' | translate" [yAxisLabel]="'UserPage.Chart.yLabel' | translate">
-    </ngx-charts-bar-vertical>
+    <div class="row" *ngIf='context.chartInfo && context.chartInfo.length > 0'>
+        <ngx-charts-bar-vertical  class="font-weight-bold"
+            [results]="context.chartInfo" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+            [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="'UserPage.Chart.xLabel' | translate" [yAxisLabel]="'UserPage.Chart.yLabel' | translate">
+        </ngx-charts-bar-vertical>
+    </div>
+    <hr>
+    <h4 class="text-center">{{'UserPage.LikesPosts' | translate}}</h4>
+    <div class="row pt-4">
+        <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of userLikesPosts">
+            <app-card-post [data]="post" [cardType]="cardType"></app-card-post>
+        </div>
+    </div>
+
     <app-toast aria-live="polite" aria-atomic="true"></app-toast>
 </div>

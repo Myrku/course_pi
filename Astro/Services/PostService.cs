@@ -27,11 +27,18 @@ namespace Astro.Services
             this.dBContext = dBContext;
             this.httpContextAccessor = httpContextAccessor;
         }
-        private (int id, string name) GetCurrentUserInfo()
+        private (int? id, string? name) GetCurrentUserInfo()
         {
-            var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
-            return (id, name);
+            try
+            {
+                var id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var name = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+                return (id, name);
+            }
+            catch
+            {
+                return (null, null);
+            }
         }
         public async Task<ActionResultStatus> AddPost(string paramPost, IFormFile file)
         {
@@ -54,7 +61,7 @@ namespace Astro.Services
                     {
                         Post post = new Post()
                         {
-                            Id_User = curUser.id,
+                            Id_User = curUser.id.Value,
                             Title_post = upload.title_post,
                             Description_post = upload.description_post,
                             Url_photo = upload_url,
@@ -101,6 +108,8 @@ namespace Astro.Services
                     var likes = dBContext.Likes.Where(x => x.Id_Post == post.Id);
                     dBContext.Likes.RemoveRange(likes);
                     dBContext.Posts.Remove(post);
+                    var ratings = dBContext.Ratings.Where(x => x.IdPost == post.Id);
+                    dBContext.Ratings.RemoveRange(ratings);
                     dBContext.SaveChanges();
                     transaction.Commit();
                 }
@@ -141,7 +150,11 @@ namespace Astro.Services
             {
                 var curUser = GetCurrentUserInfo();
                 var likes = dBContext.Likes.Where(x => x.Id_Post == id).ToList();
-                bool isLike = likes.Find(x => x.Id_User == curUser.id) != null;
+                bool isLike = false;
+                if (curUser.id.HasValue)
+                {
+                    isLike = likes.Find(x => x.Id_User == curUser.id) != null;
+                }
                 return new GetLikesResult()
                 {
                     IsLike = isLike,
@@ -199,6 +212,32 @@ namespace Astro.Services
             }
         }
 
+        public IEnumerable<Post> GetLikesPostByCurUser()
+        {
+            try
+            {
+                var curUser = GetCurrentUserInfo();
+                var likes = dBContext.Likes.Where(x => x.Id_User == curUser.id.Value).ToList();
+                var likesPosts = new List<Post>();
+                
+                foreach (var like in likes)
+                {
+                    var post = dBContext.Posts.FirstOrDefault(x => x.Id == like.Id_Post);
+                    if (post != null)
+                    {
+                        likesPosts.Add(post);
+                    }
+                }
+
+                return likesPosts;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IEnumerable<Post> GetPostsByUserId(int userId)
         {
             try
@@ -242,7 +281,7 @@ namespace Astro.Services
                 dBContext.Likes.Add(new Like()
                 {
                     Id_Post = id,
-                    Id_User = curUser.id
+                    Id_User = curUser.id.Value
                 });
                 dBContext.SaveChanges();
                 return ActionResultStatus.Success;
