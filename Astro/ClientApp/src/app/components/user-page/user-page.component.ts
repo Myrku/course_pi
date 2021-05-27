@@ -102,7 +102,6 @@ export class UserPageComponent implements OnInit {
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       if(res) {
-        console.log(res);
         this.userLikesPosts = res;
       }
     })
