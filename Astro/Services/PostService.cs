@@ -105,11 +105,19 @@ namespace Astro.Services
                     string blobName = new CloudBlockBlob(new Uri(post.Url_photo)).Name;
                     var targetBlob = blobContainer.GetBlockBlobReference(blobName);
                     await targetBlob.DeleteIfExistsAsync();
+
                     var likes = dBContext.Likes.Where(x => x.Id_Post == post.Id);
                     dBContext.Likes.RemoveRange(likes);
-                    dBContext.Posts.Remove(post);
                     var ratings = dBContext.Ratings.Where(x => x.IdPost == post.Id);
                     dBContext.Ratings.RemoveRange(ratings);
+                    var reports = dBContext.Reports.Where(x => x.PostId == post.Id);
+                    dBContext.Reports.RemoveRange(reports);
+                    var photoParam = dBContext.PhotoParams.Where(x => x.Id_post == post.Id);
+                    dBContext.PhotoParams.RemoveRange(photoParam);
+                    var comments = dBContext.Comments.Where(x => x.PostId == post.Id);
+                    dBContext.Comments.RemoveRange(comments);
+
+                    dBContext.Posts.Remove(post);
                     dBContext.SaveChanges();
                     transaction.Commit();
                 }

@@ -48,3 +48,18 @@
   overflow: hidden;
   color: red;
 }
+
+@media (max-width: 572px) {
+  .rating-block {
+    display: block;
+  }
+
+  .map {
+    height: 300px;
+  }
+
+  .image {
+    width: auto;
+    height: auto;
+  }
+}

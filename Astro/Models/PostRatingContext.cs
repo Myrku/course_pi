@@ -8,8 +8,8 @@ namespace Astro.Models
 {
     public class PostRatingContext
     {
-        public ActionResultStatus Status { get; set; }
         public int CurUserRating { get; set; }
         public double GeneralRating { get; set; }
+        public ActionResultStatus Status { get; set; }
     }
 }

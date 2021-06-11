@@ -1,7 +1,7 @@
 export class CameraInfo {
     id: number;
-    camera: string;
-    cameraLens: string;
+    camera: string = '';
+    cameraLens: string = '';
 }
 
 export class ChartInfo {

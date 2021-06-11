@@ -17,6 +17,7 @@ export class CardPostComponent implements OnInit {
   @Input() data;
   post = new Post();
   @Input() cardType;
+  @Input() IsActiveReport: boolean;
   types = CardTypes;
   private destroyed$: ReplaySubject<void> = new ReplaySubject<void>();
   @Output() onDeleted = new EventEmitter<boolean>();

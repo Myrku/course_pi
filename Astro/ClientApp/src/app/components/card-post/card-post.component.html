@@ -15,7 +15,7 @@
                                             style="color: #f44336" id="btn_del"></i></a>
       </div>
     </div>
-    <div class="row mt-auto" *ngIf="cardType == types.Report">
+    <div class="row mt-auto" *ngIf="cardType == types.Report && IsActiveReport">
       <div class="col">
         <button type="button" class="btn btn-outline-success btn-block" (click)="DeleteReports(post.id)">{{'CardPost.RemoveReportsBtn' | translate}}</button>
       </div>

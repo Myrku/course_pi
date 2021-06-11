@@ -56,6 +56,10 @@ export class PostInfoComponent implements OnInit {
     this.ratingContext.curUserRating = 0;
   }
 
+  get IsAuth(): boolean {
+    return this.authService.isAuth();
+  }
+
   ngOnInit() {
     this.GetPost();
     this.GetLikes();

@@ -19,6 +19,7 @@ export class ReportsComponent implements OnInit {
   cardType = CardTypes.Report;
   reportedPosts: Post[] = [];
   reportType = ReportTypes;
+  IsActiveReport = true;
 
   ngOnInit() {
     this.spinner.show('loadingPage');
@@ -30,6 +31,9 @@ export class ReportsComponent implements OnInit {
     ).subscribe((res) => {
       this.reportedPosts = res;
       this.spinner.hide('loadingPage');
+      if(!isActive) {
+        this.IsActiveReport = false;
+      }
     }, error => this.spinner.hide('loadingPage'));
   }
   onDeleted(id: number) {

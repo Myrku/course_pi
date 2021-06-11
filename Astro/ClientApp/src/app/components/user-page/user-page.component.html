@@ -41,22 +41,22 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text">{{'UserPage.Camera.CameraName' | translate}}</span>
                     </div>
-                    <input type="text" class="form-control" [(ngModel)]='context.cameraInfo.camera' >
+                    <input type="text" class="form-control" [(ngModel)]='cameraInfo.camera' >
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">{{'UserPage.Camera.CameraLens' | translate}}</span>
                     </div>
-                    <input type="text" class="form-control" [(ngModel)]='context.cameraInfo.cameraLens'>
+                    <input type="text" class="form-control" [(ngModel)]='cameraInfo.cameraLens'>
                 </div>
                 <button class="btn btn-success text-uppercase form-control" (click)='saveCamera()'>{{'UserPage.Camera.SaveBtn' | translate}}</button>
             </div>
         </div>
     </div>
     <hr>
-    <div class="row" *ngIf='context.chartInfo && context.chartInfo.length > 0'>
+    <div class="row" *ngIf='chartInfo && chartInfo.length > 0'>
         <ngx-charts-bar-vertical  class="font-weight-bold"
-            [results]="context.chartInfo" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+            [results]="chartInfo" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
             [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
             [xAxisLabel]="'UserPage.Chart.xLabel' | translate" [yAxisLabel]="'UserPage.Chart.yLabel' | translate">
         </ngx-charts-bar-vertical>

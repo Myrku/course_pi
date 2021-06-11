@@ -34,7 +34,7 @@
   <hr>
   <div class="row mt-2">
     <div class="col-xl col-lg col-md col-sm p-2" *ngFor="let post of reportedPosts">
-      <app-card-post [data]="post" [cardType]="cardType" (onDeleted)="onDeleted(post.id)"></app-card-post>
+      <app-card-post [data]="post" [cardType]="cardType" [IsActiveReport]='IsActiveReport' (onDeleted)="onDeleted(post.id)"></app-card-post>
     </div>
   </div>
 </div>

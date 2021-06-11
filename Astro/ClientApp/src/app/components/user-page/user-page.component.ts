@@ -5,7 +5,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Post } from 'src/app/models/Post';
 import { ActionResultStatus } from 'src/app/models/Statuses/ActionResultStatus';
 import { CardTypes } from 'src/app/models/Statuses/CardTypes';
-import { UserPageContext } from 'src/app/models/UserPageContext';
+import { CameraInfo, ChartInfo, UserPageContext } from 'src/app/models/UserPageContext';
 import { AuthService } from 'src/app/services/auth.service';
 import { PostService } from 'src/app/services/post.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -27,6 +27,9 @@ export class UserPageComponent implements OnInit {
 
 
   context = new UserPageContext();
+  cameraInfo = new CameraInfo();
+  chartInfo:ChartInfo[] = [];
+
   private destroyed$ = new ReplaySubject<void>();
   
   password: string;
@@ -37,6 +40,8 @@ export class UserPageComponent implements OnInit {
 
   constructor(private authService: AuthService, private userService: UserService,
     private toastService: ToastService, private translateService: TranslateService, private postService: PostService) { 
+      this.context.cameraInfo.camera = '';
+      this.context.cameraInfo.cameraLens = '';
   }
   
   ngOnInit(): void {
@@ -45,10 +50,21 @@ export class UserPageComponent implements OnInit {
     ).subscribe((res) => {
       this.context = res;
       let hideChart = true;
+      if (res.cameraInfo.camera) {
+        this.cameraInfo.camera = res.cameraInfo.camera;
+      }
+
+      if (res.cameraInfo.camera) {
+        this.cameraInfo.cameraLens = res.cameraInfo.cameraLens;
+      }
       for (let index = 0; index < res.chartInfo.length; index++) {
         if(res.chartInfo[index].value > 0) {
           hideChart = false;
         }
+      }
+
+      if(!hideChart) {
+        this.chartInfo = this.context.chartInfo;
       }
       if(hideChart) {
         this.context = null;
@@ -62,7 +78,7 @@ export class UserPageComponent implements OnInit {
   }
 
   saveCamera(): void {
-    this.userService.setCamera(this.context.cameraInfo).pipe(
+    this.userService.setCamera(this.cameraInfo).pipe(
       takeUntil(this.destroyed$),
     ).subscribe((res) => {
       if (res === ActionResultStatus.Success) {
